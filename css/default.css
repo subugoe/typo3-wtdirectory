@@ -1,0 +1,64 @@
+	/* Main */
+.clear {
+	clear: both;
+}	
+	
+	/* Single view */
+dl.wtdirectory_all_detail {
+	padding: 10px;
+	border: 1px solid #444;
+}
+dt.wtdirectory_all {
+	float: left;
+	clear: left;
+	padding: 10px;
+}
+dd.wtdirectory_all {
+	padding: 10px;
+	padding-left: 200px;
+}
+dd.wtdirectory_all h2 {
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+dd.wtdirectory_all_even,
+dt.wtdirectory_all_even {
+	background-color: #fafafa;
+}
+
+	/* List view */
+ul.wtdirectory_list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+ul.wtdirectory_list li {
+	padding: 10px 0;
+	margin: 20px 0;
+	border: 1px solid #444;
+}
+div.wtdirectory_all_vcard,
+div.wtdirectory_all_powermail,
+div.wtdirectory_all_detaillink,
+div.wtdirectory_all_googlemaplink {
+	margin-left: 10px;
+}
+		/* Autocomplete */
+div.wt_directory_autocompletecontainer {
+	padding: 5px;
+	border: 1px solid #888;
+	background-color: #FAFAFA;
+}
+div.wt_directory_autocompletecontainer ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+div.wt_directory_autocompletecontainer ul li {
+	cursor: pointer;
+}
+
+/* Fixing Inline-Style Autocomplete von wt_directory */
+.wt_directory_autocompletecontainer {left: 46px !important;}
