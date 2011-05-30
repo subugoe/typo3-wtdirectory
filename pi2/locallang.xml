@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin &quot;tx_wtdirectory_pi1&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="continent.selectorBox.emptyOptionLabel">Please select a continent</label>
+			<label index="continent.selectorBox.emptyContinentLabel">Please select a continent first.</label>
+			<label index="country.selectorBox.emptyOptionLabel">Please select a country</label>
+			<label index="country.selectorBox.noCountry">Sorry, no address available</label>
+			<label index="header">Please choose the right contact person for your country.</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="continent.selectorBox.emptyOptionLabel">Bitte wählen Sie einen Kontinent</label>
+			<label index="continent.selectorBox.emptyContinentLabel">Bitte wählen Sie erst einen Kontinent.</label>
+			<label index="country.selectorBox.emptyOptionLabel">Bitte wählen Sie einen Land aus.</label>
+			<label index="country.selectorBox.noCountry">Entschuldigung, keine Adresse ist verfügbar.</label>
+			<label index="header">Bitte wählen Sie für Ihr Land den entsprechenden Ansprechpartner aus.</label>
+		</languageKey>
+	</data>
+</T3locallang>
