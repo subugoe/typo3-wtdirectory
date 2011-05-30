@@ -1,0 +1,8 @@
+# cat=basic/enable/010; type=boolean; label= Company names: If you insert a wt_directory plugin to a page, you can select one or more addresses to show. This addresses are shown with first- and lastname. If you enable this checkbox the company is shown instead of the names.
+companyNames = 0
+
+# cat=basic/enable/010; type=boolean; label= Enable Debugging: If you enabled, debug messages can be activated via Typoscript
+enableDebugging = 0
+
+# cat=basic/enable/010; type=boolean; label= Enable uft8 Decoding for autocompleter: 
+utf8Decode = 0
