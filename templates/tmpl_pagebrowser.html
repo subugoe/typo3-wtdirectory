@@ -1,0 +1,18 @@
+WT_DIRECTORY HTML Template for pagebrowser
+	
+	PABEBROWSER MARKERS:
+	###CURRENT_MIN###						E.g.: Current page shows 11 up to x
+	###CURRENT_MAX###						E.g.: Current page shows x up to 20
+	###OVERALL###							E.g.: There are 347 address records
+	###PAGELINKS###							E.g.: Page 1 | Page 2 | Page 3 (Can defined via typoscript HMENU)
+	------------------------------------------------------------------------
+	GLOBAL MARKERS:
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_PAGEBROWSER### begin -->
+	<div class="wtdirectory_pagebrowser">
+		<p>###CURRENT_MIN### ###WTDIRECTORY_LL_PAGEBROWSER_UPTO### ###CURRENT_MAX### ###WTDIRECTORY_LL_PAGEBROWSER_WITHIN### ###OVERALL###</p>
+		<p>###PAGELINKS###</p>
+	</div>
+<!-- ###WTDIRECTORY_PAGEBROWSER### begin -->

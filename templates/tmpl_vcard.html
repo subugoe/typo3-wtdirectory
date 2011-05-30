@@ -1,0 +1,38 @@
+WT_DIRECTORY HTML Template for vcard export
+	
+	MAIN MARKERS:
+	###FIELDNAME###										Set any marker hier and define it via typoscript
+	###IMAGE_BASE64###									BASE64 code of image encode(path from constants + filename)
+	------------------------------------------------------------------------
+	GLOBAL MARKERS:
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_VCARD### begin -->
+BEGIN:VCARD
+VERSION:3.0
+CLASS:PUBLIC
+PRODID:-//TYPO3 wt_directory//NONSGML Version 1//EN
+REV:###CRDATE###
+FN:###DISPLAY_NAME###
+N:###LAST_NAME###;###FIRST_NAME###;###MIDDLE_NAME###;###NAME_PREFIX###;###NAME_SUFFIX###
+NICKNAME:###FIRST_NAME###
+TITLE:###TITLE###
+ORG:###COMPANY###;###ROOM###
+ADR;TYPE=work:###WORK_PO_BOX###;###WORK_EXTENDED_ADDRESS###;###WORK_ADDRESS###;###WORK_CITY###;###WORK_STATE###;###WORK_ZIP###;###WORK_COUNTRY###
+ADR;TYPE=home:###HOME_PO_BOX###;###HOME_EXTENDED_ADDRESS###;###HOME_ADDRESS###;###HOME_CITY###;###HOME_STATE###;###HOME_ZIP###;###HOME_COUNTRY###
+EMAIL;TYPE=internet,pref:###EMAIL1###
+EMAIL;TYPE=internet:###EMAIL2###
+TEL;TYPE=work,voice:###WORK_PHONE###
+TEL;TYPE=home,voice:###HOME_PHONE###
+TEL;TYPE=cell,voice:###CELLPHONE###
+TEL;TYPE=work,fax:###FAX###
+TEL;TYPE=work,pager:###PAGER###
+URL;TYPE=work:###WWW###
+BDAY:###BIRTHDAY###
+ROLE:###ROLE###
+NOTE:###NOTE###
+TZ:###TIMEZONE###
+PHOTO;TYPE=JPEG;ENCODING=BASE64:###IMAGE_BASE64###
+END:VCARD
+<!-- ###WTDIRECTORY_VCARD### begin -->
