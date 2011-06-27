@@ -45,10 +45,37 @@ div.wtdirectory_all_detaillink,
 div.wtdirectory_all_googlemaplink {
 	margin-left: 10px;
 }
+		/* Filter */
+div.wtdirectory_filter {
+	border: 1px solid #444;
+	padding: 5px;
+}
+div.wtdirectory_filter_div {
+	padding: 3px 0 6px 0;
+}
+div.wtdirectory_filter_search label {
+	float: left;
+	display: block;
+	width: 100px;
+	font-weight: bold;
+	clear: left;
+}
+div.wtdirectory_filter_cat option {
+	padding: 2px 5px;
+}
+div.wtdirectory_filter_cat option.level2 {
+	padding-left: 10px;
+}
+div.wtdirectory_filter_cat option.level3 {
+	padding-left: 20px;
+}
+div.wtdirectory_filter_cat option.level4 {
+	padding-left: 30px;
+}
 		/* Autocomplete */
 div.wt_directory_autocompletecontainer {
 	padding: 5px;
-	border: 1px solid #888;
+	/*border: 1px solid #888;*/
 	background-color: #FAFAFA;
 }
 div.wt_directory_autocompletecontainer ul {
@@ -61,4 +88,6 @@ div.wt_directory_autocompletecontainer ul li {
 }
 
 /* Fixing Inline-Style Autocomplete von wt_directory */
-.wt_directory_autocompletecontainer {left: 46px !important;}
+.wt_directory_autocompletecontainer {
+	left: 46px !important;
+}

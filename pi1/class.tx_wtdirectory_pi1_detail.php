@@ -62,6 +62,7 @@ class tx_wtdirectory_pi1_detail extends tslib_pibase {
 				
 				if ($row['uid'] > 0) { // address found
 					$row['addressgroup'] = $this->div->getAddressgroups($this->piVars['show'], $this->conf, $this->cObj); // Overwrite addressgroup name
+					$row['country'] = $this->div->getCountryFromCountryCode($row['country'], $this); // rewrite Lang ISO Code with Country Title from static_info_tables
 					
 					if ($this->conf['detail.']['title']) { // Page title
 						$GLOBALS['TSFE']->page['title'] = $this->div->marker2value($this->conf['detail.']['title'], $row); // set pagetitle
@@ -74,7 +75,8 @@ class tx_wtdirectory_pi1_detail extends tslib_pibase {
 					$this->markerArray['###WTDIRECTORY_POWERMAIL_ICON###'] = $this->conf['label.']['powermail']; // Image for powermail icon
 					$this->wrappedSubpartArray['###WTDIRECTORY_VCARD_LINK###'] = $this->cObj->typolinkWrap( array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&type=' . $this->vCardType . '&' . $this->prefixId . '[vCard]=' . $row['uid'], 'useCacheHash' => 1) ); // Link to same page with uid for vCard
 					if ($this->pi_getFFvalue($this->conf, 'target', 'powermail')) $this->wrappedSubpartArray['###WTDIRECTORY_POWERMAIL_LINK###'] = $this->cObj->typolinkWrap( array('parameter' => $this->pi_getFFvalue($this->conf, 'target', 'powermail'), 'additionalParams' => '&' . $this->prefixId . '[pm_receiver]=' . $row['uid'], 'useCacheHash' => 1) ); // Link to powermail page with uid for receiver manipulation
-					$this->wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = $this->cObj->typolinkWrap( array('parameter' => ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS['TSFE']->id), 'useCacheHash' => 1) ); // Link to same page without GET params (Listview)
+					//$this->wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = $this->cObj->typolinkWrap( array('parameter' => ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS['TSFE']->id), 'useCacheHash' => 1) ); // Link to same page without GET params (Listview)
+					$this->wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = array( '<a href="' . $this->pi_linkTP_keepPIvars_url(array('show' => ''), 1, 0, ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS["TSFE"]->id)) . '">', '</a>');
 					if (t3lib_extMgm::isLoaded('rggooglemap',0)) $this->wrappedSubpartArray['###WTDIRECTORY_GOOGLEMAP_LINK###'] = $this->cObj->typolinkWrap( array('parameter' => ($this->pi_getFFvalue($this->conf, 'target', 'googlemap') ? $this->pi_getFFvalue($this->conf, 'target', 'googlemap') : $GLOBALS['TSFE']->id), 'additionalParams' => ($this->piVars['show'] ? '&' . $this->prefixId . '[show]=' . $this->piVars['show'] : '') . '&tx_rggooglemap_pi1[poi]=' . $row['uid'], 'useCacheHash' => 1) ); // Link to target page with tt_address uid for googlmaps
 					
 					$this->hook(); // add hook

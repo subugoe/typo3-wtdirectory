@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
+require_once(PATH_tslib . 'class.tslib_pibase.php');
 
 class wtdirectory_div extends tslib_pibase {
 
@@ -30,18 +30,16 @@ class wtdirectory_div extends tslib_pibase {
 	var $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1.php';	// Path to any script in pi1 for locallang
 	
-	
 	// Function linker() generates link (email and url) from pure text string within an email or url ('test www.test.de test' => 'test <a href="http://www.test.de">www.test.de</a> test')
     function linker($link,$additinalParams = '') {
-		$link = str_replace("http://www.","www.",$link);
-        $link = str_replace("www.","http://www.",$link);
-        $link = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i","<a href=\"$1\"$additinalParams>$1</a>", $link);
-        $link = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i","<a href=\"mailto:$1\"$additinalParams>$1</a>",$link);
+		$link = str_replace("http://www.", "www.", $link);
+        $link = str_replace("www.", "http://www.", $link);
+        $link = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i", "<a href=\"$1\"$additinalParams>$1</a>", $link);
+        $link = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i", "<a href=\"mailto:$1\"$additinalParams>$1</a>", $link);
     	
         return $link;
     }
-	
-	
+
 	// Function clearName() to disable not allowed letters (only A-Z and 0-9 allowed) (e.g. Perfect Extension -> perfectextension)
 	function clearName($string,$strtolower = 0,$cut = 0) {
 		$string = preg_replace("/[^a-zA-Z0-9]/","",$string); // replace not allowed letters with nothing
@@ -50,7 +48,6 @@ class wtdirectory_div extends tslib_pibase {
 		
 		if(isset($string)) return $string;
 	}
-	
 	
 	// Function getAddressFields() returns tt_address fieldlist in an array
 	function getAddressFields() {
@@ -75,8 +72,7 @@ class wtdirectory_div extends tslib_pibase {
 			if (!empty($fieldarray)) return $fieldarray;
 		}
 	}
-	
-	
+
 	// Function addFilterParams returns params from current setted piVars (like &tx_wtdirectory_pi1[filter][name]=x&tx_wt...)
 	function addFilterParams($piVars) {
 		if (isset($piVars['filter']) && is_array($piVars['filter'])) { // if filter piVars set
@@ -87,7 +83,6 @@ class wtdirectory_div extends tslib_pibase {
 			if (!empty($content)) return $content;
 		}
 	}
-	
 	
 	// Function marker2value() replaces ###WTDIRECTORY_TTADDRESS_NAME### with its value from database
 	function marker2value($string, $row) {
@@ -102,15 +97,13 @@ class wtdirectory_div extends tslib_pibase {
 		return $string;
 	}
 	
-	
 	// Function replaceIt() is used for the callback function to replace ###WTDIRECTORY_TTADDRESS_NAME## with value
 	function replaceIt($field) {
 		if (isset($this->row[strtolower($field[1])])) {
 			return $this->row[strtolower($field[1])]; // return name (e.g.)
 		}
 	}
-	
-	
+
 	// Function piVars2string() helps for a simiular function like keepPiVars and generates a string from current piVars: &var1=1&var2=1
 	function piVars2string() {
 		$content = '';
@@ -132,7 +125,6 @@ class wtdirectory_div extends tslib_pibase {
 		if (!empty($content)) return $content;
 	}
 	
-	
 	// Function getAddressgroups() lists addressgroups of current tt_address
 	function getAddressgroups($uid, $conf, $cObj) {
 		// config
@@ -145,7 +137,7 @@ class wtdirectory_div extends tslib_pibase {
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery (
 				$query['select'] = 'tt_address_group.title, tt_address_group.pid, tt_address_group.uid',
 				$query['from'] = 'tt_address_group LEFT JOIN tt_address_group_mm on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
-				$query['where'] = 'tt_address_group_mm.uid_local ='.$uid.' AND tt_address_group.uid = tt_address_group_mm.uid_foreign',
+				$query['where'] = 'tt_address_group_mm.uid_local =' . $uid . ' AND tt_address_group.uid = tt_address_group_mm.uid_foreign',
 				$query['orderby'] = 'tt_address_group.title'
 			);
 			if ($res) { // if there are results
@@ -161,7 +153,6 @@ class wtdirectory_div extends tslib_pibase {
 			}
 		}
 	}
-	
 	
 	// Function conditions4DetailLink() returns true or false if one of the defined fields are filled
 	function conditions4DetailLink($row, $what, $conf) {
@@ -181,8 +172,7 @@ class wtdirectory_div extends tslib_pibase {
 			return true;
 		}
 	}
-	
-	
+
 	// Function setPiVars() will set some piVars from conditions (like filter|last_name=a%,filter|last_name=b%)
 	function setPiVars(&$piVars, $conf) {
 		if ($piVars['list'] != 'all' && $conf['filter.']['start'] && count($piVars)==0) { // if tx_wtdirectory_pi1[list]=all is not set AND filter.start is set in constants AND there are no other piVars
@@ -202,8 +192,7 @@ class wtdirectory_div extends tslib_pibase {
 			}
 		}
 	}
-	
-	
+
 	// Function alternate() checks if a number is odd or not
 	function alternate($int = 0) {
 		if ($int % 2 != 0) { // odd or even
@@ -212,8 +201,7 @@ class wtdirectory_div extends tslib_pibase {
 			return true; // return true
 		}
 	}
-	
-	
+
 	// Function getAddressFromNews() gets tt_news uid and returns tt_address uid
 	function getAddressFromNews($uid) {
 		if ($uid > 0) { // if there is an uid given
@@ -229,8 +217,7 @@ class wtdirectory_div extends tslib_pibase {
 			if ($row['auid'] > 0) return $row['auid'];
 		}
 	}
-	
-	
+
 	/**
 	 * Check if current tt_address uid is allowed to show (is in allowed startpage, is in allowed categories)
 	 * Used in class.tx_wtdirectory_pi1_detail.php, class.tx_wtdirectory_pi1_vcard.php	 
@@ -291,8 +278,7 @@ class wtdirectory_div extends tslib_pibase {
 		
 		return true; // no errors before, return 1
 	}
-	
-	
+
 	/**
 	 * Return array with list of tt_address categories for category dropdown
 	 *
@@ -311,7 +297,11 @@ class wtdirectory_div extends tslib_pibase {
 		if ($this->conf['filter.']['cat.']['showAllInDropdown']) { // if showAllInDropdown was set via constants
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery ( // DB query
 				'tt_address_group.uid',
-				'tt_address LEFT JOIN tt_address_group_mm on (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
+				'
+					tt_address
+					LEFT JOIN tt_address_group_mm on tt_address.uid = tt_address_group_mm.uid_local
+					LEFT JOIN tt_address_group on tt_address_group_mm.uid_foreign = tt_address_group.uid
+				',
 				'1' . $this->cObj->enableFields('tt_address_group'),
 				'tt_address_group.uid',
 				'',
@@ -329,7 +319,6 @@ class wtdirectory_div extends tslib_pibase {
 		return $cat;
 	}
 	
-	
 	/**
 	 * Return base64 string of a given image
 	 *
@@ -343,8 +332,7 @@ class wtdirectory_div extends tslib_pibase {
 			return $code; // return
 		}
 	}
-	
-	
+
 	/**
 	 * UTF8 en- or decode function
 	 *
@@ -353,7 +341,6 @@ class wtdirectory_div extends tslib_pibase {
 	 * @return    array        $row: Encoded values
 	 */
 	function utf8($row, $pObj) {
-	
 	    if ($pObj->conf['vCard.']['utf8'] != '') { // if coding function is set
 	        foreach ((array) $row as $key => $string) { // one loop for every value in array
 	            if ($pObj->conf['vCard.']['utf8'] == 'utf8encode') $row[$key] = utf8_encode($string);
@@ -362,6 +349,226 @@ class wtdirectory_div extends tslib_pibase {
 	    }
 	
 	    return $row;
+	}
+
+	/**
+	 * Get all field values from the database
+	 *
+	 * @param    string		Field name
+	 * @param    object		Content Object
+	 * @return   array		Array with field values
+	 */
+	public function getAllValuesFromField($field, $cObj) {
+		$tree = t3lib_div::makeInstance('t3lib_queryGenerator'); // make instance for query generator class
+		$arr = array();
+		$table = 'tt_address';
+		if ($field == 'addressgroup') { // rewrite table and field for grouptitle
+			$table = 'tt_address_group';
+			$field = 'title';
+		}
+		$pids = $tree->getTreeList($cObj->data['pages'], $cObj->data['recursive'], 0, 1);
+
+		$select = $table . '.' . $field;
+		$from = '
+			tt_address
+			LEFT JOIN tt_address_group_mm on tt_address.uid = tt_address_group_mm.uid_local
+			LEFT JOIN tt_address_group on tt_address_group_mm.uid_foreign = tt_address_group.uid
+		';
+		$where = '1' . (!empty($pids) ? ' AND ' . $table . '.pid IN (' . $pids . ')' : '') . $cObj->enableFields('tt_address');
+		$groupby = $table . '.' . $field;
+		$orderby = $table . '.' . $field;
+		$limit = 100000;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+		if ($res) { // If there is a result
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) { // one loop for every category to current tt_address record
+				$arr[] = $row[$field];
+			}
+		}
+
+		return $arr;
+	}
+
+	/**
+	 * Return array tree with list of tt_address categories for category dropdown
+	 *
+	 * @param	object		$pObj: Parent Object
+	 * @return	array		$cat: Array with all categories
+	 */
+	public function getTreeCategories($pObj) {
+		// config
+		$this->conf = $pObj->conf;
+		$this->cObj = $pObj->cObj;
+		$this->cat = $this->pi_getFFvalue($this->conf, 'category', 'mainconfig');
+		$notAllowedCategories = $this->conf['filter.']['cat.']['disable']; // not allowed categories
+		$arr = array();
+
+		// let's go
+		$select = 'tt_address_group.uid, tt_address_group.title, tt_address_group.pid';
+		$from = 'tt_address_group';
+		$wherePrefix = '1';
+		$wherePrefix .= ' AND tt_address_group.uid IN (' . $this->intList($this->cat) . ')';
+		if (!empty($notAllowedCategories)) {
+			$wherePrefix .= ' AND tt_address_group.uid NOT IN (' . $this->intList($notAllowedCategories) . ')';
+		}
+		$wherePrefix .= $this->cObj->enableFields('tt_address_group');
+		$where = $wherePrefix . ' AND tt_address_group.parent_group = 0';
+		$groupby = 'tt_address_group.uid';
+		$orderby = 'tt_address_group.title';
+		$limit = 100000;
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+		if (!$res) {
+			return;
+		}
+
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$arr[$row['uid']] = array(
+				'title' => $row['title'],
+				//'_children' => ''
+			);
+
+			$where = $wherePrefix . ' AND tt_address_group.parent_group = ' . $row['uid'];
+			$res2 = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+			while ($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2)) {
+				$arr[$row['uid']]['_children'][$row2['uid']] = array(
+					'title' => $row2['title'],
+					//'_children' => ''
+				);
+
+				$where = $wherePrefix . ' AND tt_address_group.parent_group = ' . $row2['uid'];
+				$res3 = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+				while ($row3 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res3)) {
+					$arr[$row['uid']]['_children'][$row2['uid']]['_children'][$row3['uid']] = array(
+						'title' => $row3['title'],
+						//'_children' => ''
+					);
+
+					$where = $wherePrefix . ' AND tt_address_group.parent_group = ' . $row3['uid'];
+					$res4 = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+					while ($row4 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res4)) {
+						$arr[$row['uid']]['_children'][$row2['uid']]['_children'][$row3['uid']]['_children'][$row4['uid']] = array(
+							'title' => $row4['title'],
+							//'_children' => ''
+						);
+					}
+				}
+			}
+		}
+
+		if ($this->conf['filter.']['startlevel'] > 0) { // check for another startlevel
+			$arr = $arr[$this->conf['filter.']['startlevel']]['_children'];
+		}
+		return $arr;
+	}
+
+	/**
+	 * Generate commaseparated list of cats for the drilldown
+	 *
+	 * @param	object		Parent object
+	 * @return	string		Comma separated list of groups like "group1,group5,group6"
+	 */
+	public function createCatBreadcrumb($pObj) {
+		if (intval($pObj->piVars['catfilter']) === 0) {
+			return '';
+		}
+		$cats = array();
+		$string = '';
+
+		$cats[] = $pObj->piVars['catfilter'];
+		$parent1 = $this->getParentGroupByUid($pObj->piVars['catfilter'], $pObj); // get uid of parent group
+		if ($parent1) {
+			$cats[] = $parent1;
+		}
+		$parent2 = $this->getParentGroupByUid($parent1, $pObj); // get uid of parent group
+		if ($parent2) {
+			$cats[] = $parent2;
+		}
+		$parent3 = $this->getParentGroupByUid($parent2, $pObj); // get uid of parent group
+		if ($parent3) {
+			$cats[] = $parent3;
+		}
+		$parent4 = $this->getParentGroupByUid($parent3, $pObj); // get uid of parent group
+		if ($parent4) {
+			$cats[] = $parent4;
+		}
+
+		$cats = array_reverse($cats); // reverse array
+		for ($i = 0; $i < count($cats); $i++) {
+			$string .= 'group' . $cats[$i] . ',';
+		}
+		return t3lib_div::rm_endcomma($string);
+	}
+
+	/**
+	 * Get uid of parent group if exists
+	 *
+	 * @param	integer		Current Group UID
+	 * @param	object		Parent Object
+	 * @return	integer		Parent Group UID or false
+	 */
+	private function getParentGroupByUid($uid, $pObj) {
+		if (intval($uid) === 0) {
+			return false;
+		}
+		$select = 'tt_address_group.parent_group';
+		$from = 'tt_address_group';
+		$where = '1';
+		$where .= ' AND uid = ' . intval($uid);
+		$where .= $pObj->cObj->enableFields('tt_address_group');
+		$groupby = '';
+		$orderby = '';
+		$limit = 1;
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+		if (!$res) {
+			return;
+		}
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+
+		if ($row['parent_group'] > 0 && $row['parent_group'] != $pObj->conf['filter.']['startlevel']) {
+			return $row['parent_group'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Commaseparated list with integer values
+	 *
+	 * @param	string		Commaseparated list
+	 * @return	string		Cleaned Commaseparated list
+	 */
+	public function intList($list) {
+		$intList = t3lib_div::intExplode(',', $list, 1);
+
+		return implode(',', $intList);
+	}
+
+	/**
+	 * Get localized country title from ISO code (uk => United Kingdom, de => Germany)
+	 *
+	 * @param	string		ISO Code from country "de" or "uk"
+	 * @param	object		Parent Object
+	 * @return	string		Localized title from country
+	 */
+	public function getCountryFromCountryCode($iso, $pObj) {
+		if ( // stop if
+			$pObj->conf['enable.']['static_info_tables'] == 0  || // rewrite turned off in constants
+			strlen($iso) > 3 || // this could not be an ISO code
+			!t3lib_extMgm::isLoaded('static_info_tables', 0) // static_info_tables not loaded
+		) {
+			return $iso;
+		}
+
+		// fe engine from static_info_tables
+		require_once(t3lib_extMgm::extPath('static_info_tables') . 'pi1/class.tx_staticinfotables_pi1.php');
+		$staticInfoObj = &t3lib_div::getUserObj('&tx_staticinfotables_pi1');
+		if ($staticInfoObj->needsInit()){
+			$staticInfoObj->init();
+		}
+		$title = $staticInfoObj->getStaticInfoName('COUNTRIES', $iso); // get title from static_info_tables
+
+		return $title;
 	}
 }
 

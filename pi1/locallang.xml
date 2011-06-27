@@ -50,6 +50,8 @@
 			<label index="wtdirectory_ll_pagebrowser_within">within</label>
 			<label index="wtdirectory_ll_abclist_all">All</label>
 			<label index="wtdirectory_ll_abclist_numbers">0-9</label>
+			<label index="wtdirectory_ll_pleaseselect">Please select...</label>
+			<label index="wtdirectory_ll_filtersubmit">Filter by category</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wtdirectory_special_backlink_label">Zurück zur Listenansicht</label>
@@ -96,6 +98,8 @@
 			<label index="wtdirectory_ll_pagebrowser_within">von insgesamt</label>
 			<label index="wtdirectory_ll_abclist_all">Alle</label>
 			<label index="wtdirectory_ll_abclist_numbers">0-9</label>
+			<label index="wtdirectory_ll_pleaseselect">Bitte wählen...</label>
+			<label index="wtdirectory_ll_filtersubmit">Kategorien jetzt filtern</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="wtdirectory_special_backlink_label">Retour à la liste</label>

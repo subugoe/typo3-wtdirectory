@@ -23,16 +23,19 @@ wt_directory HTML Template for list view
 <!-- ###WTDIRECTORY_FILTER_DRILLDOWN### begin -->
 ###HEADER###
 <script type="text/javascript">
-				function doSubmit() {
+	function doSubmit() {
 		document.frm.submit();
-				}
+	}
 </script>
 <form action="###LINKFORMTARGET###" method="post" name="frm">
-###ADDITIONAL_INPUTS###
-<input type="hidden" name="setFilter"/>
-<a name="wtdirectoryFilter"></a>	
-<label>###LOCALLANG_CONTINENTS###</label> ###SELECTOR_CONTINENTS###
-<label>###LOCALLANG_COUNTRIES###</label>  ###SELECTOR_COUNTRIES###
+	###ADDITIONAL_INPUTS###
+	<input type="hidden" name="setFilter" />
+	<a name="wtdirectoryFilter"></a>
+	<label>###LOCALLANG_CONTINENTS###</label>
+	###SELECTOR_CONTINENTS###
+
+	<label>###LOCALLANG_COUNTRIES###</label>
+	###SELECTOR_COUNTRIES###
    			 	
 </form>
 	

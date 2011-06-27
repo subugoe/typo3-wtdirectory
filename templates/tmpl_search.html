@@ -17,7 +17,7 @@ ABC list
 	<div class="wtdirectory_filter wtdirectory_filter_abc">
 		###WTDIRECTORY_ABC_ALL### ###WTDIRECTORY_ABC_ABC### ###WTDIRECTORY_ABC_0-9###
 	</div>
-<!-- ###WTDIRECTORY_FILTER_ABC### begin -->
+<!-- ###WTDIRECTORY_FILTER_ABC### end -->
 
 
 
@@ -44,22 +44,46 @@ Search form
 	<div class="wtdirectory_filter wtdirectory_filter_search">
 		<h2 class="wtdirectory">###WTDIRECTORY_SEARCH_TITLE###</h2>
 		<form action="###WTDIRECTORY_SEARCH_ACTION###" method="###WTDIRECTORY_SEARCH_METHOD###">
-			<!-- ###CONTENT### --><!-- ###ITEM### -->
-				<div class="wtdirectory_filter_div wtdirectory_filter_div_###WTDIRECTORY_SEARCH_NAME###">
-					<label for="###WTDIRECTORY_SEARCH_NAME###">###WTDIRECTORY_SEARCH_LABEL###</label>
-					<input type="###WTDIRECTORY_SEARCH_TYPE###" name="tx_wtdirectory_pi1[filter][###WTDIRECTORY_SEARCH_NAME###]" id="###WTDIRECTORY_SEARCH_NAME###" autocomplete="off" class="wtdirectory_filter_###WTDIRECTORY_SEARCH_TYPE### wtdirectory_filter_###WTDIRECTORY_SEARCH_TYPE###_###WTDIRECTORY_SEARCH_NAME###" value="###WTDIRECTORY_SEARCH_VALUE###" />
-                    
-                    <div id="###WTDIRECTORY_SEARCH_NAME###_target" class="wt_directory_autocompletecontainer"></div>
-                    <script type="text/javascript">
-                    	tx_wtdirectory_autocomplete('###WTDIRECTORY_SEARCH_NAME###', '###WTDIRECTORY_SEARCH_NAME###_target', '###WTDIRECTORY_PID###', '###WTDIRECTORY_CAT###', '###WTDIRECTORY_SEARCH_NAME###', '###WTDIRECTORY_SEARCH_PATH###' )
-                    </script>
-				</div>
-			<!-- ###ITEM### --><!-- ###CONTENT### -->
+			<!-- ###CONTENT### -->
+			<!-- ###ITEM### -->
+				###FIELD###
+			<!-- ###ITEM### -->
+			<!-- ###CONTENT### -->
 			<input type="submit" value="###WTDIRECTORY_SEARCH_SUBMITVALUE###" />
 		</form>
 	</div>
-<!-- ###WTDIRECTORY_FILTER_SEARCH### begin -->
-id="###WTDIRECTORY_SEARCH_NAME###"
+<!-- ###WTDIRECTORY_FILTER_SEARCH### end -->
+
+<!-- ###WTDIRECTORY_FILTER_SEARCH_INPUT### begin -->
+	<div class="wtdirectory_filter_div wtdirectory_filter_div_###WTDIRECTORY_SEARCH_NAME###">
+		<label for="###WTDIRECTORY_SEARCH_NAME###">###WTDIRECTORY_SEARCH_LABEL###</label>
+		<input type="###WTDIRECTORY_SEARCH_TYPE###" name="tx_wtdirectory_pi1[filter][###WTDIRECTORY_SEARCH_NAME###]" id="###WTDIRECTORY_SEARCH_NAME###" autocomplete="off" class="wtdirectory_filter_###WTDIRECTORY_SEARCH_TYPE### wtdirectory_filter_###WTDIRECTORY_SEARCH_TYPE###_###WTDIRECTORY_SEARCH_NAME###" value="###WTDIRECTORY_SEARCH_VALUE###" />
+
+		<div id="###WTDIRECTORY_SEARCH_NAME###_target" class="wt_directory_autocompletecontainer"></div>
+		<script type="text/javascript">
+			if (typeof window.tx_wtdirectory_autocomplete == 'function') {
+				tx_wtdirectory_autocomplete('###WTDIRECTORY_SEARCH_NAME###', '###WTDIRECTORY_SEARCH_NAME###_target', '###WTDIRECTORY_PID###', '###WTDIRECTORY_CAT###', '###WTDIRECTORY_SEARCH_NAME###', '###WTDIRECTORY_SEARCH_PATH###' )
+			}
+		</script>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_SEARCH_INPUT### end -->
+
+<!-- ###WTDIRECTORY_FILTER_SEARCH_SELECT### begin -->
+	<div class="wtdirectory_filter_div wtdirectory_filter_div_###WTDIRECTORY_SEARCH_NAME###">
+		<label for="###WTDIRECTORY_SEARCH_NAME###">###WTDIRECTORY_SEARCH_LABEL###</label>
+
+		<select name="tx_wtdirectory_pi1[filter][###WTDIRECTORY_SEARCH_NAME###]" id="###WTDIRECTORY_SEARCH_NAME###" class="wtdirectory_filter_select wtdirectory_filter_select_###WTDIRECTORY_SEARCH_NAME###">
+			<option value="">###WTDIRECTORY_LL_PLEASESELECT###</option>
+			<!-- ###CONTENT_SELECT### -->
+			<!-- ###ITEM_SELECT### -->
+				<option value="###VALUE###"###SELECTED###>###LABEL###</option>
+			<!-- ###ITEM_SELECT### -->
+			<!-- ###CONTENT_SELECT### -->
+		</select>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_SEARCH_SELECT### end -->
+
+
 
 
 
@@ -85,12 +109,16 @@ Category dropdown
 	<div class="wtdirectory_filter wtdirectory_filter_cat">
 		<h2 class="wtdirectory">###WTDIRECTORY_CAT_TITLE###</h2>
 		<form action="###WTDIRECTORY_CAT_ACTION###" method="###WTDIRECTORY_CAT_METHOD###">
-			<select name="tx_wtdirectory_pi1[catfilter]" size="1" onchange="this.form.submit()">
-				<option value="">###WTDIRECTORY_LL_CHOOSECAT###</option>
-				<!-- ###CONTENT### --><!-- ###ITEM### -->
-					<option value="###WTDIRECTORY_CAT_UID###"###WTDIRECTORY_CAT_SELECTED###>###WTDIRECTORY_CAT_TITLE###</option>
-				<!-- ###ITEM### --><!-- ###CONTENT### -->
+			<select name="tx_wtdirectory_pi1[catfilter]" size="1" class="initial">
+				<option value="" class="nolevel">###WTDIRECTORY_LL_CHOOSECAT###</option>
+				<!-- ###CONTENT### -->
+				<!-- ###ITEM### -->
+					<option value="###WTDIRECTORY_CAT_UID###"###WTDIRECTORY_CAT_SELECTED### class="group###WTDIRECTORY_CAT_UID### level###LEVEL###">###WTDIRECTORY_CAT_TITLE###</option>
+				<!-- ###ITEM### -->
+				<!-- ###CONTENT### -->
 			</select>
+			<input type="submit" value="###WTDIRECTORY_LL_FILTERSUBMIT###" class="wtdirectory_filter_cat_submit" />
 		</form>
+		<input type="hidden" name="cat_container" id="cat_container" value="###CAT_BREADCRUMB###" />
 	</div>
 <!-- ###WTDIRECTORY_FILTER_CAT### begin -->

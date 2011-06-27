@@ -1,0 +1,8 @@
+page {
+	# Add JavaScript
+	includeJSFooter {
+		wtdirectory_jQuery.external = 1
+		wtdirectory_jQuery = https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js
+		wtdirectory = EXT:wt_directory/js/wtdirectory_drilldown.js
+	}
+}

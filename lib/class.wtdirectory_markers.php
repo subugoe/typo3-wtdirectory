@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Alexander Kellner <alexander.kellner@einpraegsam.net>
+*  (c) 2011 Alexander Kellner <alexander.kellner@in2code.de>, in2code.de
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,19 +27,27 @@ require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_div.
 
 class wtdirectory_markers extends tslib_pibase {
 
-	var $extKey = 'wt_directory'; // Extension key
-	var $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
-	var $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1_detail.php';	// Path to any script in pi1 for locallang
-	var $notNeeded = array('pid', 'uid', 'hidden', 'deleted'); // not allowed fields in whole field list
+	public $extKey = 'wt_directory'; // Extension key
+	public $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
+	public $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1_detail.php';	// Path to any script in pi1 for locallang
+	private $notNeeded = array( // not allowed fields in whole field list
+		'pid',
+		'uid',
+		'hidden',
+		'deleted'
+	);
 
-
-	// Function makeMarkers() makes markers from row (uid => ###WTDIRECTORY_UID###)
-	// $what should contains 'detail' or 'list' to load the right html template
-	// $conf contains TYPO3 conf array
-	// $row contains db values as an array
-	// $allowedArray contains allowed fields (from flexform)
-	// $piVars contains piVars
-	function makeMarkers($what = '', $conf = array(), $row = array(), $allowedArray = array(), $piVars = array() ) {
+	/**
+	 * Function makeMarkers() makes markers from row (uid => ###WTDIRECTORY_UID###)
+	 *
+	 * @param	string		should contains 'detail' or 'list' to load the right html template
+	 * @param	array		TypoScript
+	 * @param	array		contains db values
+	 * @param	array		contains allowed fields (from flexform)
+	 * @param	array		contains related GET and POST params
+	 * @return	string		generated content
+	 */
+	public function makeMarkers($what = '', $conf = array(), $row = array(), $allowedArray = array(), $piVars = array() ) {
 
 		// config
 		global $TSFE;
@@ -74,9 +82,13 @@ class wtdirectory_markers extends tslib_pibase {
 
 			// Global markers
 			$OuterMarkerArray['###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_backlink_label'); // "Back to listview"
-			if ($this->div->conditions4DetailLink($row, $what, $this->conf)) $OuterMarkerArray['###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_detaillink_label'); // "more..."
+			if ($this->div->conditions4DetailLink($row, $what, $this->conf)) { // "more..."
+				$OuterMarkerArray['###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_detaillink_label');
+			}
 			$wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = array( '<a href="' . $this->pi_linkTP_keepPIvars_url(array('show' => ''), 1, 0, ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS["TSFE"]->id)) . '">', '</a>');
-			if ($this->div->conditions4DetailLink($row, $what, $this->conf)) $wrappedSubpartArray['###WTDIRECTORY_SPECIAL_DETAILLINK###'] = $this->cObj->typolinkWrap( array("parameter" => ($this->pi_getFFvalue($this->conf, 'target', 'list') ? $this->pi_getFFvalue($this->conf, 'target', 'list') : $GLOBALS["TSFE"]->id), 'additionalParams' => '&' . $this->prefixId . '[show]=' . $row['ttaddress_uid'] . ($this->conf['filter.']['list.']['clearOldFilter'] == 0 ? $this->div->piVars2string() : '') . ($this->conf['enable.']['googlemapOnDetail'] == 1 && t3lib_extMgm::isLoaded('rggooglemap',0) ? '&tx_rggooglemap_pi1[poi]=' . $row['ttaddress_uid'] : ''), "useCacheHash" => 1) ); // Link to same page with uid (Singleview)
+			if ($this->div->conditions4DetailLink($row, $what, $this->conf)) { // Link to same page with uid (Singleview)
+				$wrappedSubpartArray['###WTDIRECTORY_SPECIAL_DETAILLINK###'] = $this->cObj->typolinkWrap( array("parameter" => ($this->pi_getFFvalue($this->conf, 'target', 'list') ? $this->pi_getFFvalue($this->conf, 'target', 'list') : $GLOBALS["TSFE"]->id), 'additionalParams' => '&' . $this->prefixId . '[show]=' . $row['ttaddress_uid'] . ($this->conf['filter.']['list.']['clearOldFilter'] == 0 ? $this->div->piVars2string() : '') . ($this->conf['enable.']['googlemapOnDetail'] == 1 && t3lib_extMgm::isLoaded('rggooglemap',0) ? '&tx_rggooglemap_pi1[poi]=' . $row['ttaddress_uid'] : ''), "useCacheHash" => 1) );
+			}
 			if (($this->conf['enable.']['vCardForList'] == 1 && $what == 'list') || ($this->conf['enable.']['vCardForDetail'] == 1 && $what == 'detail')) { // only if vcard enabled in constants
 				$OuterMarkerArray['###WTDIRECTORY_VCARD_ICON###'] = $this->conf['label.']['vCard']; // Image for vcard icon
 				$wrappedSubpartArray['###WTDIRECTORY_VCARD_LINK###'] = $this->cObj->typolinkWrap( array("parameter" => $GLOBALS["TSFE"]->id, 'additionalParams' => '&type=3134&' . $this->prefixId . '[vCard]=' . ($what == 'list' ? $row['ttaddress_uid'] : $row['uid']), "useCacheHash" => 1) ); // Link to same page with ?tx_wtdirectory_pi1[vCard]=uid
@@ -106,12 +118,11 @@ class wtdirectory_markers extends tslib_pibase {
 							$markerArrayAll['###WTDIRECTORY_VALUE###'] = $this->cObj->cObjGetSingle($this->conf[$what . '.']['field.'][$key], $this->conf[$what . '.']['field.'][$key . '.']); // value
 							if ($markerArrayAll['###WTDIRECTORY_VALUE###']=='') {
 								// take db value
-								$markerArrayAll['###WTDIRECTORY_VALUE###']		= $value;
+								$markerArrayAll['###WTDIRECTORY_VALUE###'] = $value;
 							}
 							$i++; // increase counter
 							$content_item .= $this->cObj->substituteMarkerArrayCached($this->tmpl['all']['item'], $markerArrayAll); // Add
-						}
-						else {
+						} else {
 #							t3lib_div::debug($key);
 						}
 					}
@@ -119,9 +130,13 @@ class wtdirectory_markers extends tslib_pibase {
 				$subpartArray['###CONTENT###'] = $content_item; // ###WTDIRECTORY_SPECIAL_ALL###
 				// Global markers outer
 				$OuterMarkerArray['###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_backlink_label'); // "Back to listview"
-				if ($this->div->conditions4DetailLink($row, $what, $this->conf)) $OuterMarkerArray['###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_detaillink_label'); // "more..."
+				if ($this->div->conditions4DetailLink($row, $what, $this->conf)) { // "more..."
+					$OuterMarkerArray['###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_detaillink_label');
+				}
 				$wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = array( '<a href="' . $this->pi_linkTP_keepPIvars_url(array('show' => ''), 1, 0, ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS["TSFE"]->id)) . '">', '</a>');
-				if ($this->div->conditions4DetailLink($row, $what, $this->conf)) $wrappedSubpartArray['###WTDIRECTORY_SPECIAL_DETAILLINK###'] = $this->cObj->typolinkWrap( array("parameter" => ($this->pi_getFFvalue($this->conf, 'target', 'list') ? $this->pi_getFFvalue($this->conf, 'target', 'list') : $GLOBALS["TSFE"]->id), 'additionalParams' => '&' . $this->prefixId . '[show]=' . $row['ttaddress_uid'] . ($this->conf['filter.']['list.']['clearOldFilter'] == 0 ? $this->div->piVars2string() : '') . ($this->conf['enable.']['googlemapOnDetail'] == 1 && t3lib_extMgm::isLoaded('rggooglemap',0) ? '&tx_rggooglemap_pi1[poi]=' . $row['ttaddress_uid'] : ''), "useCacheHash" => 1) ); // Link to same page with uid (Singleview)
+				if ($this->div->conditions4DetailLink($row, $what, $this->conf)) { // Link to same page with uid (Singleview)
+					$wrappedSubpartArray['###WTDIRECTORY_SPECIAL_DETAILLINK###'] = $this->cObj->typolinkWrap( array("parameter" => ($this->pi_getFFvalue($this->conf, 'target', 'list') ? $this->pi_getFFvalue($this->conf, 'target', 'list') : $GLOBALS["TSFE"]->id), 'additionalParams' => '&' . $this->prefixId . '[show]=' . $row['ttaddress_uid'] . ($this->conf['filter.']['list.']['clearOldFilter'] == 0 ? $this->div->piVars2string() : '') . ($this->conf['enable.']['googlemapOnDetail'] == 1 && t3lib_extMgm::isLoaded('rggooglemap',0) ? '&tx_rggooglemap_pi1[poi]=' . $row['ttaddress_uid'] : ''), "useCacheHash" => 1) );
+				}
 				if (($this->conf['enable.']['vCardForList'] == 1 && $what == 'list') || ($this->conf['enable.']['vCardForDetail'] == 1 && $what == 'detail')) { // only if vcard enabled in constants
 					$OuterMarkerArray['###WTDIRECTORY_VCARD_ICON###'] = $this->conf['label.']['vCard']; // Image for vcard icon
 					$wrappedSubpartArray['###WTDIRECTORY_VCARD_LINK###'] = $this->cObj->typolinkWrap( array("parameter" => $GLOBALS["TSFE"]->id, 'additionalParams' => '&type=3134&' . $this->prefixId . '[vCard]=' . ($what == 'list' ? $row['ttaddress_uid'] : $row['uid']), "useCacheHash" => 1) ); // Link to same page with ?tx_wtdirectory_pi1[vCard]=uid
@@ -150,12 +165,16 @@ class wtdirectory_markers extends tslib_pibase {
 		}
 
 		// FIXME Hack for adding group titles
-		$markerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###']=$row['tt_address_group_title'];
+		$markerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = $row['tt_address_group_title'];
 		// 3. Fill global markers
 		$markerArray['###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_backlink_label'); // "Back to listview"
-		if ($this->div->conditions4DetailLink($row, $what, $this->conf)) $markerArray['###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_detaillink_label'); // "more..."
+		if ($this->div->conditions4DetailLink($row, $what, $this->conf)) { // "more..."
+			$markerArray['###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_detaillink_label');
+		}
 
-		if (!empty($markerArray)) return $markerArray;
+		if (!empty($markerArray)) {
+			return $markerArray;
+		}
 	}
 
 }

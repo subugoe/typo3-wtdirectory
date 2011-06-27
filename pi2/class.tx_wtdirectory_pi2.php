@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Stefan Busemannn <stefan.busemann@in2code.de>
+*  (c) 2011 Stefan Busemannn <stefan.busemann@in2code.de>, in2code.de
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
