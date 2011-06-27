@@ -44,6 +44,9 @@ plugin.wtdirectory {
 	
 	# cat=plugin.wtdirectory//2500; type=boolean; label= powermail link in detailview: Enables powermail link to a page with powermail to change the receiver to the current tt_address email address - in detail view
 	enable.powermailForDetail = 1
+
+	# cat=plugin.wtdirectory//2600; type=boolean; label= Show Countrytitle: If you have installed static_info_tables and want to show country titles instead of country iso code in wt_directory
+	enable.static_info_tables = 1
 	
 	# cat=plugin.wtdirectory//3000; type=text; label= Condition for more link: Show more link in list view only if one field is filled with content (e.g. mobile, fax)
 	morelink_detail.condition = 
@@ -58,7 +61,7 @@ plugin.wtdirectory {
 	list.perPage = 10
 	
 	# cat=plugin.wtdirectory//4300; type=text; label= List view - order by: Define order by for the listing of the addresses - just use any tt_address field and asc or desc for the sorting direction. Error happens, if a non existing tt_address field will be used (like last_name asc)
-	list.orderby = 
+	list.orderby =
 	
 	# cat=plugin.wtdirectory//5000; type=text; label= Detailpage title: Define an individual page title (like MY HOMEPAGE ###WTDIRECTORY_TTADDRESS_NAME### ###WTDIRECTORY_TTADDRESS_EMAIL###)
 	detail.title = 
@@ -69,17 +72,23 @@ plugin.wtdirectory {
 	# cat=plugin.wtdirectory//6000; type=text; label= Wrap for addressgroup: If you want to show addressgroups, you can wrap each group (if you have more than only 1 per address) (e.g. [pipesymbol]<br />)
 	wrap.addressgroup = |<br />
 	
-	# cat=plugin.wtdirectory//7000; type=text; label= Disable categories in search: Disable some categories in category choose (like 45,23,12)
+	# cat=plugin.wtdirectory//7000; type=text; label= Disable categories in search: Disable some categories (and subcategories) in category choose (like 45,23,12)
 	filter.cat.disable = 
 	
 	# cat=plugin.wtdirectory//7010; type=boolean; label= Show all Categories: Show all categories in dropdown in list view. Categories may not be selected in flexform (like 0 or 1)
 	filter.cat.showAllInDropdown = 0
 	
-	# cat=plugin.wtdirectory//7100; type=boolean; label= Clear search filter in singleview: If there is a filter in use and than a click to detail and back again, filter is cleared
-	filter.list.clearOldFilter = 0
-	
-	# cat=plugin.wtdirectory//7200; type=boolean; label= Clear search filter on cat-choose: If there is already set a search filter and you change the categories, search filter will be cleaned
+	# cat=plugin.wtdirectory//7100; type=boolean; label= Clear search filter on cat-choose: If there is already set a search filter and you change the categories, search filter will be cleaned
 	filter.cat.clearOldFilter = 0
+
+	# cat=plugin.wtdirectory//7200; type=boolean; label= Clear search filter in singleview: If there is a filter in use and than a click to detail and back again, filter is cleared
+	filter.list.clearOldFilter = 0
+
+	# cat=plugin.wtdirectory//7300; type=text; label= Select Search: Definde some fields for the search, which should be rendered als select boxes
+	filter.select =
+
+	# cat=plugin.wtdirectory//7400; type=int+; label= Startcategory: Define a category for start, if needed (must be a positive integer)
+	filter.startlevel = 0
 	
 	# cat=plugin.wtdirectory//8000; type=options[,utf8decode,utf8encode]; label= vCard UTF8 en- or decode: en- or decode for the vCard output
     vCard.utf8 = 

@@ -18,6 +18,7 @@ plugin.tx_wtdirectory_pi1 {
 	enable.vCardForDetail = {$plugin.wtdirectory.enable.vCardForDetail}
 	enable.powermailForList = {$plugin.wtdirectory.enable.powermailForList}
 	enable.powermailForDetail = {$plugin.wtdirectory.enable.powermailForDetail}
+	enable.static_info_tables = {$plugin.wtdirectory.enable.static_info_tables}
 	morelink_detail.condition = {$plugin.wtdirectory.morelink_detail.condition}
 	label.vCard = {$plugin.wtdirectory.label.vCard}
 	label.powermail = {$plugin.wtdirectory.label.powermail}
@@ -30,6 +31,8 @@ plugin.tx_wtdirectory_pi1 {
 	filter.cat.showAllInDropdown = {$plugin.wtdirectory.filter.cat.showAllInDropdown}
 	filter.list.clearOldFilter = {$plugin.wtdirectory.filter.list.clearOldFilter}
 	filter.cat.clearOldFilter = {$plugin.wtdirectory.filter.cat.clearOldFilter}
+	filter.select = {$plugin.wtdirectory.filter.select}
+	filter.startlevel = {$plugin.wtdirectory.filter.startlevel}
 	vCard.utf8 = {$plugin.wtdirectory.vCard.utf8}
 	
 	
@@ -353,7 +356,7 @@ plugin.tx_wtdirectory_pi1 {
 		links {
 			detaillink = TYPOLINK
 			detaillink {
-				parameter = TSFE:id
+				parameter.data = TSFE:id
 				useCacheHash = 1
 				useGoogleMapLink = 1
 			}
@@ -555,9 +558,9 @@ plugin.tx_wtdirectory_pi1 {
 	}
 	debug {
 		tx_wtdirectory_pi1_list.main {
-			conf=0
-			piVars=0
-			sql=0
+			conf = 0
+			piVars = 0
+			sql = 0
 		}
   	}
 }
@@ -612,27 +615,27 @@ plugin.tx_wtdirectory_pi2 {
 			section = wtdirectoryFilter
 			returnLast = url
 		}
-		sortCategoriesByTitle=1
+		sortCategoriesByTitle = 1
 		header.wrap = <h3>|</h3>
   	}
   	
   	pageFilters {
-  		23.catfilter=5
+  		23.catfilter = 5
   		345.catfilter = 11
   		346.catfilter = 12
   	}
   	
   	debug {
 		beforemain {
-			conf=0
-			pluginPiVars=0
-			filters=0
-			piVars=0
+			conf = 0
+			pluginPiVars = 0
+			filters = 0
+			piVars = 0
 		}
 		drilldown {
-			conf=0
-			getKey=0
-			piVars=0
+			conf = 0
+			getKey = 0
+			piVars = 0
 		}
   	}
 }

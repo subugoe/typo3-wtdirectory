@@ -3,6 +3,7 @@ if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'static/defaultCSS/', 'Add default CSS');
 t3lib_extMgm::addStaticFile($_EXTKEY, 'static/autocomplete/', 'AJAX Autocompleter');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'static/drilldown/', 'Category Drilldown');
 
 // Add contact field to tt_news
 $tmpColumns = array (
