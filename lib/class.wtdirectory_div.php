@@ -26,40 +26,47 @@ require_once(PATH_tslib . 'class.tslib_pibase.php');
 
 class wtdirectory_div extends tslib_pibase {
 
-	var $extKey = 'wt_directory'; // Extension key
-	var $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
-	var $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1.php';	// Path to any script in pi1 for locallang
+	public $extKey = 'wt_directory'; // Extension key
+	public $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
+	public $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1.php';	// Path to any script in pi1 for locallang
 	
-	// Function linker() generates link (email and url) from pure text string within an email or url ('test www.test.de test' => 'test <a href="http://www.test.de">www.test.de</a> test')
-    function linker($link,$additinalParams = '') {
-		$link = str_replace("http://www.", "www.", $link);
-        $link = str_replace("www.", "http://www.", $link);
-        $link = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i", "<a href=\"$1\"$additinalParams>$1</a>", $link);
-        $link = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i", "<a href=\"mailto:$1\"$additinalParams>$1</a>", $link);
-    	
-        return $link;
-    }
-
-	// Function clearName() to disable not allowed letters (only A-Z and 0-9 allowed) (e.g. Perfect Extension -> perfectextension)
-	function clearName($string,$strtolower = 0,$cut = 0) {
-		$string = preg_replace("/[^a-zA-Z0-9]/","",$string); // replace not allowed letters with nothing
-		if($strtolower) $string = strtolower($string); // string to lower if active
-		if($cut) $string = substr($string,0,$cut); // cut after X signs if active
+	/**
+	 * Function clearName() to disable not allowed letters (only A-Z and 0-9 allowed) (e.g. Perfect Extension -> perfectextension)
+	 *
+	 * @param	string		Any string
+	 * @param	boolean		Lower String required?
+	 * @param	integer		Cut after X signs?
+	 * @return	string		Cleaned String
+	 */
+	public function clearName($string, $strtolower = 0, $cut = 0) {
+		$string = preg_replace('/[^a-zA-Z0-9]/', '', $string); // replace not allowed letters with nothing
+		if ($strtolower) {
+			$string = strtolower($string); // string to lower if active
+		}
+		if ($cut) {
+			$string = substr($string,0,$cut); // cut after X signs if active
+		}
 		
-		if(isset($string)) return $string;
+		if (isset($string)) {
+			return $string;
+		}
 	}
 	
-	// Function getAddressFields() returns tt_address fieldlist in an array
-	function getAddressFields() {
+	/**
+	 * Returns a list of tt_address Fields
+	 *
+	 * @return	array		List of tt_address fields
+	 */
+	public function getAddressFields() {
 		// config
 		$fieldarray = array(); // init
-		$notAllowedFields = array(
+		$notAllowedFields = array ( // fields which are not allowed to show
 			'uid',
 			'pid',
 			'tstamp',
 			'hidden',
 			'deleted'
-		); // fields which are not allowed to show
+		);
 		
 		// query
 		$res = mysql_query('SHOW COLUMNS FROM tt_address'); // mysql query
@@ -69,64 +76,113 @@ class wtdirectory_div extends tslib_pibase {
 					$fieldarray[] = $row['Field']; // add fieldname to array
 				}
 			}
-			if (!empty($fieldarray)) return $fieldarray;
-		}
-	}
-
-	// Function addFilterParams returns params from current setted piVars (like &tx_wtdirectory_pi1[filter][name]=x&tx_wt...)
-	function addFilterParams($piVars) {
-		if (isset($piVars['filter']) && is_array($piVars['filter'])) { // if filter piVars set
-			$content = ''; // init
-			foreach ($piVars['filter'] as $key => $value) { // one loop for every filter
-				$content .= '&'.$this->prefixId.'[filter]['.$key.']='.$value;
+			if (!empty($fieldarray)) {
+				return $fieldarray;
 			}
-			if (!empty($content)) return $content;
 		}
 	}
 	
-	// Function marker2value() replaces ###WTDIRECTORY_TTADDRESS_NAME### with its value from database
-	function marker2value($string, $row) {
+	/**
+	 * Function addFilterParams returns params from current setted piVars (like &tx_wtdirectory_pi1[filter][name]=x&tx_wt...)
+	 *
+	 * @param	array		Plugin Variables
+	 * @return	string		Part of a GET Param
+	 */
+	public function addFilterParams($piVars) {
+		if (isset($piVars['filter']) && is_array($piVars['filter'])) { // if filter piVars set
+			$content = ''; // init
+			foreach ($piVars['filter'] as $key => $value) { // one loop for every filter
+				$content .= '&' . $this->prefixId . '[filter][' . $key . ']=' . $value;
+			}
+			if (!empty($content)) {
+				return $content;
+			}
+		}
+	}
+	
+	/**
+	 * Function marker2value() replaces ###WTDIRECTORY_TTADDRESS_NAME### with its value from database
+	 *
+	 * @param	string		Any Content String
+	 * @param	array		array with values
+	 * @return	string		Replaced Content String
+	 */ 
+	public function marker2value($string, $row) {
 		$this->row = $row; // database array
 		
 		$string = preg_replace_callback ( // Automaticly replace ###UID55### with value from session to use markers in query strings
 			'#\#\#\#WTDIRECTORY_TTADDRESS_(.*)\#\#\##Uis', // regulare expression
-			array($this,'replaceIt'), // open function
+			array($this, 'replaceIt'), // open function
 			$string // current string
 		);
 	
 		return $string;
 	}
 	
-	// Function replaceIt() is used for the callback function to replace ###WTDIRECTORY_TTADDRESS_NAME## with value
-	function replaceIt($field) {
+	/**
+	 * Function replaceIt() is used for the callback function to replace ###WTDIRECTORY_TTADDRESS_NAME## with value
+	 *
+	 * @param	array		matches
+	 * @return	string		marker content
+	 */
+	public function replaceIt($field) {
 		if (isset($this->row[strtolower($field[1])])) {
 			return $this->row[strtolower($field[1])]; // return name (e.g.)
 		}
 	}
-
-	// Function piVars2string() helps for a simiular function like keepPiVars and generates a string from current piVars: &var1=1&var2=1
-	function piVars2string() {
+	
+	/**
+	 * Function piVars2string() helps for a simiular function like keepPiVars and generates a string from current piVars: &var1=1&var2=1
+	 *
+	 * @return	string		string as GET part
+	 */
+	public function piVars2string() {
 		$content = '';
 		
 		if (count($this->piVars) > 0) { // only if piVars are set
 			foreach ($this->piVars as $key => $value) { // one loop for every first level piVar
 				if (!is_array($value)) { // first level
-					$content .= '&'.$this->prefixId.'['.$key.']='.$value; // add string for current piVar
+					$content .= '&' . $this->prefixId . '[' . $key . ']=' . $value; // add string for current piVar
 				} else { // second level
 					foreach ($value as $key2 => $value2) { // one loop for every second level piVar
 						if (!is_array($value2)) { // second level
-							$content .= '&'.$this->prefixId.'['.$key.']['.$key2.']='.$value2; // add string for current piVar
+							$content .= '&' . $this->prefixId . '[' . $key . '][' . $key2 . ']=' . $value2; // add string for current piVar
 						}
 					}
 				}
 			}
 		}
 		
-		if (!empty($content)) return $content;
+		if (!empty($content)) {
+			return $content;
+		}
 	}
 	
-	// Function getAddressgroups() lists addressgroups of current tt_address
-	function getAddressgroups($uid, $conf, $cObj) {
+	/**
+	 * Function linker() generates link (email and url) from pure text string within an email or url ('test www.test.de test' => 'test <a href="http://www.test.de">www.test.de</a> test')
+	 *
+	 * @param	string		Any URL
+	 * @param	string		Additional Parameters
+	 * @return	string		Linked URL
+	 */
+    public function linker($link, $additionalParams = '') {
+		$link = str_replace("http://www.", "www.", $link);
+        $link = str_replace("www.", "http://www.", $link);
+        $link = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i", "<a href=\"$1\"$additionalParams>$1</a>", $link);
+        $link = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i", "<a href=\"mailto:$1\"$additionalParams>$1</a>", $link);
+    	
+        return $link;
+    }
+
+	/**
+	 * Function getAddressgroups() lists addressgroups of current tt_address
+	 *
+	 * @param	integer		Cat Uid
+	 * @param	array		TypoScript
+	 * @param	object		Content Object
+	 * @return	string		Groups
+	 */
+	public function getAddressgroups($uid, $conf, $cObj) {
 		// config
 		$this->languid = $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] ? $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] : 0; // current language uid
 		$groups = "";
@@ -137,7 +193,7 @@ class wtdirectory_div extends tslib_pibase {
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery (
 				$query['select'] = 'tt_address_group.title, tt_address_group.pid, tt_address_group.uid',
 				$query['from'] = 'tt_address_group LEFT JOIN tt_address_group_mm on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
-				$query['where'] = 'tt_address_group_mm.uid_local =' . $uid . ' AND tt_address_group.uid = tt_address_group_mm.uid_foreign',
+				$query['where'] = 'tt_address_group_mm.uid_local =' . intval($uid) . ' AND tt_address_group.uid = tt_address_group_mm.uid_foreign',
 				$query['orderby'] = 'tt_address_group.title'
 			);
 			if ($res) { // if there are results
@@ -149,13 +205,22 @@ class wtdirectory_div extends tslib_pibase {
 					
 					$groups .= $cObj->wrap($row['title'], $conf['wrap.']['addressgroup']); // wrap each group
 				}
-				if (!empty($groups)) return $groups; // return
+				if (!empty($groups)) {
+					return $groups; // return
+				}
 			}
 		}
 	}
-	
-	// Function conditions4DetailLink() returns true or false if one of the defined fields are filled
-	function conditions4DetailLink($row, $what, $conf) {
+
+	/**
+	 * Function conditions4DetailLink() returns true or false if one of the defined fields are filled
+	 *
+	 * @param	array		Row Array
+	 * @param	string		Kind of action
+	 * @param	array		TypoScript
+	 * @return	boolean
+	 */
+	public function conditions4DetailLink($row, $what, $conf) {
 		if ($conf['morelink_detail.']['condition']) { // if there is an entry in constants
 			$allow = 0; // don't allow at the beginning
 			$check4fields = t3lib_div::trimExplode(',', $conf['morelink_detail.']['condition'], 1); // like array('fax', 'mobile')
@@ -166,15 +231,24 @@ class wtdirectory_div extends tslib_pibase {
 				}
 			}
 			
-			if ($allow) return true; // if it's allowed, return true
-			else return false; // if it's not allowed, return false
+			if ($allow) {
+				return true; // if it's allowed, return true
+			} else {
+				return false; // if it's not allowed, return false
+			}
 		} else { // no entry, so always show detaillink
 			return true;
 		}
 	}
 
-	// Function setPiVars() will set some piVars from conditions (like filter|last_name=a%,filter|last_name=b%)
-	function setPiVars(&$piVars, $conf) {
+	/**
+	 * Function setPiVars() will set some piVars from conditions (like filter|last_name=a%,filter|last_name=b%)
+	 *
+	 * @param	array		GET or POST Params from wt_directory
+	 * @param	array		TypoScript
+	 * @return	void
+	 */
+	public function setPiVars(&$piVars, $conf) {
 		if ($piVars['list'] != 'all' && $conf['filter.']['start'] && count($piVars)==0) { // if tx_wtdirectory_pi1[list]=all is not set AND filter.start is set in constants AND there are no other piVars
 			if (strpos($conf['filter.']['start'], 'shownone') === false) { // startfilter was set
 				$tmp_startfilter1 = t3lib_div::trimExplode(',', $conf['filter.']['start'], 1); // split at comma (result e.g. filter|last_name=a%)
@@ -193,8 +267,13 @@ class wtdirectory_div extends tslib_pibase {
 		}
 	}
 
-	// Function alternate() checks if a number is odd or not
-	function alternate($int = 0) {
+	/**
+	 * Odd or Even function
+	 *
+	 * @param	integer		Any Integer
+	 * @return	boolean
+	 */
+	public function alternate($int = 0) {
 		if ($int % 2 != 0) { // odd or even
 			return false; // return false
 		} else { 
@@ -202,8 +281,13 @@ class wtdirectory_div extends tslib_pibase {
 		}
 	}
 
-	// Function getAddressFromNews() gets tt_news uid and returns tt_address uid
-	function getAddressFromNews($uid) {
+	/**
+	 * Function getAddressFromNews() gets tt_news uid and returns tt_address uid
+	 *
+	 * @param	integer		tt_news Uid
+	 * @return	integer		Address Uid
+	 */
+	public function getAddressFromNews($uid) {
 		if ($uid > 0) { // if there is an uid given
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery ( // DB query
 				'tx_wtdirectory_author auid',
@@ -214,7 +298,9 @@ class wtdirectory_div extends tslib_pibase {
 				$limit = 1
 			);
 			if ($res) $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res); // Result in array
-			if ($row['auid'] > 0) return $row['auid'];
+			if ($row['auid'] > 0) {
+				return $row['auid'];
+			}
 		}
 	}
 
@@ -226,7 +312,7 @@ class wtdirectory_div extends tslib_pibase {
 	 * @param	object		$pObj: Parent Object
 	 * @return	boolean		0/1
 	 */
-	function allowedDetailUID($uid, $pObj) {
+	public function allowedDetailUID($uid, $pObj) {
 		// config
 		$this->cObj = $pObj->cObj;
 		$this->conf = $pObj->conf;
@@ -285,7 +371,7 @@ class wtdirectory_div extends tslib_pibase {
 	 * @param	object		$pObj: Parent Object
 	 * @return	array		$cat: Array with all categories
 	 */
-	function getCategories($pObj) {
+	public function getCategories($pObj) {
 		// config
 		$this->conf = $pObj->conf; 
 		$this->cObj = $pObj->cObj;
@@ -325,7 +411,7 @@ class wtdirectory_div extends tslib_pibase {
 	 * @param	string		$img: Path to image
 	 * @return	string		$code: base64 code of an image
 	 */
-	function encodeBase64($img) {
+	public function encodeBase64($img) {
 		if (!empty($img) && file_exists($img)) { // if file really exists
 			$code = t3lib_div::getURL($img); // read image
 			$code = base64_encode($code); // encode code
@@ -340,7 +426,7 @@ class wtdirectory_div extends tslib_pibase {
 	 * @param    object        $pObj: Parent Object
 	 * @return    array        $row: Encoded values
 	 */
-	function utf8($row, $pObj) {
+	public function utf8($row, $pObj) {
 	    if ($pObj->conf['vCard.']['utf8'] != '') { // if coding function is set
 	        foreach ((array) $row as $key => $string) { // one loop for every value in array
 	            if ($pObj->conf['vCard.']['utf8'] == 'utf8encode') $row[$key] = utf8_encode($string);
@@ -569,6 +655,32 @@ class wtdirectory_div extends tslib_pibase {
 		$title = $staticInfoObj->getStaticInfoName('COUNTRIES', $iso); // get title from static_info_tables
 
 		return $title;
+	}
+
+	/**
+	 * Get latitude and longitude from german ZIP Code
+	 *
+	 * @param	string		URL for geocode table
+	 * @return	array		Array with Latitude and Longitude and the Cities Name like
+	 *						01067 => 
+	 *							lat => 1.12351
+	 *							lng => 45.4541
+	 *							title => Dresden
+	 */
+	public function getCoordinatesFromZip($geocodeurl = 'http://fa-technik.adfc.de/code/opengeodb/PLZ.tab') {
+		$arr = array();
+		$table = t3lib_div::getUrl($geocodeurl); // read url
+		$lines = t3lib_div::trimExplode("\n", $table, 1); // split every line
+		for ($i = 0; $i < count($lines); $i++) { // one loop for every line
+			$line = explode("\t", $lines[$i]);
+			$arr[$line[1]] = array (
+				'title' => $line[4], // Name of the City
+				'lng' => $line[2], // Latitude
+				'lat' => $line[3] // Longitude
+			);
+		}
+		
+		return $arr;
 	}
 }
 

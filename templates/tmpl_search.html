@@ -121,4 +121,41 @@ Category dropdown
 		</form>
 		<input type="hidden" name="cat_container" id="cat_container" value="###CAT_BREADCRUMB###" />
 	</div>
-<!-- ###WTDIRECTORY_FILTER_CAT### begin -->
+<!-- ###WTDIRECTORY_FILTER_CAT### end -->
+
+
+
+
+
+
+Radial Search
+
+	MARKERS OUTSIDE LOOP:
+	
+	MARKERS INSIDE LOOP:
+	
+	GLOBAL MARKERS:	
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_FILTER_RADIALSEARCH### begin -->
+	<div class="wtdirectory_filter wtdirectory_filter_radialsearch">
+		<h2 class="wtdirectory">###WTDIRECTORY_LL_RADIALSEARCH_TITLE###</h2>
+		<form action="###WTDIRECTORY_ACTION###" method="###WTDIRECTORY_METHOD###">
+			<label for="wt_directory_radialsearch_zip">###WTDIRECTORY_LL_RADIALSEARCH_ZIP###</label>
+			<input type="text" name="tx_wtdirectory_pi1[radialsearch][zip]" value="###WTDIRECTORY_RADIALSEARCH_ZIP_VALUE###" id="wt_directory_radialsearch_zip" />
+			
+			<label for="wt_directory_radialsearch_radius">###WTDIRECTORY_LL_RADIALSEARCH_RADIUS###</label>
+			<select name="tx_wtdirectory_pi1[radialsearch][radius]" id="wt_directory_radialsearch_radius">
+				<option value="10"###SELECTED_10###>10 km</option>
+				<option value="20"###SELECTED_20###>20 km</option>
+				<option value="50"###SELECTED_50###>50 km</option>
+				<option value="100"###SELECTED_100###>100 km</option>
+				<option value="200"###SELECTED_200###>200 km</option>
+				<option value="500"###SELECTED_500###>500 km</option>
+			</select>
+			
+			<input type="submit" value="###WTDIRECTORY_LL_FILTERSUBMIT###" class="wtdirectory_filter_radialsearch_submit" />
+		</form>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_RADIALSEARCH### end -->

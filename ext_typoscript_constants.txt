@@ -84,6 +84,9 @@ plugin.wtdirectory {
 	# cat=plugin.wtdirectory//7200; type=boolean; label= Clear search filter in singleview: If there is a filter in use and than a click to detail and back again, filter is cleared
 	filter.list.clearOldFilter = 0
 
+	# cat=plugin.wtdirectory//7300; type=boolean; label= Clear search filter in radial search: If there is already set a filter and you change the radial search, filter will be cleaned
+	filter.radialsearch.clearOldFilter = 1
+
 	# cat=plugin.wtdirectory//7300; type=text; label= Select Search: Definde some fields for the search, which should be rendered als select boxes
 	filter.select =
 

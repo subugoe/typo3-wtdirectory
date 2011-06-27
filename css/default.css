@@ -72,6 +72,17 @@ div.wtdirectory_filter_cat option.level3 {
 div.wtdirectory_filter_cat option.level4 {
 	padding-left: 30px;
 }
+div.wtdirectory_filter_radialsearch label {
+	font-weight: bold;
+	padding-right: 10px;
+}
+input#wt_directory_radialsearch_zip {
+	margin-right: 30px;
+}
+input.wtdirectory_filter_radialsearch_submit {
+	display: block;
+	margin-top: 5px;
+}
 		/* Autocomplete */
 div.wt_directory_autocompletecontainer {
 	padding: 5px;

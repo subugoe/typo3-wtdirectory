@@ -28,6 +28,7 @@ require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_mark
 require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_filter_abc.php'); // load abc filter class
 require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_filter_search.php'); // load search filter class
 require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_filter_cat.php'); // load category filter class
+require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_filter_radialsearch.php'); // load radialsearch class
 require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_pagebrowser.php'); // load pagebrowser class
 require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_dynamicmarkers.php'); // file for dynamicmarker functions
 
@@ -60,6 +61,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 		$this->filter_abc = t3lib_div::makeInstance('tx_wtdirectory_filter_abc'); // Create new instance for abcfilter class
 		$this->filter_search = t3lib_div::makeInstance('tx_wtdirectory_filter_search'); // Create new instance for searchfilter class
 		$this->filter_cat = t3lib_div::makeInstance('tx_wtdirectory_filter_cat'); // Create new instance for catfilter class
+		$this->filter_radialsearch = t3lib_div::makeInstance('tx_wtdirectory_filter_radialsearch'); // Create new instance for radialsearch class
 		$this->pagebrowser = t3lib_div::makeInstance('tx_wtdirectory_pagebrowser'); // Create new instance for pagebrowser class
 		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtdirectory_dynamicmarkers'); // New object: TYPO3 dynamicmarker function
 		$this->tmpl['list']['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['list']), '###WTDIRECTORY_LIST###'); // Load HTML Template
@@ -174,7 +176,8 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 		}
 		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_ABC###'] = $this->filter_abc->main($this->conf, $this->piVars, $this->query_pid, $this->query_cat); // include ABC filter
 		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_SEARCH###'] = $this->filter_search->main($this->conf, $this->piVars, $this->cObj); // include SEARCH filter
-		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_CAT###'] = $this->filter_cat->main($this->conf, $this->piVars); // include CAT filter
+		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_RADIALSEARCH###'] = $this->filter_cat->main($this->conf, $this->piVars); // include CAT filter
+		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_CAT###'] = $this->filter_radialsearch->main($this); // include Radial Search filter
 
 		$this->hook('list'); // add hook to manipulate list view
 		$this->content .= $this->cObj->substituteMarkerArrayCached($this->tmpl['list']['all'], $this->OuterSubpartArray, $this->subpartArray); // substitute Marker in Template
@@ -295,7 +298,16 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 				$this->filter = substr(trim($this->filter), 0, -4);
 			}
 		}
+		
+		// RADIAL SEARCH Filter
+		if (isset($this->piVars['radialsearch']['radius']) && isset($this->piVars['radialsearch']['zip'])) {
+			$coordinates = $this->div->getCoordinatesFromZip(); // get lat and lng from German ZIP code
+			if (isset($coordinates[$this->piVars['radialsearch']['zip']])) { // only if given zip is in table
+				$this->filter .= ' & (ACOS(SIN(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lat'] . ')) * SIN(RADIANS(tt_address.tx_rggooglemap_lat)) + COS(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lat'] . ')) * COS(RADIANS(tt_address.tx_rggooglemap_lat)) * COS(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lng'] . ') - RADIANS(tt_address.tx_rggooglemap_lng))) * 6380 < ' . intval($this->piVars['radialsearch']['radius']) . ')';
+			}
+		}
 
+		// CATEGORY Filter
 		if (!empty($this->piVars['catfilter'])) {
 			if (is_array($this->piVars['catfilter'])) {
 				foreach ($this->piVars['catfilter'] as $catID) {

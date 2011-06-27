@@ -39,6 +39,7 @@
 			<label index="pi_flexform.address">Show only this addresses (no matter which category)</label>
 			<label index="pi_flexform.contact">Enable tt_news contact in tt_news detail view</label>
 			<label index="pi_flexform.contactitem">Show news contact</label>
+			<label index="pi_flexform.radialsearch">Radial Search (Need rggooglemap extension)</label>
 			<label index="pi2_flexform.DrillDownFilter">Drilldown filter</label>
 			<label index="pi2_flexform.addPiVarsFilter">Add filters via piVars</label>
 			<label index="tt_address.tstamp">Changedate</label>
@@ -79,6 +80,7 @@
 			<label index="pi_flexform.address">Zeige nur ausgewählte Adressen (Kategoriewahl ohne Wirkung)</label>
 			<label index="pi_flexform.contact">Aktiviere tt_news Kontaktperson in Detailansicht von tt_news</label>
 			<label index="pi_flexform.contactitem">Zeige Kontaktperson</label>
+			<label index="pi_flexform.radialsearch">Umkreissuche (Funktioniert nur mit rggooglemap)</label>
 			<label index="tt_address.tstamp">Änderungsdatum</label>
 			<label index="tt_news.tx_wtdirectory_author">Kontaktperson</label>
 			<label index="extensioncheck.powermail">Die Nutzung von powermail Links steht erst nach der Installation von %s zur Verfügung</label>

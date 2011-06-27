@@ -31,6 +31,7 @@ plugin.tx_wtdirectory_pi1 {
 	filter.cat.showAllInDropdown = {$plugin.wtdirectory.filter.cat.showAllInDropdown}
 	filter.list.clearOldFilter = {$plugin.wtdirectory.filter.list.clearOldFilter}
 	filter.cat.clearOldFilter = {$plugin.wtdirectory.filter.cat.clearOldFilter}
+	filter.radialsearch.clearOldFilter = {$plugin.wtdirectory.filter.radialsearch.clearOldFilter}
 	filter.select = {$plugin.wtdirectory.filter.select}
 	filter.startlevel = {$plugin.wtdirectory.filter.startlevel}
 	vCard.utf8 = {$plugin.wtdirectory.vCard.utf8}

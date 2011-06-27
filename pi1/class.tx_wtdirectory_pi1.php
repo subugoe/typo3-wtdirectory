@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2011 Alexander Kellner <alexander.kellner@in2code.de>
+*  (c) 2008-2011 Alexander Kellner <alexander.kellner@in2code.de>, in2code.de
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,23 +27,31 @@ require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_div.
 require_once(t3lib_extMgm::extPath('wt_directory') . 'pi1/class.tx_wtdirectory_pi1_list.php'); // load listview class
 require_once(t3lib_extMgm::extPath('wt_directory') . 'pi1/class.tx_wtdirectory_pi1_detail.php'); // load detailview class
 require_once(t3lib_extMgm::extPath('wt_directory') . 'pi1/class.tx_wtdirectory_pi1_vcard.php'); // load vcard class
-if(t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath('wt_doorman') . 'class.tx_wtdoorman_security.php'); // load security class
-
+if (t3lib_extMgm::isLoaded('wt_doorman', 0)) {
+	require_once(t3lib_extMgm::extPath('wt_doorman') . 'class.tx_wtdoorman_security.php'); // load security class
+}
 
 /**
  * Plugin 'wt_directory (tt_address list and detail view)' for the 'wt_directory' extension.
  *
- * @author	Alexander Kellner <alexander.kellner@einpraegsam.net>
+ * @author	Alexander Kellner <alexander.kellner@in2code.de>, in2code.de
  * @package	TYPO3
  * @subpackage	tx_wtdirectory
  */
 class tx_wtdirectory_pi1 extends tslib_pibase {
 
-	var $extKey        = 'wt_directory';	// The extension key.
-	var $prefixId      = 'tx_wtdirectory_pi1';		// Same as class name
-	var $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1.php';	// Path to this script relative to the extension dir.
+	public $extKey        = 'wt_directory';	// The extension key.
+	public $prefixId      = 'tx_wtdirectory_pi1';		// Same as class name
+	public $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1.php';	// Path to this script relative to the extension dir.
 
-	function main($content,$conf) {
+	/**
+	 * Generate the main output for wt_directory
+	 *
+	 * @param	string		content
+	 * @param	array		TypoScript configuration
+	 * @return	string		generated content
+	 */
+	public function main($content, $conf) {
 		// Config
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
@@ -71,14 +79,15 @@ class tx_wtdirectory_pi1 extends tslib_pibase {
 
 			header('Content-type: text/directory');
 
-			if ($GLOBALS['TSFE']->renderCharset=='utf-8') {
-				header('Content-Disposition: attachment; filename="'.strtolower(utf8_decode($this->vCardArray['filename'])).'"');
-			}
-			else {
-				header('Content-Disposition: attachment; filename="'.strtolower($this->vCardArray['filename']).'"');
+			if ($GLOBALS['TSFE']->renderCharset == 'utf-8') {
+				header('Content-Disposition: attachment; filename="' . strtolower(utf8_decode($this->vCardArray['filename'])) . '"');
+			} else {
+				header('Content-Disposition: attachment; filename="' . strtolower($this->vCardArray['filename']) . '"');
 			}
 			header('Pragma: public');
-			if (!empty($this->content)) return $this->content; // return content
+			if (!empty($this->content)) {
+				return $this->content; // return content
+			}
 
 		} else { // in all other cases: default view
 
@@ -106,14 +115,19 @@ class tx_wtdirectory_pi1 extends tslib_pibase {
 			}
 
 			$this->hook(); // add hook
-			if (!empty($this->content)) return $this->pi_wrapInBaseClass($this->content); // return content
+			if (!empty($this->content)) {
+				return $this->pi_wrapInBaseClass($this->content); // return content
+			}
 		}
 
 	}
 
-
-	// Function secure() uses wt_doorman to clear piVars
-	function secure() {
+	/**
+	 * Function secure() uses wt_doorman to clear piVars
+	 *
+	 * @return	void
+	 */
+	private function secure() {
 		if (class_exists('tx_wtdoorman_security')) {
 			// 1. Get values from tt_news
 			$varsFromNews = t3lib_div::_GP('tx_ttnews');
@@ -130,6 +144,9 @@ class tx_wtdirectory_pi1 extends tslib_pibase {
 				'filter' => array (
 					'*' => 'text' // every filter should be text
 				),
+				'radialsearch' => array (
+					'*' => 'text' // every filter should be text
+				),
 				'ttnews' => 'int'
 			);
 
@@ -144,20 +161,28 @@ class tx_wtdirectory_pi1 extends tslib_pibase {
 
 			// 4. Overwrite pivars now
 			$this->piVars = $this->sec->sec($this->piVars); // overwrite piVars piVars from doorman class
-		} else die ('Extension wt_doorman not found!');
+		} else {
+			die ('Extension wt_doorman not found!');
+		}
 	}
 
-
-	// Function check() check if all is right
-	function check() {
+	/**
+	 * Function check() check if all is right
+	 *
+	 * @return	void
+	 */
+	private function check() {
 		if (count($this->conf) < 10 && empty($this->piVars['vCard'])) { // in the conf array are to less settings - so no ts is included to TYPO3
 			die ('wt_directory typoscript not loaded!');
 		}
 	}
 
-
-	// Function hook() adds hook
-	function hook() {
+	/**
+	 * Function hook() adds hooks
+	 *
+	 * @return	void
+	 */
+	private function hook() {
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['main'])) { // Adds hook for processing
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['main'] as $_classRef) {
 				$_procObj = &t3lib_div::getUserObj($_classRef);
@@ -166,8 +191,6 @@ class tx_wtdirectory_pi1 extends tslib_pibase {
 		}
 	}
 }
-
-
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/pi1/class.tx_wtdirectory_pi1.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/pi1/class.tx_wtdirectory_pi1.php']);
