@@ -76,7 +76,7 @@ class tx_wtdirectory_filter_search extends tslib_pibase {
 			if (!in_array($value, $selectfields)) { // should be an input field
 				$this->markerArray['###FIELD###'] = $this->cObj->substituteMarkerArrayCached($this->tmpl['filter']['field_input'], $this->markerArray2, array());
 			} else { // should be a selectbox
-				$fieldValues = $this->div->getAllValuesFromField($value, $cObj); // Get array with all field values
+				$fieldValues = $this->div->getAllValuesFromField($value, $cObj, $conf); // Get array with all field values
 				
 				$content_item2 = '';
 				for ($i = 0; $i < count($fieldValues); $i++) { // one loop for every Fieldvalue

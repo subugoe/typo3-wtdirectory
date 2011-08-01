@@ -62,6 +62,9 @@ class tx_wtdirectory_pi1_vcard extends tslib_pibase {
 			
 			if (isset($this->conf['vCard.']) && is_array($this->conf['vCard.'])) { // if set via ts
 				foreach ((array) $this->conf['vCard.'] as $key => $value) {
+					if (strpos($key, '.')) {
+						continue;
+					}
 					$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf['vCard.'][$key], $this->conf['vCard.'][$key . '.']); // add current field to markerArray
 				}
 			}

@@ -89,15 +89,34 @@ class wtdirectory_div extends tslib_pibase {
 	 * @return	string		Part of a GET Param
 	 */
 	public function addFilterParams($piVars) {
-		if (isset($piVars['filter']) && is_array($piVars['filter'])) { // if filter piVars set
-			$content = ''; // init
-			foreach ($piVars['filter'] as $key => $value) { // one loop for every filter
-				$content .= '&' . $this->prefixId . '[filter][' . $key . ']=' . $value;
-			}
-			if (!empty($content)) {
-				return $content;
-			}
+		if (!isset($piVars['filter']) && !isset($piVars['radialsearch']) && !isset($piVars['catfilter'])) { // if piVars not set
+			return '';
 		}
+		
+		$content = ''; // init
+		
+		// &tx_wtdirectory_pi1[filter]
+		foreach ((array) $piVars['filter'] as $key => $value) { // one loop for every filter
+			if (empty($value)) {
+				continue;
+			}
+			$content .= '&' . $this->prefixId . '[filter][' . $key . ']=' . $value;
+		}
+		
+		// &tx_wtdirectory_pi1[radialsearch]
+		foreach ((array) $piVars['radialsearch'] as $key => $value) { // one loop for every filter
+			if (empty($value)) {
+				continue;
+			}
+			$content .= '&' . $this->prefixId . '[radialsearch][' . $key . ']=' . $value;
+		}
+		
+		// &tx_wtdirectory_pi1[catfilter]
+		if (isset($piVars['catfilter'])) {
+			$content .= '&' . $this->prefixId . '[catfilter]=' . $piVars['catfilter'];
+		}
+		
+		return $content;
 	}
 	
 	/**
@@ -442,9 +461,10 @@ class wtdirectory_div extends tslib_pibase {
 	 *
 	 * @param    string		Field name
 	 * @param    object		Content Object
+	 * @param    array		TypoScript Configuration
 	 * @return   array		Array with field values
 	 */
-	public function getAllValuesFromField($field, $cObj) {
+	public function getAllValuesFromField($field, $cObj, $conf) {
 		$tree = t3lib_div::makeInstance('t3lib_queryGenerator'); // make instance for query generator class
 		$arr = array();
 		$table = 'tt_address';
@@ -454,13 +474,28 @@ class wtdirectory_div extends tslib_pibase {
 		}
 		$pids = $tree->getTreeList($cObj->data['pages'], $cObj->data['recursive'], 0, 1);
 
+		// Create Table Query
 		$select = $table . '.' . $field;
 		$from = '
 			tt_address
 			LEFT JOIN tt_address_group_mm on tt_address.uid = tt_address_group_mm.uid_local
 			LEFT JOIN tt_address_group on tt_address_group_mm.uid_foreign = tt_address_group.uid
 		';
-		$where = '1' . (!empty($pids) ? ' AND ' . $table . '.pid IN (' . $pids . ')' : '') . $cObj->enableFields('tt_address');
+		$where = '1';
+		$where .= (!empty($pids) ? ' AND ' . $table . '.pid IN (' . $pids . ')' : '');
+		if (t3lib_extMgm::isLoaded('static_info_tables', 0) && $this->pi_getFFvalue($conf, 'countryfilter', 'mainconfig')) { // countryfilter only
+			$allowedCountries = t3lib_div::trimExplode(',', $this->pi_getFFvalue($conf, 'countryfilter', 'mainconfig'), 1);
+			$where .= ' AND (';
+			for ($i = 0; $i < count($allowedCountries); $i++) { // one loop for every chosen country
+				$fields = $this->getCountriesTitlesFromUid($allowedCountries[$i]);
+				foreach ((array) $fields as $key => $value) {
+					$where .= 'tt_address.country = "' . $value . '"';
+					$where .= ' OR ';
+				}
+			}
+			$where .= '0)';
+		}
+		$where .= $cObj->enableFields('tt_address');
 		$groupby = $table . '.' . $field;
 		$orderby = $table . '.' . $field;
 		$limit = 100000;
@@ -681,6 +716,46 @@ class wtdirectory_div extends tslib_pibase {
 		}
 		
 		return $arr;
+	}
+
+	/**
+	 * Read all country titles from a given static_countries uid
+	 *
+	 * @param	integer		Uid of a value of static_countries
+	 * @return	array		All titles from a country (DE, DEU, Germany, Deutschland)
+	 */
+	public function getCountriesTitlesFromUid($uid) {
+		if (!t3lib_extMgm::isLoaded('static_info_tables', 0)) {
+			return array();
+		}
+		
+		// read all relevant field from static_countries
+		$fields = array();
+		$allFields = $GLOBALS['TYPO3_DB']->admin_get_fields('static_countries');
+		foreach ((array) $allFields as $field => $value) {
+			// cn_iso_2, cn_iso_3
+			if (stristr($field, 'cn_iso_')) {
+				$fields[] = $field;
+			}
+			
+			// cn_short_en, cn_short_de
+			if (stristr($field, 'cn_short_')) {
+				$fields[] = $field;
+			}
+		}
+		
+		// get all titles from a given url
+		$select = implode(',', $fields);
+		$from = 'static_countries';
+		$where = 'uid = ' . intval($uid);
+		$groupby = '';
+		$orderby = '';
+		$limit = 1;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupby, $orderby, $limit);
+		if ($res) {
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+			return $row;
+		}
 	}
 }
 

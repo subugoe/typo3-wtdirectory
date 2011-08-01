@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009 Alexander Kellner <alexander.kellner@einpraegsam.net>
+*  (c) 2011 Alex Kellner <alexander.kellner@in2code.de>, in2code.de
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,32 +24,42 @@
 
 require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 require_once(PATH_t3lib . 'stddb/tables.php');
-require_once(PATH_tslib.'class.tslib_pibase.php');
+require_once(PATH_tslib . 'class.tslib_pibase.php');
 
 class tx_wtdirectory_autocomplete extends tslib_pibase {
 
-	var $extKey = 'wt_directory'; // Extension key
-	var $limit = 100; // limit for db query
-
-	// Function main() to set email receiver in session for powermail (if form is rendered in powermail)
-    function main() {
+	private $extKey = 'wt_directory'; // Extension key
+	private $limit = 100; // limit for db query
+	private $content = '';
+	
+	/**
+	 * Function main() to set email receiver in session for powermail (if form is rendered in powermail)
+	 *
+	 * @return	string		List for autocompleete
+	 */
+    public function main() {
 		// config
 		tslib_eidtools::connectDB();
 		$this->pid = htmlentities(t3lib_div::_GP('pid')); // GET param
 		$this->cat = htmlentities(t3lib_div::_GP('cat')); // GET param
 		$this->field = htmlentities(t3lib_div::_GP('field')); // GET param
 		$this->search = htmlentities(trim(t3lib_div::_GP('search'))); // GET param
-		if (empty($this->field)) return $this->wrapToList($this->wrapToList('ERROR: No database field given'), 'ul'); // check if field was given otherwise return error
-		$this->content = '';
+		if (empty($this->field)) {
+			return $this->wrapToList($this->wrapToList('ERROR: No database field given'), 'ul'); // check if field was given otherwise return error
+		}
 		if ($this->field == 'all') {
 			// todo support for autocomplete
 			return '';
 		}
 		// Let's go
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery ( // DB query
-			'tt_address.' . $this->field,
-			'tt_address LEFT JOIN tt_address_group_mm on (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
-			$this->whereClause() . t3lib_BEfunc::deleteClause('tt_address') . t3lib_BEfunc::BEenableFields('tt_address'),
+			'DISTINCT tt_address.' . $this->field,
+			'
+				tt_address 
+				LEFT JOIN tt_address_group_mm on (tt_address.uid = tt_address_group_mm.uid_local) 
+				LEFT JOIN tt_address_group on (tt_address_group_mm.uid_foreign = tt_address_group.uid)
+			',
+			$this->whereClause() . ' AND tt_address.deleted = 0 AND tt_address.hidden = 0',
 			$this->query['groupby'] = 'tt_address.uid, tt_address.' . $this->field,
 			$this->query['orderby'] = 'tt_address.' . $this->field,
 			$this->query['limit'] = $this->limit
@@ -72,24 +82,40 @@ class tx_wtdirectory_autocomplete extends tslib_pibase {
 		return $this->content;
     }
 
-
-	// Where clause
-	function whereClause() {
+	/**
+	 * Generate the where clause for the main function
+	 *
+	 * @return	string		Where Clause
+	 */
+	private function whereClause() {
 		$where = '1';
-		if (!empty($this->pid)) $where .= ' AND tt_address.pid IN('.$this->pid.')';
-		if (!empty($this->cat)) $where .= ' AND tt_address_group.uid IN('.$this->cat.')';
-		if (!empty($this->search)) $where .= ' AND tt_address.'.$this->field.' LIKE "'.$this->search.'%"';
+		if (!empty($this->pid)) {
+			$where .= ' AND tt_address.pid IN(' . $this->pid . ')';
+		}
+		if (!empty($this->cat)) {
+			$where .= ' AND tt_address_group.uid IN(' . $this->cat . ')';
+		}
+		if (!empty($this->search)) {
+			$where .= ' AND tt_address.' . $this->field . ' LIKE "%' . $this->search . '%"';
+		}
 
 		return $where;
 	}
 
+	/**
+	 * Wraps string with html tag
+	 *
+	 * @param	string		Non-Wrapped string
+	 * @return	string		Wrapped string
+	 */
+	private function wrapToList($string, $mode = 'li') {
+		if ($mode == 'li') {
+			$tag = 'li';
+		} else {
+			$tag = 'ul';
+		}
 
-	// Wraps string with html tag
-	function wrapToList($string, $mode = 'li') {
-		if ($mode == 'li') $tag = 'li';
-		else $tag = 'ul';
-
-		return '<'.$tag.'>'.$string.'</'.$tag.'>';
+		return '<' . $tag . '>' . $string . '</' . $tag . '>';
 	}
 
 }

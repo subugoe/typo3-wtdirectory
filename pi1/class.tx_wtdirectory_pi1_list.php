@@ -176,8 +176,8 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 		}
 		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_ABC###'] = $this->filter_abc->main($this->conf, $this->piVars, $this->query_pid, $this->query_cat); // include ABC filter
 		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_SEARCH###'] = $this->filter_search->main($this->conf, $this->piVars, $this->cObj); // include SEARCH filter
-		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_RADIALSEARCH###'] = $this->filter_cat->main($this->conf, $this->piVars); // include CAT filter
-		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_CAT###'] = $this->filter_radialsearch->main($this); // include Radial Search filter
+		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_CAT###'] = $this->filter_cat->main($this->conf, $this->piVars); // include CAT filter
+		$this->OuterSubpartArray['###WTDIRECTORY_FILTER_RADIALSEARCH###'] = $this->filter_radialsearch->main($this); // include Radial Search filter
 
 		$this->hook('list'); // add hook to manipulate list view
 		$this->content .= $this->cObj->substituteMarkerArrayCached($this->tmpl['list']['all'], $this->OuterSubpartArray, $this->subpartArray); // substitute Marker in Template
@@ -303,7 +303,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 		if (isset($this->piVars['radialsearch']['radius']) && isset($this->piVars['radialsearch']['zip'])) {
 			$coordinates = $this->div->getCoordinatesFromZip(); // get lat and lng from German ZIP code
 			if (isset($coordinates[$this->piVars['radialsearch']['zip']])) { // only if given zip is in table
-				$this->filter .= ' & (ACOS(SIN(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lat'] . ')) * SIN(RADIANS(tt_address.tx_rggooglemap_lat)) + COS(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lat'] . ')) * COS(RADIANS(tt_address.tx_rggooglemap_lat)) * COS(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lng'] . ') - RADIANS(tt_address.tx_rggooglemap_lng))) * 6380 < ' . intval($this->piVars['radialsearch']['radius']) . ')';
+				$this->filter .= ' AND (ACOS(SIN(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lat'] . ')) * SIN(RADIANS(tt_address.tx_rggooglemap_lat)) + COS(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lat'] . ')) * COS(RADIANS(tt_address.tx_rggooglemap_lat)) * COS(RADIANS(' . $coordinates[$this->piVars['radialsearch']['zip']]['lng'] . ') - RADIANS(tt_address.tx_rggooglemap_lng))) * 6380 < ' . intval($this->piVars['radialsearch']['radius']) . ')';
 			}
 		}
 
@@ -319,7 +319,22 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 				$this->filter .= ' AND tt_address.uid IN (SELECT tt_address.uid FROM tt_address INNER JOIN tt_address_group_mm ON tt_address.uid = tt_address_group_mm.uid_local WHERE tt_address_group_mm.uid_foreign= '. $this->piVars['catfilter'] .')';
 			}
 		}
+		
+		// Countryfilter
+		if (t3lib_extMgm::isLoaded('static_info_tables', 0) && $this->pi_getFFvalue($this->conf, 'countryfilter', 'mainconfig')) {
+			$countries = t3lib_div::trimExplode(',', $this->pi_getFFvalue($this->conf, 'countryfilter', 'mainconfig'), 1); // get countries
+			$this->filter .= ' AND (';
+			for ($i = 0; $i < count($countries); $i++) { // one loop for every chosen country
+				$fields = $this->div->getCountriesTitlesFromUid($countries[$i]);
+				foreach ((array) $fields as $key => $value) {
+					$this->filter .= 'tt_address.country = "' . $value . '"';
+					$this->filter .= ' OR ';
+				}
+			}
+			$this->filter .= '0)';
+		}
 
+		// OR Catfilter
 		if (!empty($this->piVars['catfilterOR'])) {
 			if (is_array($this->piVars['catfilterOR'])) {
 				$cats = implode(',', $this->piVars['catfilterOR']);
@@ -327,6 +342,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 			}
 		}
 
+		// group by
 		if ($this->conf['list.']['groupBy']) {
 			if (strtolower($this->conf['list.']['groupBy']) == 'disabled') {
 				$this->query['groupby'] = '';
@@ -346,7 +362,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 	 * @param	string		name of the hook
 	 * @return	void
 	 */
-	function hook($hookname) {
+	public function hook($hookname) {
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey][$hookname])) { // Adds hook for processing
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey][$hookname] as $_classRef) {
 				$_procObj = &t3lib_div::getUserObj($_classRef);

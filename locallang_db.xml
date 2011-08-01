@@ -28,6 +28,7 @@
 			<label index="pi_flexform.category">Categories</label>
 			<label index="pi_flexform.shownone">Don't show addresses on start</label>
 			<label index="pi_flexform.shownone.0">Show only addresses if a filter is set</label>
+			<label index="pi_flexform.countryfilter">Show only addresses from theese countries</label>
 			<label index="pi_flexform.field">Show fields in frontend</label>
 			<label index="pi_flexform.googlemapenable">Enable googlemap links</label>
 			<label index="pi_flexform.googlemap_page">Page with Googlemap (empty for same page)</label>
@@ -69,6 +70,7 @@
 			<label index="pi_flexform.category">Kategorien</label>
 			<label index="pi_flexform.shownone">Zu Beginn keine Adressen zeigen</label>
 			<label index="pi_flexform.shownone.0">Zeige erst Adressen sobald ein Filter gesetzt wurde</label>
+			<label index="pi_flexform.countryfilter">Zeige nur Adressen dieser Länder</label>
 			<label index="pi_flexform.field">Felder im Frontend anzeigen</label>
 			<label index="pi_flexform.googlemapenable">Googlemap Links aktivieren</label>
 			<label index="pi_flexform.googlemap_page">Seite mit Googlemap (Leer für gleiche Seite)</label>
