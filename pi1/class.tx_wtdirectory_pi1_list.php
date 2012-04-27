@@ -49,9 +49,9 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 	 */
 	public function main($conf, $piVars, $cObj) {
 		// Config
-    	$this->cObj = $cObj; // cObject
-		$this->conf = $conf;
-		$this->piVars = $piVars;
+		$this->cObj = $cObj; // cObject
+		$this->conf = $conf; // make it global
+		$this->piVars = $piVars; // make it global
 		$this->pi_loadLL();
 		$this->tmpl = $this->wrappedSubpartArray = $this->query = array();
 		$this->content = '';
@@ -87,10 +87,10 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery ( // DB query
 				$this->query['select'] = 'tt_address.*, tt_address.uid ttaddress_uid, tt_address_group.title tt_address_group_title, tt_address_group.uid tt_address_group_uid, tt_address_group.pid tt_address_group_pid',
-				$this->query['from'] = 'tt_address LEFT JOIN tt_address_group_mm on (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
+				$this->query['from'] = 'tt_address LEFT JOIN tt_address_group_mm ON (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group ON (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
 				$this->query['where'] = $this->filter . $this->query_pid . $this->query_cat . $this->cObj->enableFields('tt_address'),
 				$this->query['groupby'],
-				$this->query['orderby'] = (empty($this->conf['list.']['orderby'])) ? 'FIND_IN_SET(tt_address.uid,' . $find_in_set.')' :  addslashes($this->conf['list.']['orderby']),
+				$this->query['orderby'] = (empty($this->conf['list.']['orderby'])) ? 'FIND_IN_SET(tt_address.uid,' . $find_in_set.')' : addslashes($this->conf['list.']['orderby']),
 				$this->query['limit'] = $this->limit
 			);
 
@@ -101,22 +101,35 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 			if ($res) { // If there is a result
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) { // One loop for every tt_address entry
 
-					$row['addressgroup'] = $this->div->getAddressgroups($row['ttaddress_uid'], $this->conf, $this->cObj); // Overwrite group name
+					$groups = $this->div->getAddressgroups($row['ttaddress_uid'], $this->conf, $this->cObj); // Overwrite group name
+					$row['addressgroup'] = $groupsStr = implode('', $groups); // implode group array
+
+					if ($this->conf['list.']['field.']['addressgroup.']['field'] == 'addressgroup_uids' && !empty($groups)) {
+						foreach ($groups as $groupUid => $groupTitle) {
+							$row['addressgroup_uids'] .= $this->cObj->wrap($groupUid, $conf['wrap.']['addressgroup']); // wrap each group
+						}
+					}
+
 					$allowedFields = t3lib_div::trimExplode(',', $this->pi_getFFvalue($this->conf, 'field', 'list'), 1);
 					$row['country'] = $this->div->getCountryFromCountryCode($row['country'], $this); // rewrite Lang ISO Code with Country Title from static_info_tables
-					if ($currentAddressGroup <> $row['tt_address_group_title']) {
-						// store the new group 
-						$currentAddressGroup = $row['tt_address_group_title'];
-						$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = $this->cObj->stdWrap($row['tt_address_group_title'],$this->conf['list.']['tt_address_group_title.']);
-						$row['tt_address_group_title']= $this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'];
+					if ($currentAddressGroup <> $row['tt_address_group_uid']) {
+						// store the new group
+						$currentAddressGroup = $row['tt_address_group_uid'];
+						$currentAddressGroupId = $this->cObj->stdWrap($row['tt_address_group_uid'], $this->conf['list.']['tt_address_group_uid.']);
+						$currentAddressGroupTitle = $this->cObj->stdWrap($row['tt_address_group_title'], $this->conf['list.']['tt_address_group_title.']);
 					} else {
 						// return nothing, because it is still the same group
-						$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = '';
-						$row['tt_address_group_title']= '';
+						$currentAddressGroupId = '';
+						$currentAddressGroupTitle = '';
 					}
+					$row['tt_address_group_uid'] = $currentAddressGroupId;
+					$row['tt_address_group_title'] = $currentAddressGroupTitle;
+					$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_ID###'] = $currentAddressGroupId;
+					$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = $currentAddressGroupTitle;
 					$this->InnerMarkerArray = $this->markers->makeMarkers('list', $this->conf, $row, $allowedFields, $this->piVars); // get markerArray
+					unset($currentAddressGroup);
 
-					// render Addressgroup header if the header has changed (works only, if the list is primary rendered by the titel of the addressgroup
+					// render Addressgroup header if the header has changed (works only, if the list is primary rendered by the title of the addressgroup
 					$this->InnerMarkerArray['###WTDIRECTORY_VCARD_ICON###'] = $this->conf['label.']['vCard']; // Image for vcard icon
 					$this->InnerMarkerArray['###WTDIRECTORY_POWERMAIL_ICON###'] = $this->conf['label.']['powermail']; // Image for powermail icon
 
@@ -186,7 +199,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 
 		return $this->content; // return HTML
 
-    }
+	}
 
 	/**
 	 * Function overall() gives the number of all addresses
@@ -195,19 +208,19 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 	 */
 	private function overall() {
 		if ($this->conf['list.']['groupBy']) {
-				if ($this->conf['list.']['groupBy']=='DISABLED') {
-					$this->query['groupby']='';
-				}
-				else {
-					$this->query['groupby'] = $this->conf['list.']['groupBy'];
-				}
+			if (strtolower($this->conf['list.']['groupBy']) == 'disabled') {
+				$this->query['groupby'] = '';
 			}
 			else {
-				$this->query['groupby'] = 'tt_address.uid';
+				$this->query['groupby'] = $this->conf['list.']['groupBy'];
+			}
+		}
+		else {
+			$this->query['groupby'] = 'tt_address.uid';
 		}
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery ( // DB query
 			$this->query['select'] = '*',
-			$this->query['from'] = 'tt_address LEFT JOIN tt_address_group_mm on (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
+			$this->query['from'] = 'tt_address LEFT JOIN tt_address_group_mm ON (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group ON (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
 			$this->query['where'] = $this->filter . $this->query_pid . $this->query_cat . $this->cObj->enableFields('tt_address'),
 			$this->query['groupby'],
 			$this->query['orderby'] = '',
@@ -257,7 +270,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 							$searchAllFilters[] = 'tt_address.' . $field . ' RLIKE "^[0-9]."'; // add this filter to query
 							$set = 1; // min 1 filter was set
 						} elseif ($filters['all'] == str_replace('%', '', $filters['all'])) { // without % like a word or a name
-							$searchAllFilters[] =  'tt_address.' . $field . ' LIKE "%' . $filters['all'] . '%"'; // add this filter to query
+							$searchAllFilters[] = 'tt_address.' . $field . ' LIKE "%' . $filters['all'] . '%"'; // add this filter to query
 							$set = 1; // min 1 filter was set
 						} else { // value like a% or e%
 							$searchAllFilters[] = 'tt_address.' . $field . ' LIKE "' . $filters['all'] . '"'; // add this filter to query
@@ -266,7 +279,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 					}
 				}
 
-				$this->filter .= '(' . implode(' OR ', $searchAllFilters) .  ') AND ';
+				$this->filter .= '(' . implode(' OR ', $searchAllFilters) . ') AND ';
 				unset($filters['all']);
 			}
 
@@ -298,7 +311,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 				$this->filter = substr(trim($this->filter), 0, -4);
 			}
 		}
-		
+
 		// RADIAL SEARCH Filter
 		if (isset($this->piVars['radialsearch']['radius']) && isset($this->piVars['radialsearch']['zip'])) {
 			$coordinates = $this->div->getCoordinatesFromZip(); // get lat and lng from German ZIP code
@@ -311,7 +324,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 		if (!empty($this->piVars['catfilter'])) {
 			if (is_array($this->piVars['catfilter'])) {
 				foreach ($this->piVars['catfilter'] as $catID) {
-					$this->filter .= ' AND tt_address.uid IN (SELECT tt_address.uid FROM tt_address INNER JOIN tt_address_group_mm ON tt_address.uid = tt_address_group_mm.uid_local WHERE tt_address_group_mm.uid_foreign= '. $catID  .')';
+					$this->filter .= ' AND tt_address.uid IN (SELECT tt_address.uid FROM tt_address INNER JOIN tt_address_group_mm ON tt_address.uid = tt_address_group_mm.uid_local WHERE tt_address_group_mm.uid_foreign= '. $catID .')';
 				}
 			} else {
 				// no array, so query with an and statement
@@ -319,7 +332,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 				$this->filter .= ' AND tt_address.uid IN (SELECT tt_address.uid FROM tt_address INNER JOIN tt_address_group_mm ON tt_address.uid = tt_address_group_mm.uid_local WHERE tt_address_group_mm.uid_foreign= '. $this->piVars['catfilter'] .')';
 			}
 		}
-		
+
 		// Countryfilter
 		if (t3lib_extMgm::isLoaded('static_info_tables', 0) && $this->pi_getFFvalue($this->conf, 'countryfilter', 'mainconfig')) {
 			$countries = t3lib_div::trimExplode(',', $this->pi_getFFvalue($this->conf, 'countryfilter', 'mainconfig'), 1); // get countries
@@ -338,7 +351,7 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 		if (!empty($this->piVars['catfilterOR'])) {
 			if (is_array($this->piVars['catfilterOR'])) {
 				$cats = implode(',', $this->piVars['catfilterOR']);
-				$this->filter .= ' AND tt_address_group_mm.uid_foreign IN ('. $cats   .')';
+				$this->filter .= ' AND tt_address_group_mm.uid_foreign IN ('. $cats .')';
 			}
 		}
 
@@ -349,7 +362,8 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 			} else {
 				$this->query['groupby'] = $this->conf['list.']['groupBy'];
 			}
-		} else {
+		}
+		else {
 			$this->query['groupby'] = 'tt_address.uid';
 		}
 

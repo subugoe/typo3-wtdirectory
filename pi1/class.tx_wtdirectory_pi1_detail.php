@@ -29,17 +29,24 @@ require_once(t3lib_extMgm::extPath('wt_directory') . 'lib/class.wtdirectory_dyna
 
 class tx_wtdirectory_pi1_detail extends tslib_pibase {
 
-	var $extKey = 'wt_directory'; // Extension key
-	var $prefixId = 'tx_wtdirectory_pi1';		// Same as class name
-	var $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1_detail.php';	// Path to this script relative to the extension dir.
-	var $vCardType = '3134'; // type for vCard
-	
-	function main($conf, $piVars, $cObj) {
-        
-		// config
-    	$this->cObj = $cObj; // cObject
-		$this->piVars = $piVars; // make it global
+	public $extKey = 'wt_directory'; // Extension key
+	public $prefixId = 'tx_wtdirectory_pi1';		// Same as class name
+	public $scriptRelPath = 'pi1/class.tx_wtdirectory_pi1_detail.php';	// Path to this script relative to the extension dir.
+	private $vCardType = '3134'; // type for vCard
+
+	/**
+	 * Generate the detail view
+	 *
+	 * @param	array		TypoScript configuration
+	 * @param	array		Plugin variables (GET and POST)
+	 * @param	array		content Object
+	 * @return	string		generated content
+	 */
+	public function main($conf, $piVars, $cObj) {
+		// Config
+		$this->cObj = $cObj; // cObject
 		$this->conf = $conf; // make it global
+		$this->piVars = $piVars; // make it global
 		$this->pi_loadLL();
 		$this->div = t3lib_div::makeInstance('wtdirectory_div'); // Create new instance for div class
 		$this->markers = t3lib_div::makeInstance('wtdirectory_markers'); // Create new instance for div class
@@ -47,28 +54,37 @@ class tx_wtdirectory_pi1_detail extends tslib_pibase {
 		$this->tmpl = array(); // init
 		$this->tmpl['detail'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['detail']), '###WTDIRECTORY_DETAIL###'); // Load HTML Template
 		$this->languid = $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] ? $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] : 0; // current language uid
-		
-		if ($this->piVars['show'] > 0) { // if show param is set
-			if ($this->div->allowedDetailUID($this->piVars['show'], $this)) { // if given uid is allowed to show
+
+		$addressUid = $this->piVars['show']; // given uid
+		if ($addressUid > 0) { // if show param is set
+			if ($this->div->allowedDetailUID($addressUid, $this)) { // if given uid is allowed to show
 				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery ( // DB query
-					'tt_address.*, tt_address_group.title tt_address_group_title, tt_address_group.uid tt_address_group_uid, tt_address_group.pid tt_address_group_pid',
-					'tt_address LEFT JOIN tt_address_group_mm on (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group on (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
-					$where_clause = 'tt_address.uid = ' . $this->piVars['show'] . $this->cObj->enableFields('tt_address'),
-					$groupBy = 'tt_address.uid',
-					$orderBy = '',
-					$limit = 1
+					$query['select'] = 'tt_address.*, tt_address_group.title tt_address_group_title, tt_address_group.uid tt_address_group_uid, tt_address_group.pid tt_address_group_pid',
+					$query['from'] = 'tt_address LEFT JOIN tt_address_group_mm ON (tt_address.uid = tt_address_group_mm.uid_local) LEFT JOIN tt_address_group ON (tt_address_group_mm.uid_foreign = tt_address_group.uid)',
+					$query['where'] = 'tt_address.uid = ' . $addressUid . $this->cObj->enableFields('tt_address'),
+					$query['groupby'] = 'tt_address.uid',
+					$query['orderby'] = 'tt_address_group_mm.sorting',
+					$query['limit'] = 1
 				);
 				if ($res) $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res); // Result in array
-				
+
 				if ($row['uid'] > 0) { // address found
-					$row['addressgroup'] = $this->div->getAddressgroups($this->piVars['show'], $this->conf, $this->cObj); // Overwrite addressgroup name
+					$groups = $this->div->getAddressgroups($addressUid, $this->conf, $this->cObj); // Overwrite group name
+					$row['addressgroup'] = $groupsStr = implode('', $groups); // implode group array
+
+					if ($this->conf['detail.']['field.']['addressgroup.']['field'] == 'addressgroup_uids' && !empty($groups)) {
+						foreach ($groups as $groupUid => $groupTitle) {
+							$row['addressgroup_uids'] .= $this->cObj->wrap($groupUid, $conf['wrap.']['addressgroup']); // wrap each group
+						}
+					}
+
 					$row['country'] = $this->div->getCountryFromCountryCode($row['country'], $this); // rewrite Lang ISO Code with Country Title from static_info_tables
-					
+
 					if ($this->conf['detail.']['title']) { // Page title
 						$GLOBALS['TSFE']->page['title'] = $this->div->marker2value($this->conf['detail.']['title'], $row); // set pagetitle
 						$GLOBALS['TSFE']->indexedDocTitle = $this->div->marker2value($this->conf['detail.']['title'], $row); // set pagetitle for indexed search
 					}
-					
+
 					// Markers
 					$this->markerArray = $this->markers->makeMarkers('detail', $this->conf, $row, t3lib_div::trimExplode(',', $this->pi_getFFvalue($this->conf, 'field', 'detail'), 1), $this->piVars); // get markerArray
 					$this->markerArray['###WTDIRECTORY_VCARD_ICON###'] = $this->conf['label.']['vCard']; // Image for vcard icon
@@ -77,42 +93,52 @@ class tx_wtdirectory_pi1_detail extends tslib_pibase {
 					if ($this->pi_getFFvalue($this->conf, 'target', 'powermail')) $this->wrappedSubpartArray['###WTDIRECTORY_POWERMAIL_LINK###'] = $this->cObj->typolinkWrap( array('parameter' => $this->pi_getFFvalue($this->conf, 'target', 'powermail'), 'additionalParams' => '&' . $this->prefixId . '[pm_receiver]=' . $row['uid'], 'useCacheHash' => 1) ); // Link to powermail page with uid for receiver manipulation
 					//$this->wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = $this->cObj->typolinkWrap( array('parameter' => ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS['TSFE']->id), 'useCacheHash' => 1) ); // Link to same page without GET params (Listview)
 					$this->wrappedSubpartArray['###WTDIRECTORY_SPECIAL_BACKLINK###'] = array( '<a href="' . $this->pi_linkTP_keepPIvars_url(array('show' => ''), 1, 0, ($this->pi_getFFvalue($this->conf, 'target', 'detail') ? $this->pi_getFFvalue($this->conf, 'target', 'detail') : $GLOBALS["TSFE"]->id)) . '">', '</a>');
-					if (t3lib_extMgm::isLoaded('rggooglemap',0)) $this->wrappedSubpartArray['###WTDIRECTORY_GOOGLEMAP_LINK###'] = $this->cObj->typolinkWrap( array('parameter' => ($this->pi_getFFvalue($this->conf, 'target', 'googlemap') ? $this->pi_getFFvalue($this->conf, 'target', 'googlemap') : $GLOBALS['TSFE']->id), 'additionalParams' => ($this->piVars['show'] ? '&' . $this->prefixId . '[show]=' . $this->piVars['show'] : '') . '&tx_rggooglemap_pi1[poi]=' . $row['uid'], 'useCacheHash' => 1) ); // Link to target page with tt_address uid for googlmaps
-					
+					if (t3lib_extMgm::isLoaded('rggooglemap',0)) $this->wrappedSubpartArray['###WTDIRECTORY_GOOGLEMAP_LINK###'] = $this->cObj->typolinkWrap( array('parameter' => ($this->pi_getFFvalue($this->conf, 'target', 'googlemap') ? $this->pi_getFFvalue($this->conf, 'target', 'googlemap') : $GLOBALS['TSFE']->id), 'additionalParams' => ($addressUid ? '&' . $this->prefixId . '[show]=' . $addressUid : '') . '&tx_rggooglemap_pi1[poi]=' . $row['uid'], 'useCacheHash' => 1) ); // Link to target page with tt_address uid for googlmaps
+
 					$this->hook(); // add hook
 					$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['detail'], $this->markerArray, array(), $this->wrappedSubpartArray); // substitute Marker in Template
 					$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
 					$this->content = preg_replace('|###.*?###|i', '', $this->content); // Finally clear not filled markers
-				
+
 				} else { // no address to uid found
 					$this->content = '<div class="wtdirectory_error wtdirectory_error_single">' . $this->pi_getLL('wtdirectory_error_nodetail') . '</div>';
 				}
-				
+
 			} else { // detail uid is not allowed
 				$this->content = '<div class="wtdirectory_error wtdirectory_error_forbiddenuid">' . $this->pi_getLL('wtdirectory_error_nodetail_forbidden', 'Given uid is not allowed to show') . '</div>';
 			}
-			
+
 		}
-		
+
 		$this->emailRedirect($row['email']); // redirect to email
-		
+
 		if (!empty($this->content)) return $this->content;
-		
-    }
-	
-	
-	// Function emailRedirect() opens Outlook Window with email for current address
-	function emailRedirect($email) {
+
+	}
+
+
+	/**
+	 * Function emailRedirect() opens Outlook Window with email for current address
+	 *
+	 * @param	string		email
+	 * @return	void
+	 */
+	public function emailRedirect($email) {
 		if ($this->conf['detail.']['emailredirect'] == 1 && t3lib_div::validEmail($email)) { // only if email redirect activated and correct email
-			header('HTTP/1.1 302 Moved Temporarily'); 
-			header('Location: mailto:'.$email); 
-			header('Connection: close'); 
+			header('HTTP/1.1 302 Moved Temporarily');
+			header('Location: mailto:'.$email);
+			header('Connection: close');
 		}
 	}
-	
 
-	// Function hook() adds hook
-	function hook() {
+
+	/**
+	 * Adds hook
+	 *
+	 * @param	string		name of the hook
+	 * @return	void
+	 */
+	public function hook() {
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['detail'])) { // Adds hook for processing
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['detail'] as $_classRef) {
 				$_procObj = &t3lib_div::getUserObj($_classRef);
@@ -120,7 +146,7 @@ class tx_wtdirectory_pi1_detail extends tslib_pibase {
 			}
 		}
 	}
-	
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/pi1/class.tx_wtdirectory_pi1_detail.php'])	{

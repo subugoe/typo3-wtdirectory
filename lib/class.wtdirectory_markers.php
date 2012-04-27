@@ -164,7 +164,8 @@ class wtdirectory_markers extends tslib_pibase {
 			}
 		}
 
-		// FIXME Hack for adding group titles
+		// FIXME Hack for adding group fields (id, title)
+		$markerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_ID###'] = $row['tt_address_group_uid'];
 		$markerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = $row['tt_address_group_title'];
 		// 3. Fill global markers
 		$markerArray['###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###'] = $this->pi_getLL('wtdirectory_special_backlink_label'); // "Back to listview"

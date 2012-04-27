@@ -23,7 +23,7 @@
 			<label index="pi_flexform.target_list">Page with list view (empty for same page)</label>
 			<label index="pi_flexform.cat_join">Category usage</label>
 			<label index="pi_flexform.cat_join.0">Show all addresses (no matter which category)</label>
-			<label index="pi_flexform.cat_join.1">Show only addresses from selected groups</label>
+			<label index="pi_flexform.cat_join.1">Show only addresses from selected categories</label>
 			<label index="pi_flexform.enablecatchoose">Add dropdown for category selection</label>
 			<label index="pi_flexform.category">Categories</label>
 			<label index="pi_flexform.shownone">Don't show addresses on start</label>
@@ -65,7 +65,7 @@
 			<label index="pi_flexform.target_list">Seite mit Listenansicht (Leer für gleiche Seite)</label>
 			<label index="pi_flexform.cat_join">Kategorieverwendung</label>
 			<label index="pi_flexform.cat_join.0">Zeige alle Adressen (Kategorieunabhängig)</label>
-			<label index="pi_flexform.cat_join.1">Zeige nur Adressen aus ausgewählten Gruppen</label>
+			<label index="pi_flexform.cat_join.1">Zeige nur Adressen aus ausgewählten Kategorien</label>
 			<label index="pi_flexform.enablecatchoose">Dropdown Kategorie Auswahl hinzufügen</label>
 			<label index="pi_flexform.category">Kategorien</label>
 			<label index="pi_flexform.shownone">Zu Beginn keine Adressen zeigen</label>
@@ -104,7 +104,7 @@
 			<label index="pi_flexform.target_list">Pagina con lista (vacio por la misma pagina)</label>
 			<label index="pi_flexform.cat_join">Uso de categorías</label>
 			<label index="pi_flexform.cat_join.0">Ver todas las direcciones (ignorar las categorías)</label>
-			<label index="pi_flexform.cat_join.1">Ver solo direcciones de los grupos eligidos</label>
+			<label index="pi_flexform.cat_join.1">Ver solo direcciones de los categorías eligidos</label>
 			<label index="pi_flexform.enablecatchoose">Añadir desplegable para selección de categoría</label>
 			<label index="pi_flexform.category">Cateogorías</label>
 			<label index="pi_flexform.shownone">No mostrar direcciones en inicio</label>

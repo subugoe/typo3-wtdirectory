@@ -84,8 +84,13 @@ class user_be_fields {
 			}
 
 			$params['items'][] = array(
-				'0' => 'GroupTitle',
+				'0' => 'FirstGroupTitle',
 				'1' => 'tt_address_group_title'
+			);
+
+			$params['items'][] = array(
+				'0' => 'FirstGroupId',
+				'1' => 'tt_address_group_id'
 			);
 
 		}
