@@ -16,17 +16,27 @@ $tmpColumns = array (
 		'label' => 'LLL:EXT:wt_directory/locallang_db.xml:tt_news.tx_wtdirectory_author',
 		'config' => array (
 			'type' => 'select',
-			'items' => Array (
-				array(
-					'', 
-					0
+			'foreign_table' => 'tt_address',
+			'foreign_table_where' =>  "AND (###PAGE_TSCONFIG_ID### = 0         OR tt_address.pid = ###PAGE_TSCONFIG_ID###)"
+						." AND ('###PAGE_TSCONFIG_IDLIST###' = '0' OR tt_address.pid IN (###PAGE_TSCONFIG_IDLIST###))"
+						." ORDER BY tt_address.pid, tt_address.last_name",
+			'size' => 10,
+			'minitems' => 0,
+			'maxitems' => 1000,
+			'wizards' => array(
+				'_PADDING' => 2,
+				'_VERTICAL' => 1,
+				'list' => array(
+					'type' => 'script',
+					'title' => 'List',
+					'icon' => 'list.gif',
+					'params' => array(
+						'table' => 'tt_address',
+						'pid' => '###CURRENT_PID###',
+					),
+					'script' => 'wizard_list.php',
 				),
 			),
-			'foreign_table' => 'tt_address',
-			'foreign_table_where' => 'ORDER BY tt_address.last_name',
-			'size' => 1,
-			'minitems' => 0,
-			'maxitems' => 1,
 		)
 	),
 );

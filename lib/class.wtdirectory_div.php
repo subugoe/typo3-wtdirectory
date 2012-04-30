@@ -322,7 +322,7 @@ class wtdirectory_div extends tslib_pibase {
 				$limit = 1
 			);
 			if ($res) $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res); // Result in array
-			if ($row['auid'] > 0) {
+			if (!empty($row['auid'])) {
 				return $row['auid'];
 			}
 		}

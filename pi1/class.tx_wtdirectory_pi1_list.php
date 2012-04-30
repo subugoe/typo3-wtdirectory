@@ -124,10 +124,12 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 					}
 					$row['tt_address_group_uid'] = $currentAddressGroupId;
 					$row['tt_address_group_title'] = $currentAddressGroupTitle;
-					$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_ID###'] = $currentAddressGroupId;
-					$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = $currentAddressGroupTitle;
+					#$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_ID###'] = $currentAddressGroupId;
+					#$this->InnerMarkerArray['###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###'] = $currentAddressGroupTitle;
 					$this->InnerMarkerArray = $this->markers->makeMarkers('list', $this->conf, $row, $allowedFields, $this->piVars); // get markerArray
 					unset($currentAddressGroup);
+
+					$this->InnerMarkerArray['###WTDIRECTORY_COUNTER###'] = $i + 1;	// ###speedpartner### ##bw## new:export counter
 
 					// render Addressgroup header if the header has changed (works only, if the list is primary rendered by the title of the addressgroup
 					$this->InnerMarkerArray['###WTDIRECTORY_VCARD_ICON###'] = $this->conf['label.']['vCard']; // Image for vcard icon
@@ -246,9 +248,11 @@ class tx_wtdirectory_pi1_list extends tslib_pibase {
 			$this->query_cat = ''; // clean category filter
 			$this->query_pid = ' AND tt_address.uid IN (' . $this->pi_getFFvalue($this->conf, 'addresspool', 'mainconfig') . ')'; // addresspool filter
 		}
-		if ($this->pi_getFFvalue($this->conf, 'contact', 'tt_news') && $this->div->getAddressFromNews($this->piVars['ttnews']) > 0) { // if tt_news contactperson activated && contactperson was set
+		$adressesFromTTnews = $this->div->getAddressFromNews($this->piVars['ttnews']);	// + ###speedpartner### ###bw### 20110914
+		if ($this->pi_getFFvalue($this->conf, 'contact', 'tt_news') && $adressesFromTTnews) { // if tt_news contactperson activated && contactperson was set
 			$this->query_cat = ''; // clean category filter
-			$this->query_pid = ' AND tt_address.uid = ' . $this->div->getAddressFromNews($this->piVars['ttnews']); // addresspool filter
+			$this->query_pid = ' AND tt_address.uid IN (' . $adressesFromTTnews . ')'; // addresspool filter // + ###speedpartner### ###bw### 20110914
+			$this->conf['list.']['orderby'] = 'field(tt_address.uid,' . $adressesFromTTnews . ')'; // + ###speedpartner### ###bw### 20110914
 		}
 		$this->filter = ''; $set = 0; // init
 

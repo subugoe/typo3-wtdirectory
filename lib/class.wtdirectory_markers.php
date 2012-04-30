@@ -51,13 +51,13 @@ class wtdirectory_markers extends tslib_pibase {
 
 		// config
 		global $TSFE;
-    	$this->cObj = $TSFE->cObj; // cObject
+		$this->cObj = $TSFE->cObj; // cObject
 		$this->conf = $conf;
 		$this->piVars = $piVars;
 		$this->pi_loadLL();
 		$this->pi_initPIflexForm();
 		$this->tmpl = $markerArray = $markerArrayAll = $wrappedSubpartArray = $subpartArray = array(); $i = 0; // init
-        $this->tmpl['all']['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['ALLmarker']),'###WTDIRECTORY_ALL_' . strtoupper($what) . '###'); // Load HTML Template: ALL (works on subpart ###WTDIRECTORY_ALL###)
+		$this->tmpl['all']['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['ALLmarker']),'###WTDIRECTORY_ALL_' . strtoupper($what) . '###'); // Load HTML Template: ALL (works on subpart ###WTDIRECTORY_ALL###)
 		$this->tmpl['all']['item'] = $this->cObj->getSubpart($this->tmpl['all']['all'],"###ITEM###"); // Load HTML Template: ALL (works on subpart ###ITEM###)
 		$this->div = t3lib_div::makeInstance('wtdirectory_div'); // Create new instance for div class
 		$this->cObj->start($row, 'tt_address'); // enable .field in typoscript for tt_address
