@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'wt_directory'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tt_content.list_type_pi1">wt_directory (address list with detail view)</label>
+			<label index="tt_content.list_type_pi2">wt_directory (additional filters)</label>
+			<label index="pi_flexform.sheet_mainconfig">Main</label>
+			<label index="pi_flexform.sheet_list">List</label>
+			<label index="pi_flexform.sheet_detail">Detail</label>
+			<label index="pi_flexform.sheet_googlemap">Googlemap</label>
+			<label index="pi_flexform.sheet_powermail">Powermail</label>
+			<label index="pi_flexform.sheet_tt_news">tt_news</label>
+			<label index="pi_flexform.abc">ABC list</label>
+			<label index="pi_flexform.search">Add search field(s)</label>
+			<label index="pi_flexform.search_all">search all</label>
+			<label index="pi_flexform.empty">ABC list</label>
+			<label index="pi_flexform.pid">Page with addresses</label>
+			<label index="pi_flexform.target_detail">Page with detail view (empty for same page)</label>
+			<label index="pi_flexform.target_list">Page with list view (empty for same page)</label>
+			<label index="pi_flexform.cat_join">Category usage</label>
+			<label index="pi_flexform.cat_join.0">Show all addresses (no matter which category)</label>
+			<label index="pi_flexform.cat_join.1">Show only addresses from selected groups</label>
+			<label index="pi_flexform.enablecatchoose">Add dropdown for category selection</label>
+			<label index="pi_flexform.category">Categories</label>
+			<label index="pi_flexform.shownone">Don't show addresses on start</label>
+			<label index="pi_flexform.shownone.0">Show only addresses if a filter is set</label>
+			<label index="pi_flexform.countryfilter">Show only addresses from theese countries</label>
+			<label index="pi_flexform.field">Show fields in frontend</label>
+			<label index="pi_flexform.googlemapenable">Enable googlemap links</label>
+			<label index="pi_flexform.googlemap_page">Page with Googlemap (empty for same page)</label>
+			<label index="pi_flexform.powermail_page">Link to powermail page to change receiver</label>
+			<label index="pi_flexform.empty">Don't show</label>
+			<label index="pi_flexform.enable">Enable</label>
+			<label index="pi_flexform.disable">Disable</label>
+			<label index="pi_flexform.status">Status:</label>
+			<label index="pi_flexform.address">Show only this addresses (no matter which category)</label>
+			<label index="pi_flexform.contact">Enable tt_news contact in tt_news detail view</label>
+			<label index="pi_flexform.contactitem">Show news contact</label>
+			<label index="pi_flexform.radialsearch">Radial Search (Need rggooglemap extension)</label>
+			<label index="pi2_flexform.DrillDownFilter">Drilldown filter</label>
+			<label index="pi2_flexform.addPiVarsFilter">Add filters via piVars</label>
+			<label index="tt_address.tstamp">Changedate</label>
+			<label index="tt_news.tx_wtdirectory_author">Contact</label>
+			<label index="extensioncheck.powermail">If you want to link to a powermail form, you have to install the extension %s first</label>
+			<label index="extensioncheck.googlemap">If you want to use googlemap links, please install the extension %s first</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="tt_content.list_type_pi1">wt_directory (Adressliste mit Detailansicht)</label>
+			<label index="tt_content.list_type_pi2">wt_directory (zusätzliche Adressflter)</label>
+			<label index="pi_flexform.sheet_mainconfig">Einstellungen</label>
+			<label index="pi_flexform.sheet_list">Liste</label>
+			<label index="pi_flexform.sheet_detail">Detail</label>
+			<label index="pi_flexform.sheet_googlemap">Googlemap</label>
+			<label index="pi_flexform.sheet_powermail">Powermail</label>
+			<label index="pi_flexform.sheet_tt_news">tt_news</label>
+			<label index="pi_flexform.abc">ABC Liste</label>
+			<label index="pi_flexform.search">Such-Felder hinzufügen</label>
+			<label index="pi_flexform.search_all">Alle Felder</label>
+			<label index="pi_flexform.pid">Seite mit Adressen</label>
+			<label index="pi_flexform.target_detail">Seite mit Detailansicht (Leer für gleiche Seite)</label>
+			<label index="pi_flexform.target_list">Seite mit Listenansicht (Leer für gleiche Seite)</label>
+			<label index="pi_flexform.cat_join">Kategorieverwendung</label>
+			<label index="pi_flexform.cat_join.0">Zeige alle Adressen (Kategorieunabhängig)</label>
+			<label index="pi_flexform.cat_join.1">Zeige nur Adressen aus ausgewählten Gruppen</label>
+			<label index="pi_flexform.enablecatchoose">Dropdown Kategorie Auswahl hinzufügen</label>
+			<label index="pi_flexform.category">Kategorien</label>
+			<label index="pi_flexform.shownone">Zu Beginn keine Adressen zeigen</label>
+			<label index="pi_flexform.shownone.0">Zeige erst Adressen sobald ein Filter gesetzt wurde</label>
+			<label index="pi_flexform.countryfilter">Zeige nur Adressen dieser Länder</label>
+			<label index="pi_flexform.field">Felder im Frontend anzeigen</label>
+			<label index="pi_flexform.googlemapenable">Googlemap Links aktivieren</label>
+			<label index="pi_flexform.googlemap_page">Seite mit Googlemap (Leer für gleiche Seite)</label>
+			<label index="pi_flexform.powermail_page">Seite mit powermail um Empfänger zu ändern</label>
+			<label index="pi_flexform.empty">Nicht anzeigen</label>
+			<label index="pi_flexform.enable">Aktivieren</label>
+			<label index="pi_flexform.disable">Deaktivieren</label>
+			<label index="pi_flexform.status">Status:</label>
+			<label index="pi_flexform.address">Zeige nur ausgewählte Adressen (Kategoriewahl ohne Wirkung)</label>
+			<label index="pi_flexform.contact">Aktiviere tt_news Kontaktperson in Detailansicht von tt_news</label>
+			<label index="pi_flexform.contactitem">Zeige Kontaktperson</label>
+			<label index="pi_flexform.radialsearch">Umkreissuche (Funktioniert nur mit rggooglemap)</label>
+			<label index="tt_address.tstamp">Änderungsdatum</label>
+			<label index="tt_news.tx_wtdirectory_author">Kontaktperson</label>
+			<label index="extensioncheck.powermail">Die Nutzung von powermail Links steht erst nach der Installation von %s zur Verfügung</label>
+			<label index="extensioncheck.googlemap">Die Nutzung von googlemap Links steht erst nach der Installation von %s zur Verfügung</label>
+		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="tt_content.list_type_pi1">wt_directory (lista de direcciones con la vista de detalle)</label>
+			<label index="pi_flexform.sheet_mainconfig">Principal</label>
+			<label index="pi_flexform.sheet_list">Lista</label>
+			<label index="pi_flexform.sheet_detail">Detaille</label>
+			<label index="pi_flexform.sheet_googlemap">Googlemap</label>
+			<label index="pi_flexform.sheet_powermail">Powermail</label>
+			<label index="pi_flexform.sheet_tt_news">tt_news</label>
+			<label index="pi_flexform.abc">ABC lista</label>
+			<label index="pi_flexform.search">Añadir campos de búsquedas</label>
+			<label index="pi_flexform.empty">ABC lista</label>
+			<label index="pi_flexform.pid">Pagina con direcciones</label>
+			<label index="pi_flexform.target_detail">Pagina con vista detalle (vacio por la misma pagina)</label>
+			<label index="pi_flexform.target_list">Pagina con lista (vacio por la misma pagina)</label>
+			<label index="pi_flexform.cat_join">Uso de categorías</label>
+			<label index="pi_flexform.cat_join.0">Ver todas las direcciones (ignorar las categorías)</label>
+			<label index="pi_flexform.cat_join.1">Ver solo direcciones de los grupos eligidos</label>
+			<label index="pi_flexform.enablecatchoose">Añadir desplegable para selección de categoría</label>
+			<label index="pi_flexform.category">Cateogorías</label>
+			<label index="pi_flexform.shownone">No mostrar direcciones en inicio</label>
+			<label index="pi_flexform.shownone.0">Mostrar direcciones si alguna filtro esta definido</label>
+			<label index="pi_flexform.field">Mostrar campos en frontend</label>
+			<label index="pi_flexform.googlemapenable">Permitir enlaces googlemap</label>
+			<label index="pi_flexform.googlemap_page">Pagina con Googlemap (vacio por la misma pagina)</label>
+			<label index="pi_flexform.powermail_page">Enlace al pagina powermail para cambiar destinatario</label>
+			<label index="pi_flexform.empty">No mostrar</label>
+			<label index="pi_flexform.enable">Permitir</label>
+			<label index="pi_flexform.disable">Inhabilitar</label>
+			<label index="pi_flexform.status">Estado:</label>
+			<label index="pi_flexform.address">Mostrar solo este direccion (ignorar las categorías)</label>
+			<label index="pi_flexform.contact">Permitir contacto tt_news en vista tt_news detalle</label>
+			<label index="pi_flexform.contactitem">Mostrar contacto de news</label>
+			<label index="tt_address.tstamp">Fecha cambiado</label>
+			<label index="tt_news.tx_wtdirectory_author">Contacto</label>
+			<label index="extensioncheck.powermail">Si quieres enlace al forma powermail, necesites instalar el extensión %s</label>
+			<label index="extensioncheck.googlemap">Si quieres usar enlaces googlemap, instalar el extensión %s</label>
+		</languageKey>
+	</data>
+</T3locallang>

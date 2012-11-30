@@ -1,0 +1,76 @@
+WT_DIRECTORY HTML Template if you want to use the marker ###WTDIRECTORY_SPECIAL_ALL##, this HTML template wraps each line of every field
+
+	MAIN MARKERS WITHIN LOOP:
+	###WTDIRECTORY_VALUE###								field value
+	###WTDIRECTORY_LABEL###								label of field
+	###WTDIRECTORY_KEY###								fieldname
+    ###ALTERNATE###										"even" or "odd"
+	
+	MAIN MARKERS OUT OF THE LOOP:
+	###WTDIRECTORY_VCARD_ICON###						vCard icon
+	###WTDIRECTORY_POWERMAIL_ICON###					powermail icon
+	###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###			label for detaillink
+	###WTDIRECTORY_GOOGLEMAP_LABEL###					label for googlemap link
+	###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###			label for backlink
+	
+	GLOBAL MARKERS:
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+
+
+Marker all for Listview
+<!-- ###WTDIRECTORY_ALL_LIST### begin -->
+	<div class="wtdirectory_all wtdirectory_all_div">
+		
+		<dl class="wtdirectory_all wtdirectory_all_list">
+            <!-- ###CONTENT### --><!-- ###ITEM### -->
+                <dt class="wtdirectory_all wtdirectory_all_###ALTERNATE### wtdirectory_all_###WTDIRECTORY_KEY###"><b>###WTDIRECTORY_LABEL###</b></dt> 
+                <dd class="wtdirectory_all wtdirectory_all_###ALTERNATE### wtdirectory_all_###WTDIRECTORY_KEY###">###WTDIRECTORY_VALUE###</dd>
+            <!-- ###ITEM### --><!-- ###CONTENT### -->
+        </dl>
+        <div class="clear"></div>
+		<div class="wtdirectory_all wtdirectory_all_vcard">
+			<!-- ###WTDIRECTORY_VCARD_LINK### -->###WTDIRECTORY_VCARD_ICON###<!-- ###WTDIRECTORY_VCARD_LINK### -->
+		</div>
+		<div class="wtdirectory_all wtdirectory_all_powermail">
+			<!-- ###WTDIRECTORY_POWERMAIL_LINK### -->###WTDIRECTORY_POWERMAIL_ICON###<!-- ###WTDIRECTORY_POWERMAIL_LINK### -->
+		</div>
+		<div class="wtdirectory_all wtdirectory_all_detaillink">
+			<!-- ###WTDIRECTORY_SPECIAL_DETAILLINK### -->###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###<!-- ###WTDIRECTORY_SPECIAL_DETAILLINK### -->
+		</div>
+		<div class="wtdirectory_all wtdirectory_all_googlemaplink">
+			<!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->###WTDIRECTORY_GOOGLEMAP_LABEL###<!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->
+		</div>
+	</div>
+<!-- ###WTDIRECTORY_ALL_LIST### end -->
+
+
+
+
+
+Marker all for Detailview
+<!-- ###WTDIRECTORY_ALL_DETAIL### begin -->
+	###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###
+	<dl class="wtdirectory_all wtdirectory_all_detail">
+		<!-- ###CONTENT### --><!-- ###ITEM### -->
+			<dt class="wtdirectory_all wtdirectory_all_###ALTERNATE### wtdirectory_all_###WTDIRECTORY_KEY###"><b>###WTDIRECTORY_LABEL###</b></dt> 
+			<dd class="wtdirectory_all wtdirectory_all_###ALTERNATE### wtdirectory_all_###WTDIRECTORY_KEY###">###WTDIRECTORY_VALUE###</dd>
+		<!-- ###ITEM### --><!-- ###CONTENT### -->
+	</dl>
+    <div class="clear"></div>
+    <div class="wtdirectory_all wtdirectory_all_vcard">
+        <!-- ###WTDIRECTORY_VCARD_LINK### -->###WTDIRECTORY_VCARD_ICON###<!-- ###WTDIRECTORY_VCARD_LINK### -->
+    </div>
+    <div class="wtdirectory_all wtdirectory_all_powermail">
+        <!-- ###WTDIRECTORY_POWERMAIL_LINK### -->###WTDIRECTORY_POWERMAIL_ICON###<!-- ###WTDIRECTORY_POWERMAIL_LINK### -->
+    </div>
+    <div class="wtdirectory_all wtdirectory_all_backlink">
+        <!-- ###WTDIRECTORY_SPECIAL_BACKLINK### -->###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###<!-- ###WTDIRECTORY_SPECIAL_BACKLINK### -->
+    </div>
+    <div class="wtdirectory_all wtdirectory_all_googlemaplink">
+        <!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->###WTDIRECTORY_GOOGLEMAP_LABEL###<!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->
+    </div>
+<!-- ###WTDIRECTORY_ALL_DETAIL### end -->
+
+

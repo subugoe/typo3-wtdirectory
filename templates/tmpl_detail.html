@@ -1,0 +1,50 @@
+wt_directory HTML Template for detail view
+
+	MAIN MARKERS FOR DETAIL VIEW:
+	###WTDIRECTORY_SPECIAL_ALL###				Marker with all needed fields (see tmpl_markerall.html)
+	###WTDIRECTORY_SPECIAL_BACKLINK_LABEL###	Linktext ("go back to listview")
+	###WTDIRECTORY_SPECIAL_BACKLINK###			Subpartlink ("<a href="[currentPage]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_SPECIAL_BACKLINK### -->back<!-- ###WTDIRECTORY_SPECIAL_BACKLINK### -->)
+	###WTDIRECTORY_VCARD_LINK###				Subpartlink ("<a href="[currentPageWithVcard]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_VCARD_LINK### -->more<!-- ###WTDIRECTORY_VCARD_LINK### -->)
+	###WTDIRECTORY_POWERMAIL_LINK###			Subpartlink ("<a href="[PageWithPowermail]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_POWERMAIL_LINK### -->more<!-- ###WTDIRECTORY_POWERMAIL_LINK### -->)
+	###WTDIRECTORY_GOOGLEMAP_LINK###			Subpartlink ("<a href="[PageWithGooglemaps]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->show<!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->) (only enabled if rggooglemap is installed)
+    ###WTDIRECTORY_POWERMAIL_ICON###			Icon from constants
+    ###WTDIRECTORY_VCARD_ICON###				Icon from constants
+	---------------------------------------------------------------------------------------------------
+	###WTDIRECTORY_UID###						uid
+	###WTDIRECTORY_PID###						pid
+	###WTDIRECTORY_TSTAMP###					tstamp
+	###WTDIRECTORY_NAME###						name
+	###WTDIRECTORY_GENDER###					gender
+	###WTDIRECTORY_FIRST_NAME###				first_name
+	###WTDIRECTORY_MIDDLE_NAME###				middle_name
+	###WTDIRECTORY_LAST_NAME###					last_name
+	###WTDIRECTORY_BIRTHDAY###					birthday
+	###WTDIRECTORY_TITLE###						title
+	###WTDIRECTORY_EMAIL###						email
+	###WTDIRECTORY_PHONE###						phone
+	###WTDIRECTORY_MOBILE###					mobile
+	###WTDIRECTORY_WWW###						www
+	###WTDIRECTORY_ADDRESS###					address
+	###WTDIRECTORY_BUILDING###					building
+	###WTDIRECTORY_ROOM###						room
+	###WTDIRECTORY_COMPANY###					company
+	###WTDIRECTORY_CITY###						city
+	###WTDIRECTORY_ZIP###						zip
+	###WTDIRECTORY_REGION###					region
+	###WTDIRECTORY_COUNTRY###					country
+	###WTDIRECTORY_IMAGE###						image
+	###WTDIRECTORY_FAX###						fax
+	###WTDIRECTORY_DESCRIPTION###				description
+	###WTDIRECTORY_ADDRESSGROUP###				addressgroup
+	---------------------------------------------------------------------------------------------------
+	###WTDIRECTORY_YOURFIELD###					If you have added your own fields to tt_address, you can use markers like this
+
+	GLOBAL MARKERS:
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+
+
+<!-- ###WTDIRECTORY_DETAIL### begin -->
+	###WTDIRECTORY_SPECIAL_ALL###
+<!-- ###WTDIRECTORY_DETAIL### end -->

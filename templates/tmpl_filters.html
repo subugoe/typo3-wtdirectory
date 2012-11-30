@@ -1,0 +1,46 @@
+wt_directory HTML Template for list view
+
+	MAIN MARKERS FOR LIST VIEW:
+	- Available markers outside ITEM subparts:
+	###WTDIRECTORY_FILTER_ABC###				Show ABC list to filter
+	###WTDIRECTORY_FILTER_SEARCH###				Includes search fields
+	###WTDIRECTORY_FILTER_CAT###				Includes category dropdown field
+	###WTDIRECTORY_FILTER_NORESULTS###			No result message, if there is no result
+	###WTDIRECTORY_PAGEBROWSER###				Shows pagebrowser
+	---------------------------------------------------------------------------------------------------
+	- Available markers within ITEM subparts:
+
+	---------------------------------------------------------------------------------------------------
+	###WTDIRECTORY_YOURFIELD###					If you have added your own fields to tt_address, you can use markers like this
+
+	
+	GLOBAL MARKERS:
+	Displaying any value from pi2/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+
+
+<!-- ###WTDIRECTORY_FILTER_DRILLDOWN### begin -->
+###HEADER###
+<script type="text/javascript">
+	function doSubmit() {
+		document.frm.submit();
+	}
+</script>
+<form action="###LINKFORMTARGET###" method="post" name="frm">
+	###ADDITIONAL_INPUTS###
+	<input type="hidden" name="setFilter" />
+	<a name="wtdirectoryFilter"></a>
+	<label>###LOCALLANG_CONTINENTS###</label>
+	###SELECTOR_CONTINENTS###
+
+	<label>###LOCALLANG_COUNTRIES###</label>
+	###SELECTOR_COUNTRIES###
+   			 	
+</form>
+	
+<!-- ###WTDIRECTORY_FILTER_DRILLDOWN### end -->
+
+<!-- ###WTDIRECTORY_FILTER_HMENU### begin -->
+	###MENUE###
+<!-- ###WTDIRECTORY_FILTER_HMENU### end -->

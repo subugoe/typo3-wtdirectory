@@ -1,0 +1,76 @@
+wt_directory HTML Template for list view
+
+	MAIN MARKERS FOR LIST VIEW:
+	- Available markers outside ITEM subparts:
+	###WTDIRECTORY_FILTER_ABC###				Show ABC list to filter
+	###WTDIRECTORY_FILTER_SEARCH###				Includes search fields
+	###WTDIRECTORY_FILTER_CAT###				Includes category dropdown field
+	###WTDIRECTORY_FILTER_RADIALSEARCH###		Includes ZIP and Radial Search fields (need rggooglemap)
+	###WTDIRECTORY_FILTER_NORESULTS###			No result message, if there is no result
+	###WTDIRECTORY_PAGEBROWSER###				Shows pagebrowser
+	---------------------------------------------------------------------------------------------------
+	- Available markers within ITEM subparts:
+	###WTDIRECTORY_UID###						uid
+	###WTDIRECTORY_PID###						pid
+	###WTDIRECTORY_TSTAMP###					tstamp
+	###WTDIRECTORY_NAME###						name
+	###WTDIRECTORY_GENDER###					gender
+	###WTDIRECTORY_FIRST_NAME###				first_name
+	###WTDIRECTORY_MIDDLE_NAME###				middle_name
+	###WTDIRECTORY_LAST_NAME###					last_name
+	###WTDIRECTORY_BIRTHDAY###					birthday
+	###WTDIRECTORY_TITLE###						title
+	###WTDIRECTORY_EMAIL###						email
+	###WTDIRECTORY_PHONE###						phone
+	###WTDIRECTORY_MOBILE###					mobile
+	###WTDIRECTORY_WWW###						www
+	###WTDIRECTORY_ADDRESS###					address
+	###WTDIRECTORY_BUILDING###					building
+	###WTDIRECTORY_ROOM###						room
+	###WTDIRECTORY_COMPANY###					company
+	###WTDIRECTORY_CITY###						city
+	###WTDIRECTORY_ZIP###						zip
+	###WTDIRECTORY_REGION###					region
+	###WTDIRECTORY_COUNTRY###					country
+	###WTDIRECTORY_IMAGE###						image
+	###WTDIRECTORY_FAX###						fax
+	###WTDIRECTORY_DESCRIPTION###				description
+	###WTDIRECTORY_ADDRESSGROUP###				addressgroup (returns all addressgroups an address belongs to)
+	###WTDIRECTORY_TT_ADDRESS_GROUP_TITLE###	tt_address_group_title (returns the current addressgroup titel)
+	
+	###WTDIRECTORY_SPECIAL_ALL###				Marker with all needed fields (see tmpl_markerall.html)
+	###WTDIRECTORY_SPECIAL_DETAILLINK_LABEL###	Linktext ("more...")
+	###WTDIRECTORY_SPECIAL_DETAILLINK###		Subpartlink ("<a href="[currentPageWithDetails]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_SPECIAL_DETAILLINK### -->more<!-- ###WTDIRECTORY_SPECIAL_DETAILLINK### -->)
+	###WTDIRECTORY_VCARD_LINK###				Subpartlink ("<a href="[currentPageWithVcard]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_VCARD_LINK### -->more<!-- ###WTDIRECTORY_VCARD_LINK### -->)
+	###WTDIRECTORY_POWERMAIL_LINK###			Subpartlink ("<a href="[PageWithPowermail]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_POWERMAIL_LINK### -->more<!-- ###WTDIRECTORY_POWERMAIL_LINK### -->)
+	###WTDIRECTORY_GOOGLEMAP_LINK###			Subpartlink ("<a href="[PageWithGooglemaps]">[content]</a>") (e.g.: <!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->show<!-- ###WTDIRECTORY_GOOGLEMAP_LINK### -->) (only enabled if rggooglemap is installed)
+    ###WTDIRECTORY_POWERMAIL_ICON###			Icon from constants
+    ###WTDIRECTORY_VCARD_ICON###				Icon from constants
+    ###WTDIRECTORY_ALTERNATE###					Alternate class (odd or even)
+	---------------------------------------------------------------------------------------------------
+	###WTDIRECTORY_YOURFIELD###					If you have added your own fields to tt_address, you can use markers like this
+
+	
+	GLOBAL MARKERS:
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+
+
+<!-- ###WTDIRECTORY_LIST### begin -->
+	###WTDIRECTORY_FILTER_SEARCH###
+	###WTDIRECTORY_FILTER_CAT###
+	###WTDIRECTORY_FILTER_RADIALSEARCH###
+	###WTDIRECTORY_FILTER_ABC###
+	###WTDIRECTORY_PAGEBROWSER###
+	<ul class="wtdirectory_list wtdirectory_list_wrap">
+		<!-- ###CONTENT### -->
+		<!-- ###ITEM### -->
+			<li>
+				###WTDIRECTORY_SPECIAL_ALL###
+			</li>
+		<!-- ###ITEM### -->
+		<!-- ###CONTENT### -->
+	</ul>
+	###WTDIRECTORY_FILTER_NORESULTS###
+<!-- ###WTDIRECTORY_LIST### end -->

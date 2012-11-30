@@ -1,0 +1,7 @@
+# include sample CSS for wt_directory
+page {
+	includeCSS {
+		file3139 = EXT:wt_directory/css/default.css
+	}
+}
+seite.includeCSS.file3139 < page.includeCSS.file3133

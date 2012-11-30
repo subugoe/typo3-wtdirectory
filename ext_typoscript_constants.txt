@@ -1,0 +1,99 @@
+###
+# This are the default TS-constants for wt_directory
+##
+
+plugin.wtdirectory {
+	# cat=plugin.wtdirectory//0100; type=file[html,htm,tmpl,txt]; label= Template File list: HTML-template file for list view (see EXT:wt_directory/templates/tmpl_list.html for an example)
+	template.list = EXT:wt_directory/templates/tmpl_list.html
+	
+	# cat=plugin.wtdirectory//0200; type=file[html,htm,tmpl,txt]; label= Template File detail: HTML-template file for detail view (see EXT:wt_directory/templates/tmpl_detail.html for an example)
+	template.detail = EXT:wt_directory/templates/tmpl_detail.html
+	
+	# cat=plugin.wtdirectory//0300; type=file[html,htm,tmpl,txt]; label= Template Marker ALL: HTML-template file for an ALL marker (all markers in one marker) (see EXT:wt_directory/templates/tmpl_detail.html for an example)
+	template.ALLmarker = EXT:wt_directory/templates/tmpl_markerall.html
+	
+	# cat=plugin.wtdirectory//0400; type=file[html,htm,tmpl,txt]; label= Template for Pagebrowser: HTML-template file for pagebrowser in listview (see EXT:wt_directory/templates/tmpl_pagebrowser.html for an example)
+	template.pagebrowser = EXT:wt_directory/templates/tmpl_pagebrowser.html
+	
+	# cat=plugin.wtdirectory//0500; type=file[html,htm,tmpl,txt]; label= Template for Search/Filter: HTML-template file for filter and searchboxes above the list (see EXT:wt_directory/templates/tmpl_search.html for an example)
+	template.search = EXT:wt_directory/templates/tmpl_search.html
+	
+	# cat=plugin.wtdirectory//0600; type=file[html,htm,tmpl,txt]; label= Template for vcard: HTML-template file for vcard export (see EXT:wt_directory/templates/tmpl_vcard.html for an example)
+	template.vcard = EXT:wt_directory/templates/tmpl_vcard.html
+	
+	# cat=plugin.wtdirectory//0700; type=file[html,htm,tmpl,txt]; label= Template filter list: HTML-template file for list view (see EXT:wt_directory/templates/tmpl_filters.html for an example)
+	template.filters = EXT:wt_directory/templates/tmpl_filters.html
+	
+	# cat=plugin.wtdirectory//1000; type=text; label= tt_address picture path: Relative path to the folder with pictures from tt_address (default uploads/pics/)
+	path.ttaddress_pictures = uploads/pics/
+	
+	# cat=plugin.wtdirectory//2000; type=boolean; label= Hide description if empty value: Description will not shown if the value is empty
+	enable.hideDescription = 1
+	
+	# cat=plugin.wtdirectory//2100; type=boolean; label= Show on map on detailpage: GOOGLEMAP - If a user changes from list to detailview the right marker is shown in the googlemap (if rggooglemap is included on detailpage)
+	enable.googlemapOnDetail = 0
+	
+	# cat=plugin.wtdirectory//2200; type=boolean; label= vCard export in listview: Enables vCard export possibility in list view
+	enable.vCardForList = 0
+	
+	# cat=plugin.wtdirectory//2300; type=boolean; label= vCard export in detailview: Enables vCard export possibility in detail view
+	enable.vCardForDetail = 1
+	
+	# cat=plugin.wtdirectory//2400; type=boolean; label= powermail link in listview: Enables powermail link to a page with powermail to change the receiver to the current tt_address email address - in list view
+	enable.powermailForList = 0
+	
+	# cat=plugin.wtdirectory//2500; type=boolean; label= powermail link in detailview: Enables powermail link to a page with powermail to change the receiver to the current tt_address email address - in detail view
+	enable.powermailForDetail = 1
+
+	# cat=plugin.wtdirectory//2600; type=boolean; label= Show Countrytitle: If you have installed static_info_tables and want to show country titles instead of country iso code in wt_directory
+	enable.static_info_tables = 1
+	
+	# cat=plugin.wtdirectory//3000; type=text; label= Condition for more link: Show more link in list view only if one field is filled with content (e.g. mobile, fax)
+	morelink_detail.condition = 
+	
+	# cat=plugin.wtdirectory//4000; type=text; label= vCard link label: Label for vCard links
+	label.vCard = <img src="typo3conf/ext/wt_directory/ext_icon.gif" alt="vCard icon" />
+	
+	# cat=plugin.wtdirectory//4100; type=text; label= powermail link label: Label for powermail links
+	label.powermail = <img src="typo3conf/ext/powermail/ext_icon.gif" alt="powermail icon" />
+	
+	# cat=plugin.wtdirectory//4200; type=int; label= Show results per page: Show X results per page in list view
+	list.perPage = 10
+	
+	# cat=plugin.wtdirectory//4300; type=text; label= List view - order by: Define order by for the listing of the addresses - just use any tt_address field and asc or desc for the sorting direction. Error happens, if a non existing tt_address field will be used (like last_name asc)
+	list.orderby =
+	
+	# cat=plugin.wtdirectory//5000; type=text; label= Detailpage title: Define an individual page title (like MY HOMEPAGE ###WTDIRECTORY_TTADDRESS_NAME### ###WTDIRECTORY_TTADDRESS_EMAIL###)
+	detail.title = 
+	
+	# cat=plugin.wtdirectory//5100; type=boolean; label= Email redirect on detailpage: If this flag is set, outlook (or any other email client programm) will be opened with the email of current address
+	detail.emailredirect = 0
+	
+	# cat=plugin.wtdirectory//6000; type=text; label= Wrap for addressgroup: If you want to show addressgroups, you can wrap each group (if you have more than only 1 per address) (e.g. [pipesymbol]<br />)
+	wrap.addressgroup = |<br />
+	
+	# cat=plugin.wtdirectory//7000; type=text; label= Disable categories in search: Disable some categories (and subcategories) in category choose (like 45,23,12)
+	filter.cat.disable = 
+	
+	# cat=plugin.wtdirectory//7010; type=boolean; label= Show all Categories: Show all categories in dropdown in list view. Categories may not be selected in flexform (like 0 or 1)
+	filter.cat.showAllInDropdown = 0
+	
+	# cat=plugin.wtdirectory//7100; type=boolean; label= Clear search filter on cat-choose: If there is already set a search filter and you change the categories, search filter will be cleaned
+	filter.cat.clearOldFilter = 0
+
+	# cat=plugin.wtdirectory//7200; type=boolean; label= Clear search filter in singleview: If there is a filter in use and than a click to detail and back again, filter is cleared
+	filter.list.clearOldFilter = 0
+
+	# cat=plugin.wtdirectory//7300; type=boolean; label= Clear search filter in radial search: If there is already set a filter and you change the radial search, filter will be cleaned
+	filter.radialsearch.clearOldFilter = 1
+
+	# cat=plugin.wtdirectory//7300; type=text; label= Select Search: Definde some fields for the search, which should be rendered als select boxes
+	filter.select =
+
+	# cat=plugin.wtdirectory//7400; type=int+; label= Startcategory: Define a category for start, if needed (must be a positive integer)
+	filter.startlevel = 0
+	
+	# cat=plugin.wtdirectory//8000; type=options[,utf8decode,utf8encode]; label= vCard UTF8 en- or decode: en- or decode for the vCard output
+    vCard.utf8 = 
+
+}

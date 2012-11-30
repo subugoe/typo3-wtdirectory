@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'wt_directory'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pi1_title">wt_directory (tt_address list and detail view)</label>
+			<label index="pi1_plus_wiz_description">Addresslist and detailview for some peoples</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="pi1_title">wt_directory (tt_address Liste und Detailansicht)</label>
+			<label index="pi1_plus_wiz_description">Adressliste mit Detailansicht</label>
+		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="pi1_title">wt_directory (lista tt_address y vista detalle)</label>
+			<label index="pi1_plus_wiz_description">Lista de direcciones y vista detalle</label>
+		</languageKey>
+		
+	</data>
+</T3locallang>

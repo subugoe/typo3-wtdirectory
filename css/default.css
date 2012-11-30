@@ -1,0 +1,104 @@
+	/* Main */
+.clear {
+	clear: both;
+}	
+	
+	/* Single view */
+dl.wtdirectory_all_detail {
+	padding: 10px;
+	border: 1px solid #444;
+}
+dt.wtdirectory_all {
+	float: left;
+	clear: left;
+	padding: 10px;
+}
+dd.wtdirectory_all {
+	padding: 10px;
+	padding-left: 200px;
+}
+dd.wtdirectory_all h2 {
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+dd.wtdirectory_all_even,
+dt.wtdirectory_all_even {
+	background-color: #fafafa;
+}
+
+	/* List view */
+ul.wtdirectory_list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+ul.wtdirectory_list li {
+	padding: 10px 0;
+	margin: 20px 0;
+	border: 1px solid #444;
+}
+div.wtdirectory_all_vcard,
+div.wtdirectory_all_powermail,
+div.wtdirectory_all_detaillink,
+div.wtdirectory_all_googlemaplink {
+	margin-left: 10px;
+}
+		/* Filter */
+div.wtdirectory_filter {
+	border: 1px solid #444;
+	padding: 5px;
+}
+div.wtdirectory_filter_div {
+	padding: 3px 0 6px 0;
+}
+div.wtdirectory_filter_search label {
+	float: left;
+	display: block;
+	width: 100px;
+	font-weight: bold;
+	clear: left;
+}
+div.wtdirectory_filter_cat option {
+	padding: 2px 5px;
+}
+div.wtdirectory_filter_cat option.level2 {
+	padding-left: 10px;
+}
+div.wtdirectory_filter_cat option.level3 {
+	padding-left: 20px;
+}
+div.wtdirectory_filter_cat option.level4 {
+	padding-left: 30px;
+}
+div.wtdirectory_filter_radialsearch label {
+	font-weight: bold;
+	padding-right: 10px;
+}
+input#wt_directory_radialsearch_zip {
+	margin-right: 30px;
+}
+input.wtdirectory_filter_radialsearch_submit {
+	display: block;
+	margin-top: 5px;
+}
+		/* Autocomplete */
+div.wt_directory_autocompletecontainer {
+	padding: 5px;
+	/*border: 1px solid #888;*/
+	background-color: #FAFAFA;
+}
+div.wt_directory_autocompletecontainer ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+div.wt_directory_autocompletecontainer ul li {
+	cursor: pointer;
+}
+
+/* Fixing Inline-Style Autocomplete von wt_directory */
+.wt_directory_autocompletecontainer {
+	left: 46px !important;
+}

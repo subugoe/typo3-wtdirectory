@@ -1,0 +1,643 @@
+# WT_DIRECTORY PLUGIN #
+includeLibs.user_wtdirectory_pagebrowser = EXT:wt_directory/lib/class.user_wtdirectory_pagebrowser.php
+
+# main settings
+plugin.tx_wtdirectory_pi1 {
+	
+	# Constants
+	template.list = {$plugin.wtdirectory.template.list}
+	template.detail = {$plugin.wtdirectory.template.detail}
+	template.ALLmarker = {$plugin.wtdirectory.template.ALLmarker}
+	template.pagebrowser = {$plugin.wtdirectory.template.pagebrowser}
+	template.search = {$plugin.wtdirectory.template.search}
+	template.vcard = {$plugin.wtdirectory.template.vcard}
+	path.ttaddress_pictures = {$plugin.wtdirectory.path.ttaddress_pictures}
+	enable.googlemapOnDetail = {$plugin.wtdirectory.enable.googlemapOnDetail}
+	enable.hideDescription = {$plugin.wtdirectory.enable.hideDescription}
+	enable.vCardForList = {$plugin.wtdirectory.enable.vCardForList}
+	enable.vCardForDetail = {$plugin.wtdirectory.enable.vCardForDetail}
+	enable.powermailForList = {$plugin.wtdirectory.enable.powermailForList}
+	enable.powermailForDetail = {$plugin.wtdirectory.enable.powermailForDetail}
+	enable.static_info_tables = {$plugin.wtdirectory.enable.static_info_tables}
+	morelink_detail.condition = {$plugin.wtdirectory.morelink_detail.condition}
+	label.vCard = {$plugin.wtdirectory.label.vCard}
+	label.powermail = {$plugin.wtdirectory.label.powermail}
+	list.perPage = {$plugin.wtdirectory.list.perPage}
+	list.orderby = {$plugin.wtdirectory.list.orderby}
+	detail.title = {$plugin.wtdirectory.detail.title}
+	detail.emailredirect = {$plugin.wtdirectory.detail.emailredirect}
+	wrap.addressgroup = {$plugin.wtdirectory.wrap.addressgroup}
+	filter.cat.disable = {$plugin.wtdirectory.filter.cat.disable}
+	filter.cat.showAllInDropdown = {$plugin.wtdirectory.filter.cat.showAllInDropdown}
+	filter.list.clearOldFilter = {$plugin.wtdirectory.filter.list.clearOldFilter}
+	filter.cat.clearOldFilter = {$plugin.wtdirectory.filter.cat.clearOldFilter}
+	filter.radialsearch.clearOldFilter = {$plugin.wtdirectory.filter.radialsearch.clearOldFilter}
+	filter.select = {$plugin.wtdirectory.filter.select}
+	filter.startlevel = {$plugin.wtdirectory.filter.startlevel}
+	vCard.utf8 = {$plugin.wtdirectory.vCard.utf8}
+	
+	
+	# Detail view
+	detail {
+		field {
+		
+			uid = TEXT
+			uid.field = uid
+			
+			tstamp = TEXT
+			tstamp {
+				field = tstamp
+				strftime = %d.%m.%Y
+			}
+			
+			name = TEXT
+			name {
+				field = name
+				wrap = <h2>|</h2>
+			}
+			
+			gender = CASE
+			gender {
+				key.field = gender
+				default = IMAGE
+				default.file = EXT:wt_directory/files/icon_female.gif
+				m = IMAGE
+				m.file = EXT:wt_directory/files/icon_male.gif
+			}
+			
+			first_name = TEXT
+			first_name.field = first_name
+			
+			middle_name = TEXT
+			middle_name.field = middle_name
+			
+			last_name = TEXT
+			last_name.field = last_name
+			
+			birthday = TEXT
+			birthday {
+				field = birthday
+				strftime = %d.%m.%Y
+			}
+			
+			title = TEXT
+			title.field = title
+			
+			email = COA
+			email {
+				if.isTrue.field = email
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_mail.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_mail"
+				20 = TEXT
+				20.field = email
+				20.typolink.parameter.field = email
+			}
+			
+			phone = COA
+			phone {
+				if.isTrue.field = phone
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_phone.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_phone"
+				20 = TEXT
+				20.field = phone
+			}
+			
+			mobile = COA
+			mobile {
+				if.isTrue.field = mobile
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_cell.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_cell"
+				20 = TEXT
+				20.field = mobile
+			}
+			
+			www = COA
+			www {
+				if.isTrue.field = www
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_web.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_www"
+				20 = TEXT
+				20.field = www
+				20.typolink.parameter.field = www
+				20.typolink.ATagParams = target="_blank"
+			}
+			
+			address = TEXT
+			address {
+				field = address
+				br = 1
+			}
+			
+			building = TEXT
+			building.field = building
+			
+			room = TEXT
+			room.field = room
+			
+			company = TEXT
+			company.field = company
+			
+			city = TEXT
+			city.field = city
+			
+			zip = TEXT
+			zip.field = zip
+			
+			region = TEXT
+			region.field = region
+			
+			country = TEXT
+			country.field = country
+			
+			image = TEXT
+			image.field = image
+			image.split {
+				token = ,
+				cObjNum = 1
+				1 {
+					10 = IMAGE
+					10.params = class="wt_directory_image"
+					10.file.import.current = 1
+					10.file.import.dataWrap = {$plugin.wtdirectory.path.ttaddress_pictures}
+					10.file.width = 120
+					10.imageLinkWrap = 1
+					10.imageLinkWrap.enable = 1
+					10.imageLinkWrap {
+						bodyTag = <body style="background-color: white;">
+						wrap = <a href="javascript:close();">|</a>
+						JSwindow = 1
+						JSwindow.newWindow = 1
+					}
+				}
+			}
+			
+			fax = COA
+			fax {
+				if.isTrue.field = fax
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_fax.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_fax"
+				20 = TEXT
+				20.field = fax
+			}
+			
+			description = TEXT
+			description {
+				field = description
+				br = 1
+			}
+			
+			addressgroup = TEXT
+			addressgroup.field = addressgroup
+			
+			
+			# add your own marker ###ANYFIELD###
+			anyfield = TEXT
+			anyfield.value = This is my new marker
+			
+		}
+	}
+	
+	
+	# List view
+	list {
+		field {
+		
+			uid = TEXT
+			uid.field = uid
+		
+			tstamp = TEXT
+			tstamp {
+				field = tstamp
+				strftime = %d.%m.%Y
+			}
+			
+			name = TEXT
+			name {
+				field = name
+				wrap = <h2>|</h2>
+			}
+			
+			gender = CASE
+			gender {
+				key.field = gender
+				default = IMAGE
+				default.file = EXT:wt_directory/files/icon_female.gif
+				m = IMAGE
+				m.file = EXT:wt_directory/files/icon_male.gif
+			}
+			
+			first_name = TEXT
+			first_name.field = first_name
+			
+			middle_name = TEXT
+			middle_name.field = middle_name
+			
+			last_name = TEXT
+			last_name.field = last_name
+			
+			birthday = TEXT
+			birthday {
+				field = birthday
+				strftime = %d.%m.%Y
+			}
+			
+			title = TEXT
+			title.field = title
+			
+			email = COA
+			email {
+				if.isTrue.field = email
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_mail.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_mail"
+				20 = TEXT
+				20.field = email
+				20.typolink.parameter.field = email
+			}
+			
+			phone = COA
+			phone {
+				if.isTrue.field = phone
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_phone.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_phone"
+				20 = TEXT
+				20.field = phone
+			}
+			
+			mobile = COA
+			mobile {
+				if.isTrue.field = mobile
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_cell.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_cell"
+				20 = TEXT
+				20.field = mobile
+			}
+			
+			www = COA
+			www {
+				if.isTrue.field = www
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_web.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_www"
+				20 = TEXT
+				20.field = www
+				20.typolink.parameter.field = www
+				20.typolink.ATagParams = target="_blank"
+			}
+			
+			address = TEXT
+			address {
+				field = address
+				br = 1
+			}
+			
+			building = TEXT
+			building.field = building
+			
+			room = TEXT
+			room.field = room
+			
+			company = TEXT
+			company.field = company
+			
+			city = TEXT
+			city.field = city
+			
+			zip = TEXT
+			zip.field = zip
+			
+			region = TEXT
+			region.field = region
+			
+			country = TEXT
+			country.field = country
+			
+			image = IMAGE
+			image.wrap = |&nbsp;
+			image.file {
+				import.dataWrap = {$plugin.wtdirectory.path.ttaddress_pictures}
+				import.field = image
+				import.listNum = 0
+				maxWidth = 120
+			}
+			
+			fax = COA
+			fax {
+				if.isTrue.field = fax
+				10 = IMAGE
+				10.file = EXT:wt_directory/files/icon_fax.gif
+				10.params = style="margin-right: 6px;" class="wt_directory_icon_fax"
+				20 = TEXT
+				20.field = fax
+			}
+			
+			description = TEXT
+			description {
+				field = description
+				br = 1
+			}
+			
+			addressgroup = TEXT
+			addressgroup.field = addressgroup
+			
+
+			tt_address_group_title.wrap = |
+			
+			# add your own marker ###ANYFIELD###
+			anyfield = TEXT
+			anyfield.value = This is my new marker
+		}
+		links {
+			detaillink = TYPOLINK
+			detaillink {
+				parameter.data = TSFE:id
+				useCacheHash = 1
+				useGoogleMapLink = 1
+			}
+		}
+	}
+	searchAllFields = company, name, city
+	
+	# Pagebrowser
+	pagebrowser = HMENU
+	pagebrowser {
+		special = userfunction
+		special.userFunc = user_wtdirectory_pagebrowser->user_pagebrowser
+		
+		1 = TMENU
+		1 {
+			wrap = <ul class="wt_directory_pagebrowser">|</ul>
+			NO.allWrap = <li>|</li>
+			ACT = 1
+			ACT.allWrap = <li>|</li>
+			ACT.ATagParams = class="act"
+		}
+	}
+	
+	
+	# vCard settings
+	vCard {
+			### MAIN ###
+			
+		# Display name
+		display_name = COA
+		display_name {
+			10 = TEXT
+			10.field = first_name
+			10.noTrimWrap = || |
+			20 = TEXT
+			20.field = last_name
+		}
+		
+		# Firstname
+		first_name = TEXT
+		first_name.field = first_name
+		
+		# Lastname
+		last_name = TEXT
+		last_name.field = last_name
+		
+		# Middle name
+		middle_name = TEXT
+		middle_name.field = middle_name
+		
+		# Title
+		title = TEXT
+		title.field = title
+		
+		# Name prefix
+		name_prefix = TEXT
+		name_prefix.field = title
+		
+		# Name suffix
+		name_suffix = TEXT
+		name_suffix.value =
+		
+		# Email 1
+		email1 = TEXT
+		email1.field = email
+		
+		# Email 2
+		email2 = TEXT
+		email2.value =
+		
+		# Company
+		company = TEXT
+		company.field = company
+		
+		# Room
+		company = TEXT
+		company.room = room
+		
+			### WORK ###
+		# Phone
+		work_phone = TEXT
+		work_phone.field = phone
+		
+		# Post Office Box
+		work_po_box = TEXT
+		work_po_box.value = 
+		
+		# Extended Address
+		work_extended_address = TEXT
+		work_extended_address.field = address
+		
+		# Address
+		work_address = TEXT
+		work_address.field = address
+		
+		# City
+		work_city = TEXT
+		work_city.field = city
+		
+		# State
+		work_state = TEXT
+		work_state.field = region
+		
+		# ZIP
+		work_zip = TEXT
+		work_zip.field = zip
+		
+		# Country
+		work_country = TEXT
+		work_country.field = country
+		
+			### PRIVATE ###
+		# Phone
+		home_phone = TEXT
+		home_phone.field = phone
+		
+		# Post Office Box
+		home_po_box = TEXT
+		home_po_box.value = 
+		
+		# Extended Address
+		home_extended_address = TEXT
+		home_extended_address.field = address
+		
+		# Address
+		home_address = TEXT
+		home_address.field = address
+		
+		# City
+		home_city = TEXT
+		home_city.field = city
+		
+		# State
+		home_state = TEXT
+		home_state.field = region
+		
+		# ZIP
+		home_zip = TEXT
+		home_zip.field = zip
+		
+		# Country
+		home_country = TEXT
+		home_country.field = country
+		
+			### OTHER ###
+		# Cellphone
+		cellphone = TEXT
+		cellphone.field = mobile
+		
+		# Fax
+		fax = TEXT
+		fax.field = fax
+		
+		# Pager
+		page = TEXT
+		page.value =
+		
+		# URL
+		www = TEXT
+		www.value = Homepage
+		www.typolink {
+			parameter.data = field : www
+			returnLast = url
+		}
+		
+		# Createdate of vCard
+		crdate = TEXT
+		crdate.data = date:U
+		crdate.strftime = %Y-%m-%d %H:%M:%S
+		
+		# Birthday
+		birthday = TEXT
+		birthday.field = birthday
+		birthday.strftime = %Y%m%d
+		
+		# Role
+		role = TEXT
+		role.value =
+		
+		# Note
+		note = TEXT
+		note.value = created by wt_directory
+		
+		# Timezone
+		timezone = TEXT
+		timezone.value = +0100
+		
+		# Filename for vCard
+		filename = COA
+		filename.wrap = |.vcf
+		filename {
+			10 = TEXT
+			10.field = first_name
+			10.noTrimWrap = ||_|
+			20 = TEXT
+			20.field = last_name
+		}
+		
+	}
+	debug {
+		tx_wtdirectory_pi1_list.main {
+			conf = 0
+			piVars = 0
+			sql = 0
+		}
+  	}
+}
+
+
+
+# TypeNum 3134 for vCard Download
+wtdirectory_vCard = PAGE
+wtdirectory_vCard {
+	typeNum = 3134
+	10 < plugin.tx_wtdirectory_pi1
+	
+	config {
+		disableAllHeaderCode = 1
+		disablePrefixComment = 1
+		xhtml_cleaning = 0
+		admPanel = 0
+	}
+}
+
+# main settings
+plugin.tx_wtdirectory_pi2 {
+	template.filters = {$plugin.wtdirectory.template.filters}
+	drillDown {
+		root = 6
+		continent.selectorBox {
+			stdWrap.wrap = |
+			css {
+				# a integer is added for the depth
+				id = tx_wtdirectory_pi2_drilldown
+				class = tx_wtdirectory_pi2_drilldown
+			}
+			option.stdWrap.wrap =  |
+			displayAnEmptyOption = 1
+			displayAnEmptyOption.localLangLabel = continent.selectorBox.emptyOptionLabel
+			displayAnEmptyOption.label = 
+		}
+		country.selectorBox {
+			stdWrap.wrap = |
+			css {
+				# a integer is added for the depth
+				id = tx_wtdirectory_pi2_drilldown
+				class = tx_wtdirectory_pi2_drilldown
+			}
+			option.stdWrap.wrap =  |
+			displayAnEmptyOption = 1
+			displayAnEmptyOption.localLangLabel = country.selectorBox.emptyOptionLabel
+			displayAnEmptyOption.label = 
+		}
+		formtarget{
+			parameter.data = TSFE:id
+			section = wtdirectoryFilter
+			returnLast = url
+		}
+		sortCategoriesByTitle = 1
+		header.wrap = <h3>|</h3>
+  	}
+  	
+  	pageFilters {
+  		23.catfilter = 5
+  		345.catfilter = 11
+  		346.catfilter = 12
+  	}
+  	
+  	debug {
+		beforemain {
+			conf = 0
+			pluginPiVars = 0
+			filters = 0
+			piVars = 0
+		}
+		drilldown {
+			conf = 0
+			getKey = 0
+			piVars = 0
+		}
+  	}
+}
+

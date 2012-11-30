@@ -1,0 +1,11 @@
+# cat=basic/enable/010; type=boolean; label= Country Filter: OIf you want to select a country in the plugin (Backend) and only address from this country should be shown in the frontend, check this field. Note: The extension static_info_tables is needed for this feature!
+countryFilter = 0
+
+# cat=basic/enable/020; type=boolean; label= Company Names: If you insert a wt_directory plugin to a page, you can select one or more addresses to be show. This address-selectbox is shown with first- and lastname of each address in the Plugin (Backend). If you enable this checkbox the company is shown instead of the names.
+companyNames = 0
+
+# cat=basic/enable/030; type=boolean; label= Enable Debugging: If you enabled, debug messages can be activated via Typoscript
+enableDebugging = 0
+
+# cat=basic/enable/040; type=boolean; label= Enable uft8 Decoding for autocompleter: 
+utf8Decode = 0

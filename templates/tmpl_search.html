@@ -1,0 +1,161 @@
+WT_DIRECTORY HTML Template if you want to use a Filter function above the list view
+	
+
+
+ABC list	
+	
+	MAIN MARKERS FOR ABC LIST:
+	###WTDIRECTORY_ABC_ALL###				Link to show all results (like "all")
+	###WTDIRECTORY_ABC_ABC###				ABC list (like "A B C D E ...")
+	###WTDIRECTORY_ABC_0-9###				0-9 after abc (like "0-9")
+	
+	GLOBAL MARKERS:	
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_FILTER_ABC### begin -->
+	<div class="wtdirectory_filter wtdirectory_filter_abc">
+		###WTDIRECTORY_ABC_ALL### ###WTDIRECTORY_ABC_ABC### ###WTDIRECTORY_ABC_0-9###
+	</div>
+<!-- ###WTDIRECTORY_FILTER_ABC### end -->
+
+
+
+
+
+Search form
+
+	MAIN MARKERS FOR SEARCH FORM:
+	###WTDIRECTORY_SEARCH_NAME###			tt_address field like first_name or email		(within loop)
+	###WTDIRECTORY_SEARCH_LABEL###			label to current tt_address field				(within loop)
+	###WTDIRECTORY_SEARCH_TYPE###			input type										(within loop)
+	###WTDIRECTORY_SEARCH_TITLE###			Search title									(outside loop)
+	###WTDIRECTORY_SEARCH_SUBMITVALUE###	Value of submitbutton							(outside loop)
+	###WTDIRECTORY_SEARCH_ACTION###			Target of form (url to current page)			(outside loop)
+	###WTDIRECTORY_SEARCH_METHOD###			Form method (GET or POST)						(outside loop)
+    ###WTDIRECTORY_PID###					Page id in which the addresses are listed		(inside loop)
+    ###WTDIRECTORY_CAT###					Selected categories in backend					(inside loop)
+	
+	GLOBAL MARKERS:	
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_FILTER_SEARCH### begin -->
+	<div class="wtdirectory_filter wtdirectory_filter_search">
+		<h2 class="wtdirectory">###WTDIRECTORY_SEARCH_TITLE###</h2>
+		<form action="###WTDIRECTORY_SEARCH_ACTION###" method="###WTDIRECTORY_SEARCH_METHOD###">
+			<!-- ###CONTENT### -->
+			<!-- ###ITEM### -->
+				###FIELD###
+			<!-- ###ITEM### -->
+			<!-- ###CONTENT### -->
+			<input type="submit" value="###WTDIRECTORY_SEARCH_SUBMITVALUE###" />
+		</form>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_SEARCH### end -->
+
+<!-- ###WTDIRECTORY_FILTER_SEARCH_INPUT### begin -->
+	<div class="wtdirectory_filter_div wtdirectory_filter_div_###WTDIRECTORY_SEARCH_NAME###">
+		<label for="###WTDIRECTORY_SEARCH_NAME###">###WTDIRECTORY_SEARCH_LABEL###</label>
+		<input type="###WTDIRECTORY_SEARCH_TYPE###" name="tx_wtdirectory_pi1[filter][###WTDIRECTORY_SEARCH_NAME###]" id="###WTDIRECTORY_SEARCH_NAME###" autocomplete="off" class="wtdirectory_filter_###WTDIRECTORY_SEARCH_TYPE### wtdirectory_filter_###WTDIRECTORY_SEARCH_TYPE###_###WTDIRECTORY_SEARCH_NAME###" value="###WTDIRECTORY_SEARCH_VALUE###" />
+
+		<div id="###WTDIRECTORY_SEARCH_NAME###_target" class="wt_directory_autocompletecontainer"></div>
+		<script type="text/javascript">
+			if (typeof window.tx_wtdirectory_autocomplete == 'function') {
+				tx_wtdirectory_autocomplete('###WTDIRECTORY_SEARCH_NAME###', '###WTDIRECTORY_SEARCH_NAME###_target', '###WTDIRECTORY_PID###', '###WTDIRECTORY_CAT###', '###WTDIRECTORY_SEARCH_NAME###', '###WTDIRECTORY_SEARCH_PATH###' )
+			}
+		</script>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_SEARCH_INPUT### end -->
+
+<!-- ###WTDIRECTORY_FILTER_SEARCH_SELECT### begin -->
+	<div class="wtdirectory_filter_div wtdirectory_filter_div_###WTDIRECTORY_SEARCH_NAME###">
+		<label for="###WTDIRECTORY_SEARCH_NAME###">###WTDIRECTORY_SEARCH_LABEL###</label>
+
+		<select name="tx_wtdirectory_pi1[filter][###WTDIRECTORY_SEARCH_NAME###]" id="###WTDIRECTORY_SEARCH_NAME###" class="wtdirectory_filter_select wtdirectory_filter_select_###WTDIRECTORY_SEARCH_NAME###">
+			<option value="">###WTDIRECTORY_LL_PLEASESELECT###</option>
+			<!-- ###CONTENT_SELECT### -->
+			<!-- ###ITEM_SELECT### -->
+				<option value="###VALUE###"###SELECTED###>###LABEL###</option>
+			<!-- ###ITEM_SELECT### -->
+			<!-- ###CONTENT_SELECT### -->
+		</select>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_SEARCH_SELECT### end -->
+
+
+
+
+
+
+Category dropdown
+
+	MARKERS OUTSIDE LOOP:
+	###WTDIRECTORY_CAT_TITLE###				Title for cat form
+	###WTDIRECTORY_CAT_ACTION###			Target of form (url to current page)
+	###WTDIRECTORY_CAT_METHOD###			Form method (GET or POST)
+	###WTDIRECTORY_LL_CHOOSECAT###			Title of first option like "please choose..."
+	
+	MARKERS INSIDE LOOP:
+	###WTDIRECTORY_CAT_UID###				Current uid of category
+	###WTDIRECTORY_CAT_TITLE###				Current title of category
+	###WTDIRECTORY_CAT_SELECTED###			selected="selected" if a category is already chosen
+	
+	GLOBAL MARKERS:	
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_FILTER_CAT### begin -->
+	<div class="wtdirectory_filter wtdirectory_filter_cat">
+		<h2 class="wtdirectory">###WTDIRECTORY_CAT_TITLE###</h2>
+		<form action="###WTDIRECTORY_CAT_ACTION###" method="###WTDIRECTORY_CAT_METHOD###">
+			<select name="tx_wtdirectory_pi1[catfilter]" size="1" class="initial">
+				<option value="" class="nolevel">###WTDIRECTORY_LL_CHOOSECAT###</option>
+				<!-- ###CONTENT### -->
+				<!-- ###ITEM### -->
+					<option value="###WTDIRECTORY_CAT_UID###"###WTDIRECTORY_CAT_SELECTED### class="group###WTDIRECTORY_CAT_UID### level###LEVEL###">###WTDIRECTORY_CAT_TITLE###</option>
+				<!-- ###ITEM### -->
+				<!-- ###CONTENT### -->
+			</select>
+			<input type="submit" value="###WTDIRECTORY_LL_FILTERSUBMIT###" class="wtdirectory_filter_cat_submit" />
+		</form>
+		<input type="hidden" name="cat_container" id="cat_container" value="###CAT_BREADCRUMB###" />
+	</div>
+<!-- ###WTDIRECTORY_FILTER_CAT### end -->
+
+
+
+
+
+
+Radial Search
+
+	MARKERS OUTSIDE LOOP:
+	
+	MARKERS INSIDE LOOP:
+	
+	GLOBAL MARKERS:	
+	Displaying any value from pi1/locallang.xml:		###WTDIRECTORY_LL_YOURFIELD### (Could be filled via locallang.xml or typoscript - see manual for details)
+	Displaying any value from typoscript:				###WTDIRECTORY_TS_YOURFIELD### (Could be filled via typoscript - see manual for details)
+
+<!-- ###WTDIRECTORY_FILTER_RADIALSEARCH### begin -->
+	<div class="wtdirectory_filter wtdirectory_filter_radialsearch">
+		<h2 class="wtdirectory">###WTDIRECTORY_LL_RADIALSEARCH_TITLE###</h2>
+		<form action="###WTDIRECTORY_ACTION###" method="###WTDIRECTORY_METHOD###">
+			<label for="wt_directory_radialsearch_zip">###WTDIRECTORY_LL_RADIALSEARCH_ZIP###</label>
+			<input type="text" name="tx_wtdirectory_pi1[radialsearch][zip]" value="###WTDIRECTORY_RADIALSEARCH_ZIP_VALUE###" id="wt_directory_radialsearch_zip" />
+			
+			<label for="wt_directory_radialsearch_radius">###WTDIRECTORY_LL_RADIALSEARCH_RADIUS###</label>
+			<select name="tx_wtdirectory_pi1[radialsearch][radius]" id="wt_directory_radialsearch_radius">
+				<option value="10"###SELECTED_10###>10 km</option>
+				<option value="20"###SELECTED_20###>20 km</option>
+				<option value="50"###SELECTED_50###>50 km</option>
+				<option value="100"###SELECTED_100###>100 km</option>
+				<option value="200"###SELECTED_200###>200 km</option>
+				<option value="500"###SELECTED_500###>500 km</option>
+			</select>
+			
+			<input type="submit" value="###WTDIRECTORY_LL_FILTERSUBMIT###" class="wtdirectory_filter_radialsearch_submit" />
+		</form>
+	</div>
+<!-- ###WTDIRECTORY_FILTER_RADIALSEARCH### end -->

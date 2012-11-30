@@ -1,0 +1,10 @@
+#page.includeCSS.file31391 = EXT:wt_lightwindow/files/css/lightwindow.css
+
+page.headerData.31391 = TEXT
+page.headerData.31391.value (
+	<script type="text/javascript" src="typo3/contrib/prototype/prototype.js"></script>
+	<script type="text/javascript" src="typo3/contrib/scriptaculous/scriptaculous.js"></script>
+	<script type="text/javascript" src="typo3/contrib/scriptaculous/effects.js"></script>
+	<script type="text/javascript" src="typo3/contrib/scriptaculous/controls.js"></script>
+	<script type="text/javascript" src="typo3conf/ext/wt_directory/js/wtdirectory_autocomplete.js"></script>
+)
