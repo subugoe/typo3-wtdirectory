@@ -325,7 +325,7 @@ plugin.tx_wtdirectory_pi1 {
 				import.dataWrap = {$plugin.wtdirectory.path.ttaddress_pictures}
 				import.field = image
 				import.listNum = 0
-				maxWidth = 120
+				maxW = 120
 			}
 			
 			fax = COA
