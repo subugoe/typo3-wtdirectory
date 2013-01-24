@@ -28,19 +28,27 @@
 /**
  * Class that adds the wizard icon.
  *
- * @author	Alexander Kellner <alexander.kellner@einpraegsam.net>
- * @package	TYPO3
- * @subpackage	tx_wtdirectory
+ * @author Alexander Kellner <alexander.kellner@einpraegsam.net>
  */
 class tx_wtdirectory_pi1_wizicon {
 
 	/**
+	 * @var t3lib_l10n_parser_Llxml
+	 */
+	protected $llxmlParser;
+
+	/**
 	 * Processing the wizard items array
 	 *
-	 * @param	array		$wizardItems: The wizard items
-	 * @return	Modified array with wizard items
+	 * @param array $wizardItems: The wizard items
+	 * @return Modified array with wizard items
 	 */
-	function proc($wizardItems)	{
+
+	public function __construct() {
+		$this->getLlxmlParser();
+	}
+
+	function proc($wizardItems) {
 		global $LANG;
 
 		$LL = $this->includeLocalLang();
@@ -58,17 +66,25 @@ class tx_wtdirectory_pi1_wizicon {
 	/**
 	 * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found in that file.
 	 *
-	 * @return	The array with language labels
+	 * @return array The array with language labels
 	 */
-	function includeLocalLang()	{
-		$llFile = t3lib_extMgm::extPath('wt_directory').'locallang.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
-		
+	function includeLocalLang() {
+		$llFile = t3lib_extMgm::extPath('wt_directory') . 'locallang.xml';
+		$LOCAL_LANG = $this->llxmlParser->getParsedData($llFile, $GLOBALS['LANG']->lang, 'utf-8');
 		return $LOCAL_LANG;
 	}
+
+	/**
+	 * @return t3lib_l10n_parser_Llxml
+	 */
+	protected function getLlxmlParser() {
+		if (!isset($this->llxmlParser)) {
+			$this->llxmlParser = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
+		}
+		return $this->llxmlParser;
+	}
+
 }
-
-
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/pi1/class.tx_wtdirectory_pi1_wizicon.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/pi1/class.tx_wtdirectory_pi1_wizicon.php']);
