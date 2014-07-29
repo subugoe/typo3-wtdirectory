@@ -60,9 +60,9 @@ plugin.tx_wtdirectory_pi1 {
 			gender {
 				key.field = gender
 				default = IMAGE
-				default.file = EXT:wt_directory/files/icon_female.gif
+				default.file = EXT:wt_directory/Resources/Public/Images/icon_female.gif
 				m = IMAGE
-				m.file = EXT:wt_directory/files/icon_male.gif
+				m.file = EXT:wt_directory/Resources/Public/Images/icon_male.gif
 			}
 			
 			first_name = TEXT
@@ -87,7 +87,7 @@ plugin.tx_wtdirectory_pi1 {
 			email {
 				if.isTrue.field = email
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_mail.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_mail.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_mail"
 				20 = TEXT
 				20.field = email
@@ -98,7 +98,7 @@ plugin.tx_wtdirectory_pi1 {
 			phone {
 				if.isTrue.field = phone
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_phone.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_phone.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_phone"
 				20 = TEXT
 				20.field = phone
@@ -108,7 +108,7 @@ plugin.tx_wtdirectory_pi1 {
 			mobile {
 				if.isTrue.field = mobile
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_cell.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_cell.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_cell"
 				20 = TEXT
 				20.field = mobile
@@ -118,7 +118,7 @@ plugin.tx_wtdirectory_pi1 {
 			www {
 				if.isTrue.field = www
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_web.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_web.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_www"
 				20 = TEXT
 				20.field = www
@@ -179,7 +179,7 @@ plugin.tx_wtdirectory_pi1 {
 			fax {
 				if.isTrue.field = fax
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_fax.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_fax.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_fax"
 				20 = TEXT
 				20.field = fax
@@ -226,9 +226,9 @@ plugin.tx_wtdirectory_pi1 {
 			gender {
 				key.field = gender
 				default = IMAGE
-				default.file = EXT:wt_directory/files/icon_female.gif
+				default.file = EXT:wt_directory/Resources/Public/Images/icon_female.gif
 				m = IMAGE
-				m.file = EXT:wt_directory/files/icon_male.gif
+				m.file = EXT:wt_directory/Resources/Public/Images/icon_male.gif
 			}
 			
 			first_name = TEXT
@@ -253,7 +253,7 @@ plugin.tx_wtdirectory_pi1 {
 			email {
 				if.isTrue.field = email
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_mail.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_mail.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_mail"
 				20 = TEXT
 				20.field = email
@@ -264,7 +264,7 @@ plugin.tx_wtdirectory_pi1 {
 			phone {
 				if.isTrue.field = phone
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_phone.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_phone.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_phone"
 				20 = TEXT
 				20.field = phone
@@ -274,7 +274,7 @@ plugin.tx_wtdirectory_pi1 {
 			mobile {
 				if.isTrue.field = mobile
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_cell.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_cell.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_cell"
 				20 = TEXT
 				20.field = mobile
@@ -284,7 +284,7 @@ plugin.tx_wtdirectory_pi1 {
 			www {
 				if.isTrue.field = www
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_web.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_web.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_www"
 				20 = TEXT
 				20.field = www
@@ -332,7 +332,7 @@ plugin.tx_wtdirectory_pi1 {
 			fax {
 				if.isTrue.field = fax
 				10 = IMAGE
-				10.file = EXT:wt_directory/files/icon_fax.gif
+				10.file = EXT:wt_directory/Resources/Public/Images/icon_fax.gif
 				10.params = style="margin-right: 6px;" class="wt_directory_icon_fax"
 				20 = TEXT
 				20.field = fax

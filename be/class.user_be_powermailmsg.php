@@ -29,9 +29,9 @@ class user_be_powermail {
 
 	function powermailmsg($PA, $fobj) {
 		if (!ExtensionManagementUtility::isLoaded('powermail', 0)) { // Extension is not loaded
-			$content = '<img src="' . ExtensionManagementUtility::extRelPath('wt_directory') . 'files/icon_error.gif" alt="error" />' . ' ' . sprintf($fobj->sL('LLL:EXT:wt_directory/locallang_db.xml:extensioncheck.powermail'), '<u><a href="http://typo3.org/extensions/repository/view/powermail/current/" title="powermail @ TYPO3 extension repository" target="_blank">powermail</a></u>'); // errorpicture and message
+			$content = '<img src="' . ExtensionManagementUtility::extRelPath('wt_directory') . 'Resources/Public/Images/icon_error.gif" alt="error" />' . ' ' . sprintf($fobj->sL('LLL:EXT:wt_directory/locallang_db.xml:extensioncheck.powermail'), '<u><a href="http://typo3.org/extensions/repository/view/powermail/current/" title="powermail @ TYPO3 extension repository" target="_blank">powermail</a></u>'); // errorpicture and message
 		} else { // Extension is loaded
-			$content = '<img src="' . ExtensionManagementUtility::extRelPath('wt_directory') . 'files/icon_ok.gif" alt="ok" />';
+			$content = '<img src="' . ExtensionManagementUtility::extRelPath('wt_directory') . 'Resources/Public/Images/icon_ok.gif" alt="ok" />';
 		}
 
 		return $content;
