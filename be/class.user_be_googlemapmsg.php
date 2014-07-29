@@ -21,14 +21,15 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class user_be_googlemapmsg {
 	
 	function googlemapmsg($PA, $fobj) {
-		if (!t3lib_extMgm::isLoaded('rggooglemap', 0)) { // Extension is not loaded
-			$content = '<img src="'.t3lib_extMgm::extRelPath("wt_directory").'files/icon_error.gif" alt="error" />' . ' ' . sprintf($fobj->sL('LLL:EXT:wt_directory/locallang_db.xml:extensioncheck.googlemap'), '<u><a href="http://typo3.org/extensions/repository/view/rggooglemap/current/" title="rggooglemap @ TYPO3 extension repository" target="_blank">rggooglemap</a></u>'); // errorpicture and message
+		if (!ExtensionManagementUtility::isLoaded('rggooglemap', 0)) { // Extension is not loaded
+			$content = '<img src="'.ExtensionManagementUtility::extRelPath("wt_directory").'files/icon_error.gif" alt="error" />' . ' ' . sprintf($fobj->sL('LLL:EXT:wt_directory/locallang_db.xml:extensioncheck.googlemap'), '<u><a href="http://typo3.org/extensions/repository/view/rggooglemap/current/" title="rggooglemap @ TYPO3 extension repository" target="_blank">rggooglemap</a></u>'); // errorpicture and message
 		} else { // Extension is loaded
-			$content = '<img src="'.t3lib_extMgm::extRelPath('wt_directory').'files/icon_ok.gif" alt="ok" />';
+			$content = '<img src="'.ExtensionManagementUtility::extRelPath('wt_directory').'files/icon_ok.gif" alt="ok" />';
 		}
 		
 		return $content;

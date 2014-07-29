@@ -1,33 +1,35 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2011 Alex Kellner <alexander.kellner@in2code.de>, in2code.de
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2011 Alex Kellner <alexander.kellner@in2code.de>, in2code.de
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use \TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * Show fields in the backend
  *
- * @author	Alex Kellner <alexander.kellner@in2code.de>, in2code.de
- * @package	TYPO3
- * @subpackage	user_be_fields
+ * @author    Alex Kellner <alexander.kellner@in2code.de>, in2code.de
+ * @package    TYPO3
+ * @subpackage    user_be_fields
  */
 class user_be_fields {
 
@@ -37,24 +39,24 @@ class user_be_fields {
 	 * @var array
 	 */
 	private $notAllowedFields = array( // fields which are not allowed to show
-		'uid',
-		'pid',
-		'hidden',
-		'deleted'
+			'uid',
+			'pid',
+			'hidden',
+			'deleted'
 	);
 
 	/**
 	 * Manipulate params array for field selecting in flexform
 	 *
-	 * @param	array		Selector params
-	 * @param	array		Parent object
-	 * @return	void
+	 * @param    array        Selector params
+	 * @param    array        Parent object
+	 * @return    void
 	 */
-	public function main(&$params, &$pObj)	{
+	public function main(&$params, &$pObj) {
 		$res = mysql_query('SHOW COLUMNS FROM tt_address'); // mysql query
 		if ($res) { // If there is a result
 			$i = 0; // init counter
-			$this->tsconfig = t3lib_BEfunc::getModTSconfig($params['row']['pid'], 'wt_directory'); // get tsconfig from backend
+			$this->tsconfig = BackendUtility::getModTSconfig($params['row']['pid'], 'wt_directory'); // get tsconfig from backend
 
 			if ($params['config']['itemsProcFuncArg'] == 'searchAll') {
 				// add the "all" value
@@ -84,8 +86,8 @@ class user_be_fields {
 			}
 
 			$params['items'][] = array(
-				'0' => 'GroupTitle',
-				'1' => 'tt_address_group_title'
+					'0' => 'GroupTitle',
+					'1' => 'tt_address_group_title'
 			);
 
 		}
@@ -93,7 +95,7 @@ class user_be_fields {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/be/class.user_be_fields.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/be/class.user_be_fields.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_directory/be/class.user_be_fields.php']);
 }
 
