@@ -1,0 +1,7 @@
+﻿.. |img-10|     image:: ../../Images/manual_html_3b63bfb3.jpg
+   :height: 162
+   :width: 450
+.. :align: left
+.. :border: 0
+.. :name: Grafik8
+
