@@ -27,7 +27,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_directory') . 'lib/class.wtdirectory_div.php'); // load div class
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_directory') . 'lib/class.wtdirectory_dynamicmarkers.php'); // file for dynamicmarker functions
 
-class tx_wtdirectory_filter_cat extends AbstractPlugin {
+class tx_wtdirectory_filter_cat extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 	public $extKey = 'wt_directory'; // Extension key
 	public $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
