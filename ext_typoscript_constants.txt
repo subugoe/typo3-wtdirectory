@@ -3,26 +3,26 @@
 ##
 
 plugin.wtdirectory {
-	# cat=plugin.wtdirectory//0100; type=file[html,htm,tmpl,txt]; label= Template File list: HTML-template file for list view (see EXT:wt_directory/templates/tmpl_list.html for an example)
-	template.list = EXT:wt_directory/templates/tmpl_list.html
+	# cat=plugin.wtdirectory//0100; type=file[html,htm,tmpl,txt]; label= Template File list: HTML-template file for list view (see EXT:wt_directory/Resources/Private/Templates/tmpl_list.html for an example)
+	template.list = EXT:wt_directory/Resources/Private/Templates/tmpl_list.html
 	
-	# cat=plugin.wtdirectory//0200; type=file[html,htm,tmpl,txt]; label= Template File detail: HTML-template file for detail view (see EXT:wt_directory/templates/tmpl_detail.html for an example)
-	template.detail = EXT:wt_directory/templates/tmpl_detail.html
+	# cat=plugin.wtdirectory//0200; type=file[html,htm,tmpl,txt]; label= Template File detail: HTML-template file for detail view (see EXT:wt_directory/Resources/Private/Templates/tmpl_detail.html for an example)
+	template.detail = EXT:wt_directory/Resources/Private/Templates/tmpl_detail.html
 	
-	# cat=plugin.wtdirectory//0300; type=file[html,htm,tmpl,txt]; label= Template Marker ALL: HTML-template file for an ALL marker (all markers in one marker) (see EXT:wt_directory/templates/tmpl_detail.html for an example)
-	template.ALLmarker = EXT:wt_directory/templates/tmpl_markerall.html
+	# cat=plugin.wtdirectory//0300; type=file[html,htm,tmpl,txt]; label= Template Marker ALL: HTML-template file for an ALL marker (all markers in one marker) (see EXT:wt_directory/Resources/Private/Templates/tmpl_detail.html for an example)
+	template.ALLmarker = EXT:wt_directory/Resources/Private/Templates/tmpl_markerall.html
 	
-	# cat=plugin.wtdirectory//0400; type=file[html,htm,tmpl,txt]; label= Template for Pagebrowser: HTML-template file for pagebrowser in listview (see EXT:wt_directory/templates/tmpl_pagebrowser.html for an example)
-	template.pagebrowser = EXT:wt_directory/templates/tmpl_pagebrowser.html
+	# cat=plugin.wtdirectory//0400; type=file[html,htm,tmpl,txt]; label= Template for Pagebrowser: HTML-template file for pagebrowser in listview (see EXT:wt_directory/Resources/Private/Templates/tmpl_pagebrowser.html for an example)
+	template.pagebrowser = EXT:wt_directory/Resources/Private/Templates/tmpl_pagebrowser.html
 	
-	# cat=plugin.wtdirectory//0500; type=file[html,htm,tmpl,txt]; label= Template for Search/Filter: HTML-template file for filter and searchboxes above the list (see EXT:wt_directory/templates/tmpl_search.html for an example)
-	template.search = EXT:wt_directory/templates/tmpl_search.html
+	# cat=plugin.wtdirectory//0500; type=file[html,htm,tmpl,txt]; label= Template for Search/Filter: HTML-template file for filter and searchboxes above the list (see EXT:wt_directory/Resources/Private/Templates/tmpl_search.html for an example)
+	template.search = EXT:wt_directory/Resources/Private/Templates/tmpl_search.html
 	
 	# cat=plugin.wtdirectory//0600; type=file[html,htm,tmpl,txt]; label= Template for vcard: HTML-template file for vcard export (see EXT:wt_directory/templates/tmpl_vcard.html for an example)
-	template.vcard = EXT:wt_directory/templates/tmpl_vcard.html
+	template.vcard = EXT:wt_directory/Resources/Private/Templates/tmpl_vcard.html
 	
-	# cat=plugin.wtdirectory//0700; type=file[html,htm,tmpl,txt]; label= Template filter list: HTML-template file for list view (see EXT:wt_directory/templates/tmpl_filters.html for an example)
-	template.filters = EXT:wt_directory/templates/tmpl_filters.html
+	# cat=plugin.wtdirectory//0700; type=file[html,htm,tmpl,txt]; label= Template filter list: HTML-template file for list view (see EXT:wt_directory/Resources/Private/Templates/templates/tmpl_filters.html for an example)
+	template.filters = EXT:wt_directory/Resources/Private/Templates/tmpl_filters.html
 	
 	# cat=plugin.wtdirectory//1000; type=text; label= tt_address picture path: Relative path to the folder with pictures from tt_address (default uploads/pics/)
 	path.ttaddress_pictures = uploads/pics/
