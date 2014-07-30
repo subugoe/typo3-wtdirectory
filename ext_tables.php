@@ -5,9 +5,9 @@ if (!defined('TYPO3_MODE')) {
 
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['wt_directory']); // Get backend config
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'static/defaultCSS/', 'Add default CSS');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'static/autocomplete/', 'AJAX Autocompleter');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'static/drilldown/', 'Category Drilldown');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript/defaultCSS/', 'Add default CSS');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript/autocomplete/', 'AJAX Autocompleter');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript/drilldown/', 'Category Drilldown');
 
 // Add contact field to tt_news
 $tmpColumns = array(
