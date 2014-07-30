@@ -28,7 +28,7 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_dir
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_directory') . 'lib/class.wtdirectory_markers.php'); // load markers class
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_directory') . 'lib/class.wtdirectory_dynamicmarkers.php'); // file for dynamicmarker functions
 
-class tx_wtdirectory_pi1_detail extends AbstractPlugin {
+class tx_wtdirectory_pi1_detail extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 	var $extKey = 'wt_directory'; // Extension key
 	var $prefixId = 'tx_wtdirectory_pi1'; // Same as class name
